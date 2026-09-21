@@ -573,8 +573,14 @@
     padding-bottom: clamp(12px, 1.8vh, 20px);
     box-sizing: border-box;
     z-index: 25;
+    transition: border-radius 0.35s ease;
     -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+/* Seal the canopy flush with the header so scrolling story text passes cleanly behind it */
+body.in-about-section .hero-dome-transition {
+    border-radius: 0 !important;
 }
 
 .dome-curve-svg {
