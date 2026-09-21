@@ -78,14 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (shouldMergeBurgundy) {
                 header.classList.add('header-burgundy');
-                if (domeTransition) {
-                    domeTransition.classList.add('is-docked');
-                }
             } else {
                 header.classList.remove('header-burgundy');
-                if (domeTransition) {
-                    domeTransition.classList.remove('is-docked');
-                }
             }
         }
     }

@@ -554,10 +554,9 @@
     to { transform: rotate(360deg); }
 }
 
-/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh & Sticky on Dock */
+/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh */
 .hero-dome-transition {
-    position: sticky;
-    top: 0;
+    position: relative;
     width: 100%;
     height: clamp(165px, 22vh, 215px);
     flex-shrink: 0;
@@ -572,30 +571,7 @@
     padding-top: clamp(62px, 8.5vh, 82px);
     padding-bottom: clamp(12px, 1.8vh, 20px);
     box-sizing: border-box;
-    z-index: 90;
-    transition: height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), padding 0.4s ease, border-radius 0.4s ease, background-color 0.4s ease;
-}
-
-/* When the dome reaches the header and docks */
-.hero-dome-transition.is-docked {
-    height: clamp(120px, 16vh, 150px);
-    padding-top: clamp(40px, 5.5vh, 60px);
-    padding-bottom: 0;
-    background-color: var(--primary-accent);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
-}
-
-.hero-dome-transition.is-docked .dome-scroll-indicator {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-12px);
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-}
-
-.hero-dome-transition.is-docked .dome-botanical-svg {
-    opacity: 0.15;
-    transition: opacity 0.3s ease;
+    z-index: 3;
 }
 
 .dome-curve-svg {
