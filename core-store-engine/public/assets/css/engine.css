@@ -554,10 +554,10 @@
     to { transform: rotate(360deg); }
 }
 
-/* Burgundy Arch Dome Transition Shape - Locked at Header until About Section is Over */
+/* Burgundy Arch Dome Transition Shape - Locked below Header until About Section is Over */
 .hero-dome-transition {
     position: sticky;
-    top: clamp(35px, 5vh, 48px);
+    top: clamp(68px, 9.5vh, 76px);
     width: 100%;
     height: clamp(170px, 23vh, 220px);
     flex-shrink: 0;
