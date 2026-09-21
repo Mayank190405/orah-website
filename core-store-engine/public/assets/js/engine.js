@@ -59,24 +59,130 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
     }
     
-    // 4. Parallax Typography Background Effect
-    const parallaxWords = document.querySelectorAll('#parallaxType .giant-word');
-    if (parallaxWords.length > 0) {
+    // 4. Architectural & Editorial Parallax Scroll Engine
+    (function initLuxuryParallax() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const heroArch = document.querySelector('.hero-arch-wrapper');
+        const heroStamp = document.querySelector('.hero-stamp-badge');
+        const heroTopLeft = document.querySelector('.corner-top-left');
+        const heroTopRight = document.querySelector('.corner-top-right');
+        const heroBottomLeft = document.querySelector('.corner-bottom-left');
+        const heroBottomRight = document.querySelector('.corner-bottom-right');
+        const botanicalSvg = document.querySelector('.dome-botanical-svg');
+
+        const aboutSection = document.querySelector('.about-section');
+        const aboutTopCrest = document.querySelector('.about-top-crest');
+        const aboutStoryCol = document.querySelector('.about-story-col');
+        const aboutVisualCol = document.querySelector('.about-visual-col');
+        const aboutImg = document.querySelector('.about-hero-img');
+        const floatingBadge = document.querySelector('.floating-about-badge');
+        const floatingCard = document.querySelector('.floating-about-card');
+        const pillarCards = document.querySelectorAll('.pillar-card');
+
+        let isTicking = false;
+
+        function updateParallax() {
+            const scrollY = window.scrollY || window.pageYOffset;
+            const vh = window.innerHeight;
+
+            // --- A. Hero Section Parallax (Active during first 1.3 viewports) ---
+            if (scrollY <= vh * 1.3) {
+                const heroProgress = Math.min(1, scrollY / (vh * 0.85));
+
+                if (heroArch) {
+                    const archY = scrollY * 0.22;
+                    const archOpacity = Math.max(0, 1 - (heroProgress * 0.85));
+                    heroArch.style.transform = `translate3d(0, ${archY}px, 0)`;
+                    heroArch.style.opacity = archOpacity;
+                }
+
+                if (heroStamp) {
+                    const stampY = scrollY * 0.18;
+                    const stampScrollRotate = scrollY * 0.12;
+                    heroStamp.style.transform = `translate3d(0, ${stampY}px, 0) rotate(${stampScrollRotate}deg)`;
+                }
+
+                if (heroTopLeft) {
+                    heroTopLeft.style.transform = `translate3d(0, ${-scrollY * 0.16}px, 0)`;
+                }
+                if (heroTopRight) {
+                    heroTopRight.style.transform = `translate3d(0, ${-scrollY * 0.16}px, 0)`;
+                }
+                if (heroBottomLeft) {
+                    heroBottomLeft.style.transform = `translate3d(0, ${scrollY * 0.10}px, 0)`;
+                }
+                if (heroBottomRight) {
+                    heroBottomRight.style.transform = `translate3d(0, ${scrollY * 0.10}px, 0)`;
+                }
+
+                if (botanicalSvg) {
+                    botanicalSvg.style.transform = `translate3d(0, ${scrollY * 0.08}px, 0)`;
+                }
+            }
+
+            // --- B. About Us Section Parallax ---
+            if (aboutSection) {
+                const rect = aboutSection.getBoundingClientRect();
+                // Check if section is currently intersecting viewport
+                if (rect.top < vh && rect.bottom > 0) {
+                    // Center offset: -0.5 when entering, 0 at screen center, +0.5 when leaving
+                    const progress = (vh - rect.top) / (vh + rect.height);
+                    const centerOffset = progress - 0.5;
+
+                    // Arched Window Photograph Parallax (Smooth glide inside arched frame)
+                    if (aboutImg) {
+                        const imgY = centerOffset * -55;
+                        aboutImg.style.transform = `translate3d(0, ${imgY}px, 0) scale(1.12)`;
+                    }
+
+                    // Floating Badges (Contrasting multi-plane 3D drift)
+                    if (floatingBadge) {
+                        const badgeY = centerOffset * -35;
+                        floatingBadge.style.transform = `translate3d(0, ${badgeY}px, 0)`;
+                    }
+                    if (floatingCard) {
+                        const cardY = centerOffset * 30;
+                        floatingCard.style.transform = `translate3d(0, ${cardY}px, 0)`;
+                    }
+
+                    // Crest elevation
+                    if (aboutTopCrest) {
+                        const crestY = centerOffset * -15;
+                        aboutTopCrest.style.transform = `translate3d(0, ${crestY}px, 0)`;
+                    }
+
+                    // Subtle editorial column differential float
+                    if (window.innerWidth > 1024) {
+                        if (aboutStoryCol) {
+                            aboutStoryCol.style.transform = `translate3d(0, ${centerOffset * -12}px, 0)`;
+                        }
+                        if (aboutVisualCol) {
+                            aboutVisualCol.style.transform = `translate3d(0, ${centerOffset * 16}px, 0)`;
+                        }
+
+                        // Staggered pillar cards parallax float
+                        pillarCards.forEach((card, idx) => {
+                            const staggerRate = (idx === 1 ? 22 : -15);
+                            card.style.transform = `translate3d(0, ${centerOffset * staggerRate}px, 0)`;
+                        });
+                    }
+                }
+            }
+
+            isTicking = false;
+        }
+
         window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            // Only calculate if within first 1000px of scroll for performance
-            if (scrollY < 1000) {
-                requestAnimationFrame(() => {
-                    parallaxWords.forEach(word => {
-                        const speed = parseFloat(word.getAttribute('data-speed')) || 0.2;
-                        // Move up on scroll to create depth
-                        const yOffset = -(scrollY * speed);
-                        word.style.setProperty('--parallax-y', `${yOffset}px`);
-                    });
-                });
+            if (!isTicking) {
+                requestAnimationFrame(updateParallax);
+                isTicking = true;
             }
         }, { passive: true });
-    }
+
+        // Run once initially to set baseline
+        updateParallax();
+    })();
 
     // 5. Luxury Hamburger Menu & Fullscreen Overlay Toggle
     const coffeeToggle = document.getElementById('coffeeToggle');

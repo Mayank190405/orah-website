@@ -287,6 +287,8 @@
     z-index: 2;
     box-sizing: border-box;
     padding: 0 clamp(12px, 2.5vw, 24px);
+    will-change: transform, opacity;
+    transition: transform 0.08s linear, opacity 0.08s linear;
 }
 
 .arch-frame-svg {
@@ -456,6 +458,7 @@
     justify-content: center;
     z-index: 4;
     pointer-events: none;
+    will-change: transform;
 }
 
 .hero-stamp-badge .stamp-svg {
@@ -834,11 +837,13 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
+    transform: scale(1.12);
+    transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.5s ease;
 }
 
 .about-visual-frame:hover .about-hero-img {
-    transform: scale(1.04);
+    filter: brightness(1.06);
 }
 
 .frame-overlay-glow {
@@ -864,7 +869,8 @@
     align-items: center;
     gap: 2px;
     z-index: 3;
-    animation: badgeFloat 4s ease-in-out infinite;
+    will-change: transform;
+    transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .floating-about-badge .badge-accent {
@@ -899,6 +905,8 @@
     gap: 14px;
     max-width: 290px;
     z-index: 3;
+    will-change: transform;
+    transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .floating-card-icon {
@@ -994,6 +1002,7 @@
     flex-direction: column;
     transition: all 0.35s ease;
     position: relative;
+    will-change: transform;
 }
 
 .pillar-card:hover {
