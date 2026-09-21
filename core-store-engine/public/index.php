@@ -107,88 +107,90 @@ $hero = $settings['hero'] ?? null;
             <div class="callout-underline"></div>
         </div>
 
-        <!-- Architectural SVG Framework -->
-        <svg class="hero-arch-svg" viewBox="0 0 1000 1320" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-            <!-- Top vertical needle drop & circle -->
-            <line x1="500" y1="0" x2="500" y2="76" class="arch-line" />
-            <circle cx="500" cy="82" r="5.5" class="arch-line" fill="#FBF6EE" />
-            
-            <!-- Grand Archway framing center typography -->
-            <path d="M 125, 960 L 125, 460 C 125, 110 875, 110 875, 460 L 875, 960" class="arch-line" />
-            
-            <!-- Mid needle below button -->
-            <line x1="500" y1="675" x2="500" y2="735" class="arch-line" />
-            
-            <!-- Outward Sweeping Lower Arcs -->
-            <path d="M 500, 960 C 420, 830 220, 750 0, 760" class="arch-line" />
-            <path d="M 500, 960 C 580, 830 780, 750 1000, 760" class="arch-line" />
-            <path d="M 0, 845 C 240, 845 420, 910 500, 960 C 580, 910 760, 845 1000, 845" class="arch-line" />
-            
-            <!-- Bottom center vertical needle -->
-            <line x1="500" y1="810" x2="500" y2="960" class="arch-line" />
-        </svg>
-
-        <!-- Top Arch Badge: MORE THAN A CAFÉ -->
-        <div class="hero-top-badge" aria-hidden="true">
-            <span>MORE</span>
-            <span>THAN</span>
-            <span>A CAFÉ</span>
-        </div>
-
-        <!-- Left Step Indicator along Arch -->
-        <div class="hero-step-indicator" aria-hidden="true">
-            <span class="step-num active">01</span>
-            <span class="step-bar"></span>
-            <span class="step-num">02</span>
-            <span class="step-num">03</span>
-            <span class="step-num">04</span>
-        </div>
-
-        <!-- Right Side Editorial Text along Arch -->
-        <div class="hero-side-editorial" aria-hidden="true">
-            <span>GOOD FOOD</span>
-            <span>GREAT COMPANY</span>
-            <span>MEMORABLE MOMENTS</span>
-        </div>
-
-        <!-- Central Hero Content -->
-        <div class="hero-container">
-            <div class="hero-content">
-                <?php if (!empty($hero['title'])): ?>
-                    <h1 class="hero-title"><?= nl2br(htmlspecialchars($hero['title'])) ?></h1>
-                <?php endif; ?>
+        <!-- Central Architectural Framework & Content Container -->
+        <div class="hero-arch-wrapper">
+            <!-- Architectural SVG Framework -->
+            <svg class="arch-frame-svg" viewBox="0 0 680 960" preserveAspectRatio="none" aria-hidden="true">
+                <!-- Top vertical needle drop & circle -->
+                <line x1="340" y1="0" x2="340" y2="70" class="arch-line" />
+                <circle cx="340" cy="76" r="5.5" class="arch-line" fill="#FBF6EE" />
                 
-                <?php if (!empty($hero['description'])): ?>
-                    <p class="hero-description"><?= nl2br(htmlspecialchars($hero['description'])) ?></p>
-                <?php endif; ?>
+                <!-- Grand Archway framing center typography -->
+                <path d="M 40, 960 L 40, 360 C 40, 85 640, 85 640, 360 L 640, 960" class="arch-line" />
                 
-                <?php if (!empty($hero['button_text'])): ?>
-                    <a href="#catalog" class="hero-btn">
-                        <span><?= htmlspecialchars($hero['button_text']) ?></span>
-                    </a>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <!-- Tagline below connector line -->
-        <?php if (!empty($hero['footer_note'])): ?>
-            <div class="hero-tagline-note" aria-hidden="true">
-                <?= nl2br(htmlspecialchars($hero['footer_note'])) ?>
-            </div>
-        <?php endif; ?>
-
-        <!-- Circular Rotating Stamp Badge on the lower right -->
-        <div class="hero-stamp-badge" aria-hidden="true">
-            <svg class="stamp-svg" viewBox="0 0 160 160">
-                <path id="stampCirclePath" d="M 80, 80 m -56, 0 a 56,56 0 1,1 112,0 a 56,56 0 1,1 -112,0" fill="none" />
-                <text class="stamp-text">
-                    <textPath href="#stampCirclePath" startOffset="0%">
-                        • COFFEE • PEOPLE • COFFEE • PEOPLE •
-                    </textPath>
-                </text>
+                <!-- Mid needle below button -->
+                <line x1="340" y1="630" x2="340" y2="700" class="arch-line" />
+                
+                <!-- Outward Sweeping Lower Arcs -->
+                <path d="M 340, 960 C 270, 830 100, 770 -200, 790" class="arch-line" />
+                <path d="M 340, 960 C 410, 830 580, 770 880, 790" class="arch-line" />
+                <path d="M -160, 850 C 80, 850 250, 900 340, 960 C 430, 900 600, 850 840, 850" class="arch-line" />
             </svg>
-            <div class="stamp-emblem">
-                <img src="assets/images/swans_only.png" alt="Orah Emblem">
+
+            <!-- Top Arch Badge: MORE THAN A CAFÉ -->
+            <div class="hero-top-badge" aria-hidden="true">
+                <span>MORE</span>
+                <span>THAN</span>
+                <span>A CAFÉ</span>
+            </div>
+
+            <!-- Left Step Indicator along Arch -->
+            <div class="hero-step-indicator" aria-hidden="true">
+                <span class="step-num active">01</span>
+                <span class="step-bar"></span>
+                <span class="step-num">02</span>
+                <span class="step-num">03</span>
+                <span class="step-num">04</span>
+            </div>
+
+            <!-- Right Side Editorial Text along Arch -->
+            <div class="hero-side-editorial" aria-hidden="true">
+                <span>GOOD FOOD</span>
+                <span>GREAT COMPANY</span>
+                <span>MEMORABLE MOMENTS</span>
+            </div>
+
+            <!-- Central Hero Content -->
+            <div class="hero-container">
+                <div class="hero-content">
+                    <?php if (!empty($hero['title'])): ?>
+                        <h1 class="hero-title"><?= nl2br(htmlspecialchars($hero['title'])) ?></h1>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($hero['description'])): ?>
+                        <p class="hero-description"><?= nl2br(htmlspecialchars($hero['description'])) ?></p>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($hero['button_text'])): ?>
+                        <a href="#catalog" class="hero-btn">
+                            <span><?= htmlspecialchars($hero['button_text']) ?></span>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- Lower Section: Tagline & Circular Stamp Badge -->
+            <div class="hero-lower-area">
+                <?php if (!empty($hero['footer_note'])): ?>
+                    <div class="hero-tagline-note" aria-hidden="true">
+                        <?= nl2br(htmlspecialchars($hero['footer_note'])) ?>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Circular Rotating Stamp Badge on the right of tagline -->
+                <div class="hero-stamp-badge" aria-hidden="true">
+                    <svg class="stamp-svg" viewBox="0 0 160 160">
+                        <path id="stampCirclePath" d="M 80, 80 m -56, 0 a 56,56 0 1,1 112,0 a 56,56 0 1,1 -112,0" fill="none" />
+                        <text class="stamp-text">
+                            <textPath href="#stampCirclePath" startOffset="0%">
+                                • COFFEE • PEOPLE • COFFEE • PEOPLE •
+                            </textPath>
+                        </text>
+                    </svg>
+                    <div class="stamp-emblem">
+                        <img src="assets/images/swans_only.png" alt="Orah Emblem">
+                    </div>
+                </div>
             </div>
         </div>
 
