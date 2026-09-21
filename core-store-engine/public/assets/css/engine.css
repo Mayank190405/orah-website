@@ -62,9 +62,9 @@
    left: 0;
    width: 100%;
    z-index: 100;
-   border-bottom: 1px solid rgba(104, 20, 24, 0.08);
+   border-bottom: 1px solid transparent;
    box-sizing: border-box;
-   transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+   transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease, border-color 0.3s ease;
 }
 
 .store-header.is-scrolled {
@@ -217,7 +217,7 @@
     align-items: center;
     background-color: var(--bg-color);
     overflow: hidden;
-    padding-top: clamp(55px, 7.5vh, 75px);
+    padding-top: clamp(82px, 11vh, 105px);
     padding-bottom: 0;
     box-sizing: border-box;
 }
@@ -238,15 +238,15 @@
 }
 
 .corner-top-left {
-    top: clamp(65px, 8.5vh, 82px);
-    left: clamp(16px, 3.5vw, 48px);
+    top: clamp(92px, 12.2vh, 118px);
+    left: clamp(20px, 3.8vw, 52px);
     text-align: left;
     align-items: flex-start;
 }
 
 .corner-top-right {
-    top: clamp(65px, 8.5vh, 82px);
-    right: clamp(16px, 3.5vw, 48px);
+    top: clamp(92px, 12.2vh, 118px);
+    right: clamp(20px, 3.8vw, 52px);
     text-align: right;
     align-items: flex-end;
 }
@@ -1005,7 +1005,7 @@ body.coffee-menu-open .overlay-footer {
         height: 100dvh;
         max-height: 100vh;
         overflow: hidden;
-        padding-top: clamp(55px, 7.5vh, 70px);
+        padding-top: clamp(75px, 10vh, 95px);
     }
 
     .hero-arch-wrapper {
@@ -1015,8 +1015,8 @@ body.coffee-menu-open .overlay-footer {
         min-height: 0;
     }
 
-    .corner-top-left { left: 24px; top: clamp(62px, 8vh, 75px); }
-    .corner-top-right { right: 24px; top: clamp(62px, 8vh, 75px); }
+    .corner-top-left { left: 24px; top: clamp(80px, 10.8vh, 102px); }
+    .corner-top-right { right: 24px; top: clamp(80px, 10.8vh, 102px); }
     .corner-bottom-left {
         left: 24px;
         bottom: calc(clamp(130px, 18vh, 180px) + clamp(12px, 1.8vh, 20px));
@@ -1140,7 +1140,7 @@ body.coffee-menu-open .overlay-footer {
         height: 100dvh;
         max-height: 100vh;
         overflow: hidden;
-        padding-top: clamp(48px, 6.8vh, 60px);
+        padding-top: clamp(68px, 9.5vh, 85px);
     }
 
     .hero-arch-wrapper {
@@ -1156,8 +1156,8 @@ body.coffee-menu-open .overlay-footer {
         line-height: 1.35;
     }
 
-    .corner-top-left { left: 16px; top: clamp(54px, 7.5vh, 66px); }
-    .corner-top-right { right: 16px; top: clamp(54px, 7.5vh, 66px); }
+    .corner-top-left { left: 16px; top: clamp(72px, 10vh, 88px); }
+    .corner-top-right { right: 16px; top: clamp(72px, 10vh, 88px); }
     .corner-bottom-left, .corner-bottom-right { display: none; }
     .hero-step-indicator, .hero-side-editorial { display: none; }
 
