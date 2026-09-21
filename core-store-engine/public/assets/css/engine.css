@@ -548,9 +548,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 8px;
     color: #FBF6EE;
-    opacity: 0.96;
+    opacity: 0.94;
     z-index: 5;
     text-decoration: none;
     cursor: pointer;
@@ -567,17 +567,17 @@
 
 .dome-scroll-indicator .scroll-word {
     font-family: var(--font-body);
-    font-size: clamp(1.85rem, 3.2vw, 2.75rem);
-    font-weight: 800;
-    letter-spacing: clamp(8px, 1.3vw, 16px);
+    font-size: clamp(0.72rem, 1.1vh, 0.85rem);
+    font-weight: 600;
+    letter-spacing: 4.5px;
     text-transform: uppercase;
     line-height: 1;
 }
 
 .dome-scroll-indicator .scroll-arrow-line svg {
-    width: clamp(20px, 2.4vw, 28px);
-    height: clamp(42px, 5.8vh, 60px);
-    stroke-width: 2.6;
+    width: 12px;
+    height: clamp(26px, 3.8vh, 36px);
+    stroke-width: 1.8;
 }
 
 @keyframes scrollPulse {
@@ -1526,8 +1526,8 @@ body.coffee-menu-open .overlay-footer {
     }
 
     .dome-scroll-indicator .scroll-word {
-        font-size: clamp(1.65rem, 3.2vw, 2.2rem);
-        letter-spacing: clamp(7px, 1.2vw, 12px);
+        font-size: clamp(0.70rem, 1.1vh, 0.82rem);
+        letter-spacing: 4px;
     }
 
     .giant-type-bg {
@@ -1702,18 +1702,18 @@ body.coffee-menu-open .overlay-footer {
     .dome-scroll-indicator {
         margin-top: 0;
         margin-bottom: auto;
-        gap: 10px;
+        gap: 6px;
     }
 
     .dome-scroll-indicator .scroll-word {
-        font-size: clamp(1.45rem, 5.2vw, 1.85rem);
-        letter-spacing: clamp(6px, 1.8vw, 10px);
+        font-size: 0.70rem;
+        letter-spacing: 3.5px;
     }
 
     .dome-scroll-indicator .scroll-arrow-line svg {
-        width: 18px;
-        height: 38px;
-        stroke-width: 2.4;
+        width: 11px;
+        height: 26px;
+        stroke-width: 1.6;
     }
 
     .giant-word {

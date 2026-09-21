@@ -228,7 +228,7 @@ $hero = $settings['hero'] ?? null;
             <a href="#aboutContent" class="dome-scroll-indicator" id="heroScrollIndicator" aria-label="Scroll down to Our Story">
                 <span class="scroll-word">SCROLL</span>
                 <div class="scroll-arrow-line">
-                    <svg viewBox="0 0 24 64" fill="none" stroke="currentColor" stroke-width="2.6">
+                    <svg viewBox="0 0 24 64" fill="none" stroke="currentColor" stroke-width="1.8">
                         <line x1="12" y1="0" x2="12" y2="56" />
                         <polyline points="4,48 12,56 20,48" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
