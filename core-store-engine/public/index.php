@@ -401,6 +401,120 @@ $hero = $settings['hero'] ?? null;
         </div>
     </div>
 
+    <!-- Luxury Burgundy Architectural Footer -->
+    <footer class="store-footer" id="footer">
+        <!-- Top Arch Transition Accent -->
+        <div class="footer-top-accent">
+            <div class="footer-arch-divider">
+                <span class="f-arch-line"></span>
+                <div class="f-arch-badge">
+                    <img src="assets/images/swans_only.png" alt="Orah Emblem" class="f-swans">
+                    <span class="f-badge-text">ORAH HOUSE &bull; NASHIK</span>
+                </div>
+                <span class="f-arch-line"></span>
+            </div>
+        </div>
+
+        <div class="footer-main-container">
+            <div class="footer-grid">
+                <!-- Column 1: Brand Essence -->
+                <div class="footer-col footer-col-brand">
+                    <div class="footer-brand-header">
+                        <h3 class="footer-brand-title">ORAH HOUSE</h3>
+                        <span class="footer-brand-subtitle">CAFÉ &bull; ROASTERY &bull; PATISSERIE</span>
+                    </div>
+                    <p class="footer-brand-desc">
+                        A sanctuary where slow-brewed specialty coffee, hand-rolled artisanal fare, and serene architectural design come together in Nashik.
+                    </p>
+                    <div class="footer-timings">
+                        <span class="timings-label">HOURS OF SANCTUARY</span>
+                        <span class="timings-time">Monday &ndash; Sunday: 8:00 AM &ndash; 11:30 PM</span>
+                        <span class="timings-note">Breakfast &bull; All-Day Dining &bull; Late Coffee</span>
+                    </div>
+                </div>
+
+                <!-- Column 2: Navigation -->
+                <div class="footer-col footer-col-nav">
+                    <h4 class="footer-heading">NAVIGATION</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#story">Our Story &amp; Philosophy</a></li>
+                        <li><a href="#catalog">Artisanal Menu</a></li>
+                        <li><a href="#experiences">The Roastery Experience</a></li>
+                        <li><a href="#reserve">Reserve A Table</a></li>
+                        <li><a href="#contact">Private Gatherings</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: The Sanctuary (Location) -->
+                <div class="footer-col footer-col-location">
+                    <h4 class="footer-heading">LOCATION &amp; CONTACT</h4>
+                    <address class="footer-address">
+                        <p class="address-line">Gangapur Road, Near Serene Enclave,</p>
+                        <p class="address-line">Anandwalli, Nashik, Maharashtra 422013</p>
+                    </address>
+                    <div class="footer-contact-details">
+                        <a href="tel:+919876543210" class="contact-link">
+                            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <span>+91 98765 43210</span>
+                        </a>
+                        <a href="mailto:hello@orahhouse.com" class="contact-link">
+                            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            <span>hello@orahhouse.com</span>
+                        </a>
+                    </div>
+                    <a href="https://maps.google.com" target="_blank" rel="noopener" class="footer-directions-btn">
+                        <span>GET DIRECTIONS &rarr;</span>
+                    </a>
+                </div>
+
+                <!-- Column 4: Newsletter & Club -->
+                <div class="footer-col footer-col-club">
+                    <h4 class="footer-heading">THE ORAH CIRCLE</h4>
+                    <p class="club-desc">
+                        Subscribe for invitations to private coffee cupping sessions, seasonal chef tastings, and architectural stories.
+                    </p>
+                    <form class="footer-newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').innerHTML='JOINED &check;';">
+                        <div class="input-wrap">
+                            <input type="email" placeholder="Your email address..." required aria-label="Email address for newsletter">
+                            <button type="submit" aria-label="Subscribe to newsletter">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="footer-social-cluster">
+                        <a href="#" aria-label="Instagram" class="f-social-btn">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.6" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                        <a href="#" aria-label="Spotify" class="f-social-btn">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.6" fill="none"><circle cx="12" cy="12" r="10"></circle><path d="M8 11.5c3.5-1 7.5-.5 10.5 1.5"></path><path d="M9 14.5c2.5-.7 5.5-.3 8 1"></path><path d="M7 8.5c4.5-1.2 9.5-.7 13.5 1.5"></path></svg>
+                        </a>
+                        <a href="#" aria-label="Facebook" class="f-social-btn">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.6" fill="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Legal & Hallmark Bar -->
+            <div class="footer-bottom-bar">
+                <div class="f-bottom-left">
+                    <p class="copyright-text">&copy; <?= date('Y') ?> Orah House Café &amp; Roastery. All Rights Reserved.</p>
+                </div>
+                <div class="f-bottom-center">
+                    <span class="hallmark-mantra">EAT &bull; SIP &bull; GATHER</span>
+                </div>
+                <div class="f-bottom-right">
+                    <a href="#privacy">Privacy</a>
+                    <span class="bullet-dot">&bull;</span>
+                    <a href="#terms">Terms</a>
+                    <span class="bullet-dot">&bull;</span>
+                    <a href="#home" class="back-to-top">Back to Top &uarr;</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <!-- The Full-Screen Premium Coffee Bar Overlay -->
     <div class="coffee-bar-overlay" id="coffeeOverlay" aria-modal="true" role="dialog">
         <div class="overlay-bg-image"></div>
