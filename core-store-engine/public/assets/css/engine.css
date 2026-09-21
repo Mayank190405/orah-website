@@ -81,8 +81,16 @@
    background-color: var(--primary-accent) !important;
    backdrop-filter: blur(16px);
    -webkit-backdrop-filter: blur(16px);
-   border-bottom: 1px solid rgba(251, 246, 238, 0.12) !important;
-   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35) !important;
+   border-bottom: 1px solid transparent !important;
+   box-shadow: none !important;
+}
+
+body.in-about-section .dome-scroll-indicator,
+body.in-about-section .dome-botanical-svg,
+body.in-about-section .dome-curve-svg {
+   opacity: 0 !important;
+   pointer-events: none !important;
+   transition: opacity 0.35s ease;
 }
 
 .store-header.header-burgundy .brand-title {
