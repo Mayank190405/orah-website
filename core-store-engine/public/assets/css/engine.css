@@ -504,7 +504,7 @@
 .hero-dome-transition {
     position: relative;
     width: 100%;
-    height: clamp(205px, 28vh, 265px);
+    height: clamp(215px, 29vh, 275px);
     flex-shrink: 0;
     background-color: transparent;
     border-radius: 50% 50% 0 0 / clamp(85px, 12vw, 155px) clamp(85px, 12vw, 155px) 0 0;
@@ -514,7 +514,7 @@
     justify-content: flex-end;
     overflow: hidden;
     margin-top: 0;
-    padding-bottom: clamp(22px, 3.2vh, 36px);
+    padding-bottom: clamp(14px, 2vh, 24px);
     box-sizing: border-box;
     z-index: 3;
 }
@@ -544,13 +544,13 @@
 
 .dome-scroll-indicator {
     margin-top: auto;
-    margin-bottom: clamp(6px, 1vh, 12px);
+    margin-bottom: clamp(4px, 0.6vh, 8px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     color: #FBF6EE;
-    opacity: 0.92;
+    opacity: 0.94;
     z-index: 5;
     text-decoration: none;
     cursor: pointer;
@@ -567,16 +567,17 @@
 
 .dome-scroll-indicator .scroll-word {
     font-family: var(--font-body);
-    font-size: clamp(0.66rem, 1.15vh, 0.78rem);
+    font-size: clamp(0.85rem, 1.45vh, 1.05rem);
     font-weight: 700;
-    letter-spacing: 4.5px;
+    letter-spacing: 5px;
     text-transform: uppercase;
+    line-height: 1;
 }
 
 .dome-scroll-indicator .scroll-arrow-line svg {
-    width: 12px;
-    height: clamp(24px, 3.5vh, 34px);
-    stroke-width: 1.8;
+    width: 13px;
+    height: clamp(28px, 4vh, 40px);
+    stroke-width: 2;
 }
 
 @keyframes scrollPulse {
@@ -613,7 +614,7 @@
     z-index: 10;
     background-color: var(--primary-accent);
     color: #FBF6EE;
-    margin-top: calc(-1 * clamp(205px, 28vh, 265px));
+    margin-top: calc(-1 * clamp(215px, 29vh, 275px));
     padding: 0 0 clamp(85px, 11vh, 130px) 0;
     border-radius: 50% 50% 0 0 / clamp(85px, 12vw, 155px) clamp(85px, 12vw, 155px) 0 0;
     box-shadow: 0 -24px 70px rgba(0, 0, 0, 0.35), 0 24px 60px rgba(0, 0, 0, 0.25);
