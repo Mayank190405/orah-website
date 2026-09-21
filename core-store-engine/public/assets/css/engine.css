@@ -245,14 +245,14 @@
 }
 
 .corner-bottom-left {
-    bottom: 270px;
+    bottom: calc(clamp(240px, 30vh, 300px) + 24px);
     left: 48px;
     text-align: left;
     align-items: flex-start;
 }
 
 .corner-bottom-right {
-    bottom: 270px;
+    bottom: calc(clamp(240px, 30vh, 300px) + 24px);
     right: 48px;
     text-align: right;
     align-items: flex-end;
@@ -512,15 +512,15 @@
 .hero-dome-transition {
     position: relative;
     width: 100%;
-    height: clamp(260px, 34vh, 340px);
+    height: clamp(240px, 30vh, 300px);
     background-color: var(--primary-accent);
-    border-radius: 50% 50% 0 0 / 70px 70px 0 0;
+    border-radius: 50% 50% 0 0 / 60px 60px 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     overflow: hidden;
-    margin-top: auto;
+    margin-top: 30px;
     z-index: 3;
     box-shadow: 0 -12px 40px rgba(104, 20, 24, 0.18);
 }
@@ -530,22 +530,22 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 140px;
+    height: 120px;
     pointer-events: none;
 }
 
 .dome-curve-text {
     font-family: var(--font-body);
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 500;
-    letter-spacing: 5px;
+    letter-spacing: 5.5px;
     fill: #FBF6EE;
     opacity: 0.65;
     text-transform: uppercase;
 }
 
 .dome-scroll-indicator {
-    margin-top: 80px;
+    margin-top: 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -912,8 +912,14 @@ body.coffee-menu-open .overlay-footer {
 
     .corner-top-left { left: 24px; top: 20px; }
     .corner-top-right { right: 24px; top: 20px; }
-    .corner-bottom-left { left: 24px; bottom: 250px; }
-    .corner-bottom-right { right: 24px; bottom: 250px; }
+    .corner-bottom-left {
+        left: 24px;
+        bottom: calc(clamp(200px, 26vh, 260px) + 20px);
+    }
+    .corner-bottom-right {
+        right: 24px;
+        bottom: calc(clamp(200px, 26vh, 260px) + 20px);
+    }
 
     .hero-step-indicator {
         left: 25px;
@@ -938,7 +944,8 @@ body.coffee-menu-open .overlay-footer {
     }
 
     .hero-dome-transition {
-        height: clamp(220px, 30vh, 290px);
+        height: clamp(200px, 26vh, 260px);
+        border-radius: 50% 50% 0 0 / 45px 45px 0 0;
     }
 
     .giant-type-bg {
