@@ -56,21 +56,24 @@
 .store-header {
    background-color: transparent;
    color: var(--primary-accent);
-   padding: 18px 0;
-   position: sticky; 
+   padding: clamp(10px, 1.8vh, 18px) 0;
+   position: fixed; 
    top: 0;
+   left: 0;
+   width: 100%;
    z-index: 100;
    border-bottom: 1px solid rgba(104, 20, 24, 0.08);
+   box-sizing: border-box;
    transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
 }
 
 .store-header.is-scrolled {
-   background-color: rgba(251, 246, 238, 0.88);
+   background-color: rgba(251, 246, 238, 0.94);
    backdrop-filter: blur(14px);
    -webkit-backdrop-filter: blur(14px);
-   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-   border-bottom: 1px solid rgba(104, 20, 24, 0.06);
-   padding: 12px 0;
+   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+   border-bottom: 1px solid rgba(104, 20, 24, 0.08);
+   padding: clamp(8px, 1.2vh, 12px) 0;
 }
 
 .header-container {
@@ -201,18 +204,22 @@
    gap: 15px;
 }
 
-/* Hero Section - Text First Architectural Layout */
+/* Hero Section - Strict 100vh Viewport Layout */
 .hero-section {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     background-color: var(--bg-color);
     overflow: hidden;
-    padding-top: 10px;
+    padding-top: clamp(55px, 7.5vh, 75px);
+    padding-bottom: 0;
+    box-sizing: border-box;
 }
 
 /* Editorial Corner Callouts */
@@ -222,60 +229,64 @@
     display: flex;
     flex-direction: column;
     font-family: var(--font-body);
-    font-size: 0.65rem;
+    font-size: clamp(0.52rem, 0.9vh, 0.62rem);
     font-weight: 600;
-    letter-spacing: 3px;
-    line-height: 1.55;
+    letter-spacing: clamp(2px, 0.25vw, 3px);
+    line-height: 1.45;
     color: var(--primary-accent);
     text-transform: uppercase;
 }
 
 .corner-top-left {
-    top: 28px;
-    left: 48px;
+    top: clamp(65px, 8.5vh, 82px);
+    left: clamp(16px, 3.5vw, 48px);
     text-align: left;
     align-items: flex-start;
 }
 
 .corner-top-right {
-    top: 28px;
-    right: 48px;
+    top: clamp(65px, 8.5vh, 82px);
+    right: clamp(16px, 3.5vw, 48px);
     text-align: right;
     align-items: flex-end;
 }
 
 .corner-bottom-left {
-    bottom: calc(clamp(240px, 30vh, 300px) + 75px);
-    left: 48px;
+    bottom: calc(clamp(140px, 20vh, 195px) + clamp(12px, 1.8vh, 24px));
+    left: clamp(16px, 3.5vw, 48px);
     text-align: left;
     align-items: flex-start;
 }
 
 .corner-bottom-right {
-    bottom: calc(clamp(240px, 30vh, 300px) + 75px);
-    right: 48px;
+    bottom: calc(clamp(140px, 20vh, 195px) + clamp(12px, 1.8vh, 24px));
+    right: clamp(16px, 3.5vw, 48px);
     text-align: right;
     align-items: flex-end;
 }
 
 .callout-underline {
-    width: 32px;
+    width: clamp(24px, 3vw, 32px);
     height: 1px;
     background-color: rgba(104, 20, 24, 0.35);
-    margin-top: 8px;
+    margin-top: 6px;
 }
 
 /* Central Architectural Arch Framework & Content Wrapper */
 .hero-arch-wrapper {
     position: relative;
     width: 100%;
-    max-width: 680px;
-    margin: 20px auto 0;
+    max-width: 640px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    min-height: 0;
     z-index: 2;
     box-sizing: border-box;
+    padding: 0 clamp(12px, 2.5vw, 24px);
 }
 
 .arch-frame-svg {
@@ -297,16 +308,16 @@
 
 /* Top Arch Badge inside Arch Apex */
 .hero-top-badge {
-    margin-top: 88px;
-    margin-bottom: 20px;
+    margin-top: clamp(6px, 1.5vh, 16px);
+    margin-bottom: clamp(4px, 1vh, 10px);
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: var(--font-body);
-    font-size: 0.60rem;
+    font-size: clamp(0.50rem, 0.9vh, 0.58rem);
     font-weight: 600;
-    letter-spacing: 3.5px;
-    line-height: 1.55;
+    letter-spacing: 3px;
+    line-height: 1.4;
     color: rgba(104, 20, 24, 0.7);
     text-transform: uppercase;
     z-index: 3;
@@ -316,16 +327,16 @@
 /* Step Indicator along Arch */
 .hero-step-indicator {
     position: absolute;
-    left: 40px;
-    top: 48%;
+    left: clamp(15px, 3vw, 35px);
+    top: 50%;
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-family: var(--font-body);
-    font-size: 0.65rem;
-    letter-spacing: 2px;
+    font-size: 0.60rem;
+    letter-spacing: 1.5px;
     color: rgba(104, 20, 24, 0.4);
     z-index: 4;
     user-select: none;
@@ -338,7 +349,7 @@
 
 .hero-step-indicator .step-bar {
     width: 1px;
-    height: 22px;
+    height: clamp(16px, 2.2vh, 22px);
     background-color: rgba(104, 20, 24, 0.45);
     margin: 2px 0;
 }
@@ -346,18 +357,18 @@
 /* Right Side Editorial Text along Arch */
 .hero-side-editorial {
     position: absolute;
-    right: 35px;
-    top: 34%;
+    right: clamp(15px, 3vw, 35px);
+    top: 36%;
     transform: translate(50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     text-align: right;
     font-family: var(--font-body);
-    font-size: 0.62rem;
+    font-size: clamp(0.52rem, 0.88vh, 0.60rem);
     font-weight: 600;
-    letter-spacing: 3px;
-    line-height: 1.6;
+    letter-spacing: 2.5px;
+    line-height: 1.5;
     color: rgba(104, 20, 24, 0.7);
     text-transform: uppercase;
     z-index: 4;
@@ -367,9 +378,9 @@
 /* Central Hero Typography */
 .hero-container {
     width: 100%;
-    max-width: 600px;
+    max-width: 580px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -387,24 +398,24 @@
 
 .hero-title {
     font-family: 'Dream Avenue', Georgia, serif;
-    font-size: clamp(3.8rem, 8vw, 6.2rem);
+    font-size: clamp(2.4rem, 5.8vh, 4.6rem);
     font-weight: 400;
     color: var(--primary-accent);
-    line-height: 0.88;
+    line-height: 0.90;
     letter-spacing: 0.01em;
-    margin: 0 0 16px 0;
+    margin: 0 0 clamp(4px, 1vh, 10px) 0;
     text-transform: uppercase;
 }
 
 .hero-description {
     font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
     font-style: italic;
-    font-size: clamp(2rem, 3.8vw, 2.9rem);
+    font-size: clamp(1.15rem, 2.6vh, 2rem);
     font-weight: 500;
     line-height: 1.15;
     color: var(--primary-accent);
-    max-width: 580px;
-    margin: 0 auto 26px auto;
+    max-width: 520px;
+    margin: 0 auto clamp(8px, 1.8vh, 18px) auto;
     letter-spacing: 0.5px;
 }
 
@@ -413,23 +424,23 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 13px 34px;
+    padding: clamp(8px, 1.3vh, 12px) clamp(22px, 2.8vw, 32px);
     background-color: var(--primary-accent);
     color: #FBF6EE;
     text-decoration: none;
     font-family: var(--font-body);
     font-weight: 600;
-    font-size: 0.76rem;
+    font-size: clamp(0.68rem, 1.05vh, 0.76rem);
     letter-spacing: 2px;
     border-radius: 50px;
     text-transform: uppercase;
-    box-shadow: 0 10px 30px rgba(104, 20, 24, 0.4);
+    box-shadow: 0 8px 24px rgba(104, 20, 24, 0.35);
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .hero-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 14px 36px rgba(104, 20, 24, 0.55);
+    box-shadow: 0 12px 30px rgba(104, 20, 24, 0.5);
     background-color: #520f12;
 }
 
@@ -437,8 +448,8 @@
 .hero-lower-area {
     position: relative;
     width: 100%;
-    margin-top: 75px;
-    margin-bottom: 25px;
+    margin-top: clamp(10px, 2.2vh, 26px);
+    margin-bottom: clamp(4px, 1vh, 12px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -449,9 +460,9 @@
     margin: 0;
     font-family: var(--font-body);
     font-weight: 600;
-    font-size: 0.68rem;
-    letter-spacing: 3.5px;
-    line-height: 1.5;
+    font-size: clamp(0.56rem, 1.05vh, 0.65rem);
+    letter-spacing: 3px;
+    line-height: 1.4;
     color: var(--primary-accent);
     text-transform: uppercase;
     text-align: center;
@@ -460,11 +471,11 @@
 /* Rotating Circular Stamp Badge */
 .hero-stamp-badge {
     position: absolute;
-    right: 20px;
+    right: clamp(10px, 2.5vw, 24px);
     top: 50%;
     transform: translateY(-50%);
-    width: 125px;
-    height: 125px;
+    width: clamp(75px, 10vh, 105px);
+    height: clamp(75px, 10vh, 105px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -481,17 +492,17 @@
 
 .hero-stamp-badge .stamp-text {
     font-family: var(--font-body);
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 2.8px;
+    letter-spacing: 2.6px;
     fill: var(--primary-accent);
     text-transform: uppercase;
 }
 
 .hero-stamp-badge .stamp-emblem {
     position: absolute;
-    width: 42px;
-    height: 42px;
+    width: clamp(28px, 3.8vh, 38px);
+    height: clamp(28px, 3.8vh, 38px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -508,19 +519,22 @@
     to { transform: rotate(360deg); }
 }
 
-/* Burgundy Arch Dome Transition Shape */
+/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh */
 .hero-dome-transition {
     position: relative;
     width: 100%;
-    height: clamp(240px, 30vh, 300px);
+    height: clamp(140px, 20vh, 195px);
+    flex-shrink: 0;
     background-color: var(--primary-accent);
-    border-radius: 50% 50% 0 0 / 60px 60px 0 0;
+    border-radius: 50% 50% 0 0 / clamp(28px, 4vh, 44px) clamp(28px, 4vh, 44px) 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     overflow: hidden;
-    margin-top: 30px;
+    margin-top: 0;
+    padding-bottom: clamp(8px, 1.4vh, 14px);
+    box-sizing: border-box;
     z-index: 3;
     box-shadow: 0 -12px 40px rgba(104, 20, 24, 0.18);
 }
@@ -530,26 +544,26 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 120px;
+    height: clamp(50px, 7.5vh, 75px);
     pointer-events: none;
 }
 
 .dome-curve-text {
     font-family: var(--font-body);
-    font-size: 12px;
+    font-size: clamp(8.5px, 1.2vh, 11px);
     font-weight: 500;
-    letter-spacing: 5.5px;
+    letter-spacing: clamp(2.5px, 0.4vw, 4.5px);
     fill: #FBF6EE;
     opacity: 0.65;
     text-transform: uppercase;
 }
 
 .dome-scroll-indicator {
-    margin-top: 60px;
+    margin-top: clamp(28px, 4.5vh, 44px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 3px;
     color: #FBF6EE;
     opacity: 0.85;
     z-index: 2;
@@ -558,34 +572,34 @@
 
 .dome-scroll-indicator .scroll-word {
     font-family: var(--font-body);
-    font-size: 0.68rem;
+    font-size: clamp(0.55rem, 0.95vh, 0.64rem);
     font-weight: 600;
-    letter-spacing: 4px;
+    letter-spacing: 3.5px;
 }
 
 .dome-scroll-indicator .scroll-arrow-line svg {
-    width: 14px;
-    height: 38px;
+    width: 11px;
+    height: clamp(20px, 3.2vh, 30px);
 }
 
 @keyframes scrollPulse {
     0%, 100% { transform: translateY(0); opacity: 0.85; }
-    50% { transform: translateY(8px); opacity: 1; }
+    50% { transform: translateY(6px); opacity: 1; }
 }
 
 .dome-footer-hallmark {
     margin-top: auto;
-    margin-bottom: 24px;
+    margin-bottom: 0;
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: clamp(12px, 2vw, 20px);
     color: #FBF6EE;
     opacity: 0.7;
     z-index: 2;
 }
 
 .dome-footer-hallmark .hallmark-divider {
-    width: 80px;
+    width: clamp(35px, 5vw, 65px);
     height: 1px;
     background-color: rgba(251, 246, 238, 0.35);
 }
@@ -595,7 +609,22 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 4px;
+    gap: 2px;
+}
+
+.dome-footer-hallmark .hallmark-brand {
+    font-family: var(--font-body);
+    font-size: clamp(0.56rem, 0.95vh, 0.65rem);
+    font-weight: 600;
+    letter-spacing: 3.5px;
+}
+
+.dome-footer-hallmark .hallmark-city {
+    font-family: var(--font-body);
+    font-size: clamp(0.44rem, 0.75vh, 0.52rem);
+    font-weight: 500;
+    letter-spacing: 4px;
+    opacity: 0.6;
 }
 
 .hallmark-brand {
@@ -972,24 +1001,29 @@ body.coffee-menu-open .overlay-footer {
 
     /* Hero Section Responsive Layout - Tablet */
     .hero-section {
-        min-height: 100vh;
-        padding-top: 10px;
+        height: 100vh;
+        height: 100dvh;
+        max-height: 100vh;
+        overflow: hidden;
+        padding-top: clamp(55px, 7.5vh, 70px);
     }
 
     .hero-arch-wrapper {
         max-width: 90%;
-        margin-top: 10px;
+        margin: 0 auto;
+        flex: 1 1 auto;
+        min-height: 0;
     }
 
-    .corner-top-left { left: 24px; top: 20px; }
-    .corner-top-right { right: 24px; top: 20px; }
+    .corner-top-left { left: 24px; top: clamp(62px, 8vh, 75px); }
+    .corner-top-right { right: 24px; top: clamp(62px, 8vh, 75px); }
     .corner-bottom-left {
         left: 24px;
-        bottom: calc(clamp(200px, 26vh, 260px) + 55px);
+        bottom: calc(clamp(130px, 18vh, 180px) + clamp(12px, 1.8vh, 20px));
     }
     .corner-bottom-right {
         right: 24px;
-        bottom: calc(clamp(200px, 26vh, 260px) + 55px);
+        bottom: calc(clamp(130px, 18vh, 180px) + clamp(12px, 1.8vh, 20px));
     }
 
     .hero-step-indicator {
@@ -1002,21 +1036,21 @@ body.coffee-menu-open .overlay-footer {
 
     .hero-stamp-badge {
         right: 15px;
-        width: 110px;
-        height: 110px;
+        width: clamp(70px, 9.5vh, 95px);
+        height: clamp(70px, 9.5vh, 95px);
     }
 
     .hero-title {
-        font-size: clamp(3.2rem, 7.5vw, 5rem);
+        font-size: clamp(2.2rem, 5.2vh, 4rem);
     }
 
     .hero-description {
-        font-size: clamp(1.8rem, 3.4vw, 2.5rem);
+        font-size: clamp(1.1rem, 2.4vh, 1.8rem);
     }
 
     .hero-dome-transition {
-        height: clamp(200px, 26vh, 260px);
-        border-radius: 50% 50% 0 0 / 45px 45px 0 0;
+        height: clamp(130px, 18vh, 180px);
+        border-radius: 50% 50% 0 0 / clamp(24px, 3.5vh, 38px) clamp(24px, 3.5vh, 38px) 0 0;
     }
 
     .giant-type-bg {
@@ -1102,79 +1136,85 @@ body.coffee-menu-open .overlay-footer {
     }
 
     .hero-section {
-        min-height: 100vh;
-        padding-top: 10px;
+        height: 100vh;
+        height: 100dvh;
+        max-height: 100vh;
+        overflow: hidden;
+        padding-top: clamp(48px, 6.8vh, 60px);
     }
 
     .hero-arch-wrapper {
         max-width: 95%;
-        margin-top: 5px;
+        margin: 0 auto;
+        flex: 1 1 auto;
+        min-height: 0;
     }
 
     .hero-corner-callout {
-        font-size: 0.52rem;
-        letter-spacing: 1.8px;
+        font-size: 0.50rem;
+        letter-spacing: 1.6px;
         line-height: 1.35;
     }
 
-    .corner-top-left { left: 16px; top: 16px; }
-    .corner-top-right { right: 16px; top: 16px; }
+    .corner-top-left { left: 16px; top: clamp(54px, 7.5vh, 66px); }
+    .corner-top-right { right: 16px; top: clamp(54px, 7.5vh, 66px); }
     .corner-bottom-left, .corner-bottom-right { display: none; }
     .hero-step-indicator, .hero-side-editorial { display: none; }
 
     .hero-top-badge {
-        margin-top: 76px;
-        margin-bottom: 16px;
+        margin-top: clamp(4px, 1vh, 10px);
+        margin-bottom: clamp(2px, 0.8vh, 6px);
     }
 
     .hero-container {
-        padding: 0 16px;
+        padding: 0 12px;
         margin: 0 auto;
     }
 
     .hero-title {
-        font-size: clamp(2.8rem, 11vw, 4.2rem);
+        font-size: clamp(2rem, 5vh, 3.2rem);
         line-height: 0.92;
-        margin-bottom: 12px;
+        margin-bottom: clamp(3px, 0.8vh, 8px);
     }
 
     .hero-description {
-        font-size: clamp(1.6rem, 5.5vw, 2.2rem);
-        line-height: 1.2;
-        margin-bottom: 20px;
+        font-size: clamp(0.95rem, 2.2vh, 1.4rem);
+        line-height: 1.15;
+        margin-bottom: clamp(6px, 1.4vh, 14px);
         padding: 0;
     }
 
     .hero-btn {
-        padding: 12px 28px;
-        font-size: 0.72rem;
-        letter-spacing: 1.5px;
+        padding: clamp(6px, 1vh, 9px) 22px;
+        font-size: 0.66rem;
+        letter-spacing: 1.2px;
     }
 
     .hero-lower-area {
-        margin-top: 50px;
-        flex-direction: column;
+        margin-top: clamp(6px, 1.4vh, 14px);
+        margin-bottom: clamp(2px, 0.6vh, 6px);
+        flex-direction: row;
     }
 
     .hero-tagline-note {
-        margin: 0 auto 12px;
-        font-size: 0.62rem;
+        margin: 0;
+        font-size: 0.54rem;
         letter-spacing: 2px;
     }
 
     .hero-stamp-badge {
-        position: relative;
-        right: auto;
-        top: auto;
-        transform: none;
-        margin: 10px auto 0;
-        width: 105px;
-        height: 105px;
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+        width: clamp(55px, 7.5vh, 75px);
+        height: clamp(55px, 7.5vh, 75px);
     }
 
     .hero-dome-transition {
-        height: clamp(200px, 28vh, 260px);
-        border-radius: 50% 50% 0 0 / 40px 40px 0 0;
+        height: clamp(120px, 17vh, 160px);
+        border-radius: 50% 50% 0 0 / clamp(20px, 3vh, 30px) clamp(20px, 3vh, 30px) 0 0;
     }
 
     .giant-word {
