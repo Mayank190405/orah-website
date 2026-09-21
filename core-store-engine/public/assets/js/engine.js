@@ -86,40 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrollY = window.scrollY || window.pageYOffset;
             const vh = window.innerHeight;
 
-            // --- A. Hero Section Parallax (Active during first 1.3 viewports) ---
-            if (scrollY <= vh * 1.3) {
-                const heroProgress = Math.min(1, scrollY / (vh * 0.85));
-
-                if (heroArch) {
-                    const archY = scrollY * 0.22;
-                    const archOpacity = Math.max(0, 1 - (heroProgress * 0.85));
-                    heroArch.style.transform = `translate3d(0, ${archY}px, 0)`;
-                    heroArch.style.opacity = archOpacity;
-                }
-
-                if (heroStamp) {
-                    const stampY = scrollY * 0.18;
-                    const stampScrollRotate = scrollY * 0.12;
-                    heroStamp.style.transform = `translate3d(0, ${stampY}px, 0) rotate(${stampScrollRotate}deg)`;
-                }
-
-                if (heroTopLeft) {
-                    heroTopLeft.style.transform = `translate3d(0, ${-scrollY * 0.16}px, 0)`;
-                }
-                if (heroTopRight) {
-                    heroTopRight.style.transform = `translate3d(0, ${-scrollY * 0.16}px, 0)`;
-                }
-                if (heroBottomLeft) {
-                    heroBottomLeft.style.transform = `translate3d(0, ${scrollY * 0.10}px, 0)`;
-                }
-                if (heroBottomRight) {
-                    heroBottomRight.style.transform = `translate3d(0, ${scrollY * 0.10}px, 0)`;
-                }
-
-                if (botanicalSvg) {
-                    botanicalSvg.style.transform = `translate3d(0, ${scrollY * 0.08}px, 0)`;
-                }
-            }
+            // --- A. Hero Section: Stays static in background without moving ---
+            // (Curtain overlay parallax is created by the Burgundy About section scrolling over it)
 
             // --- B. About Us Section Parallax ---
             if (aboutSection) {

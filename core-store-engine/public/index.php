@@ -202,7 +202,11 @@ $hero = $settings['hero'] ?? null;
             <span>COMPANY</span>
             <div class="callout-underline"></div>
         </div>
+    </section>
+    <?php endif; ?>
 
+    <!-- Architectural Burgundy About Us Section with Dome Transition Curtain -->
+    <section class="about-section" id="story">
         <!-- Burgundy Arch Dome Transition Shape -->
         <div class="hero-dome-transition">
             <svg class="dome-curve-svg" viewBox="0 0 1400 180" preserveAspectRatio="none" aria-hidden="true">
@@ -221,7 +225,7 @@ $hero = $settings['hero'] ?? null;
                 </text>
             </svg>
             
-            <a href="#story" class="dome-scroll-indicator" id="heroScrollIndicator" aria-label="Scroll down to Our Story">
+            <a href="#aboutContent" class="dome-scroll-indicator" id="heroScrollIndicator" aria-label="Scroll down to Our Story">
                 <span class="scroll-word">SCROLL</span>
                 <div class="scroll-arrow-line">
                     <svg viewBox="0 0 20 60" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -238,13 +242,9 @@ $hero = $settings['hero'] ?? null;
                 <path d="M 140,180 C 200,135 190,75 120,70 C 120,125 135,165 140,180 Z" />
             </svg>
         </div>
-    </section>
-    <?php endif; ?>
 
-    <!-- Architectural Burgundy About Us Section -->
-    <section class="about-section" id="story">
         <!-- Top Decorative Architectural Line & Crest -->
-        <div class="about-top-crest">
+        <div class="about-top-crest" id="aboutContent">
             <span class="crest-line"></span>
             <div class="crest-badge">
                 <img src="assets/images/swans_only.png" alt="Orah Emblem" class="crest-swans">
