@@ -444,38 +444,13 @@
     background-color: #520f12;
 }
 
-/* Lower Area: Tagline Note & Circular Stamp Badge */
-.hero-lower-area {
-    position: relative;
-    width: 100%;
-    margin-top: clamp(10px, 2.2vh, 26px);
-    margin-bottom: clamp(4px, 1vh, 12px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 3;
-}
-
-.hero-tagline-note {
-    margin: 0;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: clamp(0.56rem, 1.05vh, 0.65rem);
-    letter-spacing: 3px;
-    line-height: 1.4;
-    color: var(--primary-accent);
-    text-transform: uppercase;
-    text-align: center;
-}
-
-/* Rotating Circular Stamp Badge */
+/* Rotating Circular Stamp Badge - Prominent Architectural Emblem */
 .hero-stamp-badge {
     position: absolute;
-    right: clamp(10px, 2.5vw, 24px);
-    top: 50%;
-    transform: translateY(-50%);
-    width: clamp(75px, 10vh, 105px);
-    height: clamp(75px, 10vh, 105px);
+    right: clamp(14px, 4.5vw, 55px);
+    bottom: clamp(15px, 3.5vh, 45px);
+    width: clamp(120px, 16vh, 155px);
+    height: clamp(120px, 16vh, 155px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -486,23 +461,23 @@
 .hero-stamp-badge .stamp-svg {
     width: 100%;
     height: 100%;
-    animation: rotateStamp 24s linear infinite;
+    animation: rotateStamp 22s linear infinite;
     transform-origin: center center;
 }
 
 .hero-stamp-badge .stamp-text {
     font-family: var(--font-body);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 2.6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 3.2px;
     fill: var(--primary-accent);
     text-transform: uppercase;
 }
 
 .hero-stamp-badge .stamp-emblem {
     position: absolute;
-    width: clamp(28px, 3.8vh, 38px);
-    height: clamp(28px, 3.8vh, 38px);
+    width: clamp(38px, 5.2vh, 50px);
+    height: clamp(38px, 5.2vh, 50px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1035,9 +1010,10 @@ body.coffee-menu-open .overlay-footer {
     }
 
     .hero-stamp-badge {
-        right: 15px;
-        width: clamp(70px, 9.5vh, 95px);
-        height: clamp(70px, 9.5vh, 95px);
+        right: clamp(14px, 3.5vw, 35px);
+        bottom: clamp(14px, 3vh, 35px);
+        width: clamp(105px, 13.5vh, 130px);
+        height: clamp(105px, 13.5vh, 130px);
     }
 
     .hero-title {
@@ -1188,28 +1164,16 @@ body.coffee-menu-open .overlay-footer {
         padding: clamp(6px, 1vh, 9px) 22px;
         font-size: 0.66rem;
         letter-spacing: 1.2px;
-    }
-
-    .hero-lower-area {
-        margin-top: clamp(6px, 1.4vh, 14px);
-        margin-bottom: clamp(2px, 0.6vh, 6px);
-        flex-direction: row;
-    }
-
-    .hero-tagline-note {
-        margin: 0;
-        font-size: 0.54rem;
-        letter-spacing: 2px;
+        margin-bottom: clamp(6px, 1.2vh, 12px);
     }
 
     .hero-stamp-badge {
         position: absolute;
-        right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
+        right: 12px;
+        bottom: clamp(10px, 2vh, 24px);
         margin: 0;
-        width: clamp(55px, 7.5vh, 75px);
-        height: clamp(55px, 7.5vh, 75px);
+        width: clamp(80px, 11vh, 105px);
+        height: clamp(80px, 11vh, 105px);
     }
 
     .hero-dome-transition {
