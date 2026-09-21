@@ -85,14 +85,6 @@
    box-shadow: none !important;
 }
 
-body.in-about-section .dome-scroll-indicator,
-body.in-about-section .dome-botanical-svg,
-body.in-about-section .dome-curve-svg {
-   opacity: 0 !important;
-   pointer-events: none !important;
-   transition: opacity 0.35s ease;
-}
-
 .store-header.header-burgundy .brand-title {
    color: #FBF6EE !important;
 }
@@ -562,13 +554,14 @@ body.in-about-section .dome-curve-svg {
     to { transform: rotate(360deg); }
 }
 
-/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh */
+/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh & Sticky Locked in About Section */
 .hero-dome-transition {
-    position: relative;
+    position: sticky;
+    top: 0;
     width: 100%;
     height: clamp(165px, 22vh, 215px);
     flex-shrink: 0;
-    background-color: transparent;
+    background-color: var(--primary-accent);
     border-radius: 50% 50% 0 0 / clamp(65px, 9vw, 110px) clamp(65px, 9vw, 110px) 0 0;
     display: flex;
     flex-direction: column;
@@ -579,7 +572,7 @@ body.in-about-section .dome-curve-svg {
     padding-top: clamp(62px, 8.5vh, 82px);
     padding-bottom: clamp(12px, 1.8vh, 20px);
     box-sizing: border-box;
-    z-index: 3;
+    z-index: 30;
 }
 
 .dome-curve-svg {
@@ -618,8 +611,15 @@ body.in-about-section .dome-curve-svg {
     text-decoration: none;
     cursor: pointer;
     pointer-events: auto;
-    transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    transition: opacity 0.35s ease, transform 0.35s ease, color 0.3s ease;
     animation: scrollPulse 2.5s ease-in-out infinite;
+}
+
+.hero-dome-transition.is-scrolled-past-crest .dome-scroll-indicator {
+    opacity: 0 !important;
+    visibility: hidden;
+    pointer-events: none !important;
+    transform: translateY(-12px);
 }
 
 .dome-scroll-indicator:hover {

@@ -70,8 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Only allow docking when user has scrolled past the hero threshold
             // and the top of About Us has reached the header
-            const isScrolledPastHero = scrollY > (headerHeight * 2.5);
-            const isAtHeader = aboutRect.top <= headerHeight + 10;
+            const minScrollPastHero = (window.innerHeight || 700) * 0.45;
+            const isScrolledPastHero = scrollY > minScrollPastHero;
+            const isAtHeader = aboutRect.top <= headerHeight + 5;
             const isBeforeAboutEnd = aboutRect.bottom > headerHeight;
 
             const shouldBeBurgundy = isScrolledPastHero && isAtHeader && isBeforeAboutEnd;
@@ -82,6 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 header.classList.remove('header-burgundy');
                 document.body.classList.remove('in-about-section');
+            }
+
+            // Hide the scroll indicator once user has scrolled deeper into the story
+            // so it doesn't overlap the reading text
+            if (domeTransition) {
+                if (shouldBeBurgundy && aboutRect.top < -(headerHeight * 1.2)) {
+                    domeTransition.classList.add('is-scrolled-past-crest');
+                } else {
+                    domeTransition.classList.remove('is-scrolled-past-crest');
+                }
             }
         }
     }
