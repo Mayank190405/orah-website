@@ -1,55 +1,52 @@
 {
- "brand": {
-   "type": "image",
-   "logo_url": "assets/images/logo.png"
- },
- "header": {
-   "background_color": "#741417",
-   "text_color": "#fff8dc",
-   "layout": "logo_left_menu_right"
- },
- "menu": [
-   { "label": "Home", "url": "#", "order": 1 },
-   { "label": "About", "url": "#about", "order": 2 },
-   { "label": "Menu", "url": "#menu", "order": 3 },
-   { "label": "Our Creations", "url": "#creations", "order": 4 },
-   { "label": "Events", "url": "#events", "order": 5 },
-   { "label": "Gallery", "url": "#gallery", "order": 6 },
-   { "label": "Contact", "url": "#contact", "order": 7 }
- ],
- "hero": {
-   "subtitle": "",
-   "title": "EAT.\nSIP.\nGATHER.",
-   "description": "Food that nourishes. Moments that matter.",
-   "button_text": "EXPLORE OUR MENU →",
-   "footer_note": "A PREMIUM CAFÉ EXPERIENCE\nIN NASHIK",
-   "image_url": ""
- },
- "theme": {
-   "primary_accent": "#741417",
-   "secondary_accent": "#ebcfa6",
-   "background_color": "#fff8dc",
-   "card_background": "#ffffff",
-   "font_family_heading": "'Dream Avenue', 'Playfair Display', Georgia, serif",
-   "font_family_body": "'Manrope', -apple-system, BlinkMacSystemFont, sans-serif",
-   "font_family_subheading": "'Italianno', cursive",
-   "border_radius": "16px"
- },
- "layout": {
-   "grid_columns_desktop": 3,
-   "grid_gap": "28px"
- },
- "card_text": {
-   "placement": "stacked_below",
-   "alignment": "center",
-   "order_badge": 1,
-   "order_title": 2,
-   "order_description": 3,
-   "order_price": 4,
-   "order_action": 5
- },
- "animations": {
-   "entry_animation": "fade-up",
-   "hover_effect": "tilt_3d"
- }
+  "brand": {
+    "type": "image",
+    "logo_url": "assets/images/logo.png",
+    "text": "ORAH HOUSE"
+  },
+  "header": {
+    "background_color": "transparent",
+    "text_color": "#681418",
+    "layout": "logo_left_menu_right"
+  },
+  "menu": [
+    { "label": "Menu", "url": "#menu", "order": 1 },
+    { "label": "Our Story", "url": "#story", "order": 2 },
+    { "label": "Experiences", "url": "#experiences", "order": 3 }
+  ],
+  "hero": {
+    "subtitle": "",
+    "title": "EAT.\nSIP.\nGATHER.",
+    "description": "Food that nourishes.\nMoments that matter.",
+    "button_text": "EXPLORE OUR MENU →",
+    "footer_note": "A PREMIUM CAFÉ EXPERIENCE\nIN NASHIK",
+    "image_url": ""
+  },
+  "theme": {
+    "primary_accent": "#681418",
+    "secondary_accent": "#c99a68",
+    "background_color": "#FBF6EE",
+    "card_background": "#ffffff",
+    "font_family_heading": "'Dream Avenue', Georgia, serif",
+    "font_family_body": "'Manrope', sans-serif",
+    "font_family_subheading": "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
+    "border_radius": "16px"
+  },
+  "layout": {
+    "grid_columns_desktop": 3,
+    "grid_gap": "28px"
+  },
+  "card_text": {
+    "placement": "stacked_below",
+    "alignment": "center",
+    "order_badge": 1,
+    "order_title": 2,
+    "order_description": 3,
+    "order_price": 4,
+    "order_action": 5
+  },
+  "animations": {
+    "entry_animation": "fade-up",
+    "hover_effect": "tilt_3d"
+  }
 }

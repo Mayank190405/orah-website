@@ -58,25 +58,19 @@ $hero = $settings['hero'] ?? null;
     <!-- Load Core Engine Styles -->
     <link rel="stylesheet" href="assets/css/engine.css">
     
-    <!-- Preconnect and Load Google Fonts: Italianno (subheading), Manrope (body), Playfair Display (editorial serif) -->
+    <!-- Preconnect and Load Google Fonts: Cormorant Garamond (italic luxury serif), Manrope (body & architectural uppercase), Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500;1,600;1,700&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header class="store-header">
         <div class="header-container">
-            <div class="brand-logo">
-                <?php if (($brand['type'] ?? 'text') === 'image' && !empty($brand['logo_url'])): ?>
-                    <img src="<?= htmlspecialchars($brand['logo_url']) ?>" alt="Logo">
-                <?php else: ?>
-                    <div class="brand-title"><?= htmlspecialchars($brand['text'] ?? 'ORAH') ?></div>
-                    <?php if (!empty($brand['subtext'])): ?>
-                        <div class="brand-subtitle"><?= nl2br(htmlspecialchars($brand['subtext'])) ?></div>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </div>
+            <a href="#" class="brand-logo">
+                <img src="<?= htmlspecialchars($brand['logo_url'] ?? 'assets/images/logo.png') ?>" alt="Orah House" class="header-logo-img">
+            </a>
+            
             <nav class="nav-menu">
                 <ul>
                     <?php foreach ($menu as $index => $item): ?>
@@ -85,49 +79,12 @@ $hero = $settings['hero'] ?? null;
                 </ul>
             </nav>
             
-            <div class="coffee-menu-toggle" id="coffeeToggle">
-                <!-- SVG container for the animated hamburger/cup -->
-                <svg class="coffee-anim-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Hamburger Lines -->
-                    <g class="burger-lines">
-                        <line x1="20" y1="30" x2="80" y2="30" />
-                        <line x1="20" y1="50" x2="80" y2="50" />
-                        <line x1="20" y1="70" x2="80" y2="70" />
-                    </g>
-                    <!-- Coffee Cup Outline (Initially hidden/undrawn) -->
-                    <g class="cup-outline">
-                        <!-- Cup Body -->
-                        <path class="cup-path" d="M30,30 L30,70 C30,80 40,85 50,85 C60,85 70,80 70,70 L70,30 Z" />
-                        <!-- Cup Handle -->
-                        <path class="cup-handle" d="M70,40 C80,40 85,45 85,55 C85,65 80,70 70,70" />
-                    </g>
-                    <!-- Liquid Mask/Fill -->
-                    <clipPath id="liquid-mask">
-                        <path d="M32,32 L32,70 C32,78 40,83 50,83 C60,83 68,78 68,70 L68,32 Z" />
-                    </clipPath>
-                    <rect class="coffee-liquid-fill" x="30" y="30" width="40" height="55" clip-path="url(#liquid-mask)" />
-                    <!-- Steam Lines -->
-                    <g class="steam-lines">
-                        <path class="steam steam-1" d="M40,25 Q35,15 45,5" />
-                        <path class="steam steam-2" d="M50,25 Q45,15 55,5" />
-                        <path class="steam steam-3" d="M60,25 Q55,15 65,5" />
-                    </g>
-                </svg>
-            </div>
-            
             <div class="header-actions">
-                <a href="#" class="action-icon" aria-label="Search">
-                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </a>
-                <a href="#visit" class="visit-btn">Visit Us &rarr;</a>
-                <div class="header-divider"></div>
-                <div class="social-icons">
-                    <a href="#" class="action-icon" aria-label="Instagram">
-                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                    </a>
-                    <a href="#" class="action-icon" aria-label="Facebook">
-                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                    </a>
+                <a href="#visit" class="header-visit-btn">Visit Us &rarr;</a>
+                <div class="coffee-menu-toggle" id="coffeeToggle" aria-label="Open Menu">
+                    <span class="circle-line"></span>
+                    <span class="circle-line"></span>
+                    <span class="circle-line"></span>
                 </div>
             </div>
         </div>
@@ -135,61 +92,66 @@ $hero = $settings['hero'] ?? null;
 
     <?php if ($hero): ?>
     <section class="hero-section">
-        <!-- Top Editorial Corner Callouts (From Reference) -->
-        <div class="hero-callout hero-callout-left">
+        <!-- Top Editorial Corner Callouts -->
+        <div class="hero-corner-callout corner-top-left">
             <span>GOOD FOOD</span>
             <span>BRIGHTER</span>
             <span>CONVERSATIONS</span>
-            <div class="callout-line"></div>
+            <div class="callout-underline"></div>
         </div>
 
-        <div class="hero-callout hero-callout-right">
+        <div class="hero-corner-callout corner-top-right">
             <span>A CAFÉ</span>
             <span>FOR EVERY</span>
             <span>OCCASION</span>
-            <div class="callout-line"></div>
+            <div class="callout-underline"></div>
         </div>
 
-        <!-- Ambient Watermark Words (From Reference) -->
-        <div class="hero-watermark-words" aria-hidden="true">
-            <span class="watermark-word wm-coffee">COFFEE</span>
-            <span class="watermark-word wm-pasta">PASTA</span>
-            <span class="watermark-word wm-desserts">DESSERTS</span>
-            <span class="watermark-word wm-conversation">CONVERSATION</span>
-            <div class="watermark-sub wm-good-food">
-                <span>GOOD</span>
-                <span>FOOD</span>
-            </div>
-            <div class="watermark-sub wm-great-company">
-                <span>GREAT</span>
-                <span>COMPANY</span>
-            </div>
-        </div>
-
-        <!-- Concentric Architectural & Celestial SVG Arcs (From Reference) -->
-        <svg class="hero-celestial-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <!-- Sweeping curved lines framing the central typography -->
-            <path d="M 500,180 C 380,180 180,300 110,540" class="celestial-arc" />
-            <path d="M 500,180 C 640,180 760,230 880,380" class="celestial-arc" />
+        <!-- Architectural SVG Framework -->
+        <svg class="hero-arch-svg" viewBox="0 0 1000 1320" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <!-- Top vertical needle drop & circle -->
+            <line x1="500" y1="0" x2="500" y2="76" class="arch-line" />
+            <circle cx="500" cy="82" r="5.5" class="arch-line" fill="#FBF6EE" />
             
-            <!-- Concentric arcs anchored at bottom center -->
-            <circle cx="500" cy="1000" r="280" class="celestial-arc" />
-            <circle cx="500" cy="1000" r="480" class="celestial-arc" />
-            <circle cx="500" cy="1000" r="820" class="celestial-arc" />
+            <!-- Grand Archway framing center typography -->
+            <path d="M 125, 960 L 125, 460 C 125, 110 875, 110 875, 460 L 875, 960" class="arch-line" />
             
-            <!-- Center Lower Needle Line -->
-            <line x1="500" y1="630" x2="500" y2="700" class="needle-line" />
-            <line x1="500" y1="785" x2="500" y2="855" class="needle-line" />
+            <!-- Mid needle below button -->
+            <line x1="500" y1="675" x2="500" y2="735" class="arch-line" />
+            
+            <!-- Outward Sweeping Lower Arcs -->
+            <path d="M 500, 960 C 420, 830 220, 750 0, 760" class="arch-line" />
+            <path d="M 500, 960 C 580, 830 780, 750 1000, 760" class="arch-line" />
+            <path d="M 0, 845 C 240, 845 420, 910 500, 960 C 580, 910 760, 845 1000, 845" class="arch-line" />
+            
+            <!-- Bottom center vertical needle -->
+            <line x1="500" y1="810" x2="500" y2="960" class="arch-line" />
         </svg>
 
-        <!-- Center Lower Compass Needle Badge -->
-        <div class="hero-needle-badge" aria-hidden="true">
+        <!-- Top Arch Badge: MORE THAN A CAFÉ -->
+        <div class="hero-top-badge" aria-hidden="true">
             <span>MORE</span>
             <span>THAN</span>
             <span>A CAFÉ</span>
         </div>
 
-        <!-- Content Container (above the curve) -->
+        <!-- Left Step Indicator along Arch -->
+        <div class="hero-step-indicator" aria-hidden="true">
+            <span class="step-num active">01</span>
+            <span class="step-bar"></span>
+            <span class="step-num">02</span>
+            <span class="step-num">03</span>
+            <span class="step-num">04</span>
+        </div>
+
+        <!-- Right Side Editorial Text along Arch -->
+        <div class="hero-side-editorial" aria-hidden="true">
+            <span>GOOD FOOD</span>
+            <span>GREAT COMPANY</span>
+            <span>MEMORABLE MOMENTS</span>
+        </div>
+
+        <!-- Central Hero Content -->
         <div class="hero-container">
             <div class="hero-content">
                 <?php if (!empty($hero['title'])): ?>
@@ -197,7 +159,7 @@ $hero = $settings['hero'] ?? null;
                 <?php endif; ?>
                 
                 <?php if (!empty($hero['description'])): ?>
-                    <p class="hero-description"><?= htmlspecialchars($hero['description']) ?></p>
+                    <p class="hero-description"><?= nl2br(htmlspecialchars($hero['description'])) ?></p>
                 <?php endif; ?>
                 
                 <?php if (!empty($hero['button_text'])): ?>
@@ -205,28 +167,81 @@ $hero = $settings['hero'] ?? null;
                         <span><?= htmlspecialchars($hero['button_text']) ?></span>
                     </a>
                 <?php endif; ?>
-                
-                <?php if (!empty($hero['footer_note'])): ?>
-                    <div class="hero-footer-note"><?= nl2br(htmlspecialchars($hero['footer_note'])) ?></div>
-                <?php endif; ?>
             </div>
         </div>
 
-        <!-- Burgundy Transition Shape with Curved Text along the Arch (From Reference) -->
-        <div class="hero-transition-bg">
-            <svg class="arch-curve-svg" viewBox="0 0 1400 240" preserveAspectRatio="none" aria-hidden="true">
-                <path id="arch-curve-path" d="M -100,190 Q 700,50 1500,190" fill="none" />
-                <text class="arch-svg-text">
-                    <textPath href="#arch-curve-path" startOffset="50%" text-anchor="middle">
-                        PASTA &nbsp;&nbsp;&nbsp; DESSERTS &nbsp;&nbsp;&nbsp; CONVERSATION &nbsp;&nbsp;&nbsp; COFFEE &nbsp;&nbsp;&nbsp; GATHER &nbsp;&nbsp;&nbsp; PASTA &nbsp;&nbsp;&nbsp; DESSERTS
+        <!-- Tagline below connector line -->
+        <?php if (!empty($hero['footer_note'])): ?>
+            <div class="hero-tagline-note" aria-hidden="true">
+                <?= nl2br(htmlspecialchars($hero['footer_note'])) ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Circular Rotating Stamp Badge on the lower right -->
+        <div class="hero-stamp-badge" aria-hidden="true">
+            <svg class="stamp-svg" viewBox="0 0 160 160">
+                <path id="stampCirclePath" d="M 80, 80 m -56, 0 a 56,56 0 1,1 112,0 a 56,56 0 1,1 -112,0" fill="none" />
+                <text class="stamp-text">
+                    <textPath href="#stampCirclePath" startOffset="0%">
+                        • COFFEE • PEOPLE • COFFEE • PEOPLE •
+                    </textPath>
+                </text>
+            </svg>
+            <div class="stamp-emblem">
+                <img src="assets/images/swans_only.png" alt="Orah Emblem">
+            </div>
+        </div>
+
+        <!-- Bottom Left Corner Callout -->
+        <div class="hero-corner-callout corner-bottom-left">
+            <span>GOOD</span>
+            <span>FOOD</span>
+            <div class="callout-underline"></div>
+        </div>
+
+        <!-- Bottom Right Corner Callout -->
+        <div class="hero-corner-callout corner-bottom-right">
+            <span>GREAT</span>
+            <span>COMPANY</span>
+            <div class="callout-underline"></div>
+        </div>
+
+        <!-- Burgundy Arch Dome Transition Shape -->
+        <div class="hero-dome-transition">
+            <svg class="dome-curve-svg" viewBox="0 0 1400 220" preserveAspectRatio="none" aria-hidden="true">
+                <path id="domeCurvePath" d="M -50, 190 Q 700, 35 1450, 190" fill="none" />
+                <text class="dome-curve-text">
+                    <textPath href="#domeCurvePath" startOffset="50%" text-anchor="middle">
+                        DESSERTS &nbsp;&nbsp;&nbsp; · &nbsp;&nbsp;&nbsp; COFFEE &nbsp;&nbsp;&nbsp; · &nbsp;&nbsp;&nbsp; CONVERSATIONS &nbsp;&nbsp;&nbsp; · &nbsp;&nbsp;&nbsp; PASTA &nbsp;&nbsp;&nbsp; · &nbsp;&nbsp;&nbsp; GOOD TIMES
                     </textPath>
                 </text>
             </svg>
             
-            <div class="scroll-down-indicator">
-                <span>SCROLL</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+            <div class="dome-scroll-indicator">
+                <span class="scroll-word">SCROLL</span>
+                <div class="scroll-arrow-line">
+                    <svg viewBox="0 0 20 60" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <line x1="10" y1="0" x2="10" y2="52" />
+                        <polyline points="4,44 10,52 16,44" />
+                    </svg>
+                </div>
             </div>
+
+            <div class="dome-footer-hallmark">
+                <div class="hallmark-divider"></div>
+                <div class="hallmark-text">
+                    <span class="hallmark-brand">ORAH HOUSE</span>
+                    <span class="hallmark-city">NASHIK</span>
+                </div>
+                <div class="hallmark-divider"></div>
+            </div>
+
+            <!-- Faint Botanical Line Art on Bottom Right -->
+            <svg class="dome-botanical-svg" viewBox="0 0 180 180" fill="none" stroke="rgba(201, 154, 104, 0.35)" stroke-width="1.2" aria-hidden="true">
+                <path d="M 140,180 C 140,110 80,70 10,110 C 80,150 120,175 140,180 Z" />
+                <path d="M 140,180 C 180,100 125,50 60,80 C 105,130 130,170 140,180 Z" />
+                <path d="M 140,180 C 200,135 190,75 120,70 C 120,125 135,165 140,180 Z" />
+            </svg>
         </div>
     </section>
     <?php endif; ?>
