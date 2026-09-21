@@ -84,16 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 header.classList.remove('header-burgundy');
                 document.body.classList.remove('in-about-section');
             }
-
-            // Hide the scroll indicator once user has scrolled deeper into the story
-            // so it doesn't overlap the reading text
-            if (domeTransition) {
-                if (shouldBeBurgundy && aboutRect.top < -(headerHeight * 1.2)) {
-                    domeTransition.classList.add('is-scrolled-past-crest');
-                } else {
-                    domeTransition.classList.remove('is-scrolled-past-crest');
-                }
-            }
         }
     }
 

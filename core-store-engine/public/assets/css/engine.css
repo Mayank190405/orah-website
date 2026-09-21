@@ -554,14 +554,13 @@
     to { transform: rotate(360deg); }
 }
 
-/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh & Sticky Locked in About Section */
+/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh */
 .hero-dome-transition {
-    position: sticky;
-    top: 0;
+    position: relative;
     width: 100%;
-    height: clamp(165px, 22vh, 215px);
+    height: clamp(170px, 23vh, 220px);
     flex-shrink: 0;
-    background-color: var(--primary-accent);
+    background-color: transparent;
     border-radius: 50% 50% 0 0 / clamp(65px, 9vw, 110px) clamp(65px, 9vw, 110px) 0 0;
     display: flex;
     flex-direction: column;
@@ -569,10 +568,10 @@
     justify-content: flex-start;
     overflow: hidden;
     margin-top: 0;
-    padding-top: clamp(62px, 8.5vh, 82px);
+    padding-top: clamp(80px, 11vh, 105px);
     padding-bottom: clamp(12px, 1.8vh, 20px);
     box-sizing: border-box;
-    z-index: 30;
+    z-index: 3;
 }
 
 .dome-curve-svg {
@@ -615,7 +614,7 @@
     animation: scrollPulse 2.5s ease-in-out infinite;
 }
 
-.hero-dome-transition.is-scrolled-past-crest .dome-scroll-indicator {
+body.in-about-section .dome-scroll-indicator {
     opacity: 0 !important;
     visibility: hidden;
     pointer-events: none !important;
