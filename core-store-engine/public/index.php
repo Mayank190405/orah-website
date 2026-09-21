@@ -201,11 +201,11 @@ $hero = $settings['hero'] ?? null;
 
         <!-- Burgundy Arch Dome Transition Shape -->
         <div class="hero-dome-transition">
-            <svg class="dome-curve-svg" viewBox="0 0 1400 200" preserveAspectRatio="none" aria-hidden="true">
-                <path id="domeCurvePath" d="M -30, 130 Q 700, 25 1430, 130" fill="none" />
+            <svg class="dome-curve-svg" viewBox="0 0 1400 180" preserveAspectRatio="none" aria-hidden="true">
+                <path id="domeCurvePath" d="M -1600, 135 Q 700, 42 3000, 135" fill="none" />
                 <text class="dome-curve-text">
-                    <textPath href="#domeCurvePath" startOffset="50%" text-anchor="middle">
-                        DESSERTS &nbsp;&nbsp;&nbsp; · &nbsp;&nbsp;&nbsp; COFFEE &nbsp;&nbsp;&nbsp; · &nbsp;&nbsp;&nbsp; CONVERSATIONS &nbsp;&nbsp;&nbsp; · &nbsp;&nbsp;&nbsp; PASTA &nbsp;&nbsp;&nbsp; · &nbsp;&nbsp;&nbsp; GOOD TIMES
+                    <textPath id="domeMarqueePath" href="#domeCurvePath" startOffset="0">
+                        DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp;
                     </textPath>
                 </text>
             </svg>

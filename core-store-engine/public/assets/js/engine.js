@@ -139,4 +139,50 @@ document.addEventListener('DOMContentLoaded', () => {
             closeNavMenu();
         }
     });
+
+    // 6. Seamless Curved Arch Marquee Animation
+    const marqueePath = document.getElementById('domeMarqueePath');
+    if (marqueePath) {
+        let offset = 0;
+        let repeatWidth = 0;
+
+        function updateRepeatWidth() {
+            try {
+                const totalLen = marqueePath.getComputedTextLength();
+                if (totalLen > 0) {
+                    repeatWidth = totalLen / 5; // 5 identical repetitions
+                }
+            } catch (e) {
+                repeatWidth = 0;
+            }
+        }
+
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(updateRepeatWidth);
+        } else {
+            setTimeout(updateRepeatWidth, 400);
+        }
+
+        let lastTime = performance.now();
+        const speed = 42; // Smooth luxury marquee speed in SVG units per second
+
+        function animateMarquee(now) {
+            const delta = Math.min((now - lastTime) / 1000, 0.1);
+            lastTime = now;
+
+            if (repeatWidth === 0) {
+                updateRepeatWidth();
+            }
+
+            offset -= speed * delta;
+            if (repeatWidth > 0 && offset <= -repeatWidth) {
+                offset += repeatWidth;
+            }
+
+            marqueePath.setAttribute('startOffset', `${offset}px`);
+            requestAnimationFrame(animateMarquee);
+        }
+
+        requestAnimationFrame(animateMarquee);
+    }
 });

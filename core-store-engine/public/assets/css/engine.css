@@ -252,15 +252,15 @@
 }
 
 .corner-bottom-left {
-    bottom: calc(clamp(140px, 20vh, 195px) + clamp(12px, 1.8vh, 24px));
-    left: clamp(16px, 3.5vw, 48px);
+    bottom: calc(clamp(155px, 22vh, 215px) + clamp(12px, 1.8vh, 24px));
+    left: clamp(20px, 3.8vw, 52px);
     text-align: left;
     align-items: flex-start;
 }
 
 .corner-bottom-right {
-    bottom: calc(clamp(140px, 20vh, 195px) + clamp(12px, 1.8vh, 24px));
-    right: clamp(16px, 3.5vw, 48px);
+    bottom: calc(clamp(155px, 22vh, 215px) + clamp(12px, 1.8vh, 24px));
+    right: clamp(20px, 3.8vw, 52px);
     text-align: right;
     align-items: flex-end;
 }
@@ -498,10 +498,10 @@
 .hero-dome-transition {
     position: relative;
     width: 100%;
-    height: clamp(140px, 20vh, 195px);
+    height: clamp(155px, 22vh, 215px);
     flex-shrink: 0;
     background-color: var(--primary-accent);
-    border-radius: 50% 50% 0 0 / clamp(28px, 4vh, 44px) clamp(28px, 4vh, 44px) 0 0;
+    border-radius: 50% 50% 0 0 / clamp(30px, 4.2vh, 46px) clamp(30px, 4.2vh, 46px) 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -519,22 +519,26 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: clamp(50px, 7.5vh, 75px);
+    height: clamp(65px, 9.5vh, 95px);
     pointer-events: none;
+    overflow: visible;
+    z-index: 2;
 }
 
 .dome-curve-text {
-    font-family: var(--font-body);
-    font-size: clamp(8.5px, 1.2vh, 11px);
-    font-weight: 500;
-    letter-spacing: clamp(2.5px, 0.4vw, 4.5px);
+    font-family: 'Dream Avenue', Georgia, serif;
+    font-size: clamp(24px, 3.2vw, 36px);
+    font-weight: 400;
+    letter-spacing: clamp(4px, 0.5vw, 6.5px);
     fill: #FBF6EE;
-    opacity: 0.65;
+    opacity: 0.88;
     text-transform: uppercase;
+    text-rendering: geometricPrecision;
+    user-select: none;
 }
 
 .dome-scroll-indicator {
-    margin-top: clamp(28px, 4.5vh, 44px);
+    margin-top: clamp(48px, 7vh, 72px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -994,11 +998,11 @@ body.coffee-menu-open .overlay-footer {
     .corner-top-right { right: 24px; top: clamp(80px, 10.8vh, 102px); }
     .corner-bottom-left {
         left: 24px;
-        bottom: calc(clamp(130px, 18vh, 180px) + clamp(12px, 1.8vh, 20px));
+        bottom: calc(clamp(140px, 20vh, 195px) + clamp(12px, 1.8vh, 20px));
     }
     .corner-bottom-right {
         right: 24px;
-        bottom: calc(clamp(130px, 18vh, 180px) + clamp(12px, 1.8vh, 20px));
+        bottom: calc(clamp(140px, 20vh, 195px) + clamp(12px, 1.8vh, 20px));
     }
 
     .hero-step-indicator {
@@ -1025,7 +1029,7 @@ body.coffee-menu-open .overlay-footer {
     }
 
     .hero-dome-transition {
-        height: clamp(130px, 18vh, 180px);
+        height: clamp(140px, 20vh, 195px);
         border-radius: 50% 50% 0 0 / clamp(24px, 3.5vh, 38px) clamp(24px, 3.5vh, 38px) 0 0;
     }
 
