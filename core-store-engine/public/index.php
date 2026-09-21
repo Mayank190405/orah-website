@@ -60,7 +60,7 @@ $hero = $settings['hero'] ?? null;
     </style>
     
     <!-- Load Core Engine Styles -->
-    <link rel="stylesheet" href="assets/css/engine.css">
+    <link rel="stylesheet" href="assets/css/engine.css?v=<?= filemtime(__DIR__ . '/assets/css/engine.css') ?>">
     
     <!-- Preconnect and Load Google Fonts: Cormorant Garamond (italic luxury serif), Manrope (body & architectural uppercase), Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -228,9 +228,9 @@ $hero = $settings['hero'] ?? null;
             <a href="#aboutContent" class="dome-scroll-indicator" id="heroScrollIndicator" aria-label="Scroll down to Our Story">
                 <span class="scroll-word">SCROLL</span>
                 <div class="scroll-arrow-line">
-                    <svg viewBox="0 0 20 60" fill="none" stroke="currentColor" stroke-width="1.6">
-                        <line x1="10" y1="0" x2="10" y2="52" />
-                        <polyline points="4,44 10,52 16,44" />
+                    <svg viewBox="0 0 24 64" fill="none" stroke="currentColor" stroke-width="2.6">
+                        <line x1="12" y1="0" x2="12" y2="56" />
+                        <polyline points="4,48 12,56 20,48" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
             </a>
