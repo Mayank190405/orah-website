@@ -243,6 +243,9 @@ $hero = $settings['hero'] ?? null;
             </svg>
         </div>
 
+        <!-- Invisible Spacer Buffer to prevent overlap with sticky arch dome -->
+        <div class="about-dome-spacer" aria-hidden="true"></div>
+
         <!-- Top Decorative Architectural Line & Crest -->
         <div class="about-top-crest" id="aboutContent">
             <span class="crest-line"></span>

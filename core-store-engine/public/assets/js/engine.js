@@ -51,6 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('.store-header');
     const aboutSection = document.querySelector('.about-section');
     const domeTransition = document.querySelector('.hero-dome-transition');
+    const storyContentElements = document.querySelectorAll(
+        '.about-top-crest, .about-header > *, .story-card-inner > *, .about-window-frame, .floating-about-badge, .floating-about-card, .pillar-card, .about-values-strip'
+    );
 
     function updateHeaderState() {
         if (!header) return;
@@ -91,6 +94,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     domeTransition.classList.remove('hide-scroll-indicator');
                 }
+            }
+
+            // Dome Occlusion: Prevent scrolling story text from ever showing behind or above the dome
+            if (domeTransition && storyContentElements.length) {
+                const domeRect = domeTransition.getBoundingClientRect();
+                const cutoff = domeRect.bottom;
+
+                storyContentElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top >= cutoff) {
+                        // Entirely below the dome - normal crisp display
+                        if (el.style.opacity !== '') el.style.opacity = '';
+                        if (el.style.visibility !== '') el.style.visibility = '';
+                    } else if (rect.bottom <= cutoff) {
+                        // Entirely behind/above the dome - completely hidden so it never leaks behind or above
+                        el.style.opacity = '0';
+                        el.style.visibility = 'hidden';
+                    } else {
+                        // Passing under the bottom edge of the dome
+                        const visibleHeight = Math.max(0, rect.bottom - cutoff);
+                        const progress = Math.min(1, visibleHeight / Math.min(rect.height || 40, 50));
+                        el.style.opacity = (progress * progress).toFixed(2);
+                        el.style.visibility = 'visible';
+                    }
+                });
             }
         }
     }

@@ -572,9 +572,7 @@
     padding-top: clamp(80px, 11vh, 105px);
     padding-bottom: clamp(12px, 1.8vh, 20px);
     box-sizing: border-box;
-    z-index: 25;
-    -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+    z-index: 35;
 }
 
 .dome-curve-svg {
@@ -687,7 +685,17 @@
     overflow: visible;
 }
 
+.about-dome-spacer {
+    width: 100%;
+    height: clamp(50px, 8vh, 85px);
+    pointer-events: none;
+    visibility: hidden;
+    flex-shrink: 0;
+}
+
 .about-top-crest {
+    position: relative;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -727,6 +735,8 @@
 }
 
 .about-container {
+    position: relative;
+    z-index: 10;
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 clamp(20px, 4vw, 56px);
