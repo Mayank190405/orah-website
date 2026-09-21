@@ -81,11 +81,11 @@ $hero = $settings['hero'] ?? null;
             
             <div class="header-actions">
                 <a href="#visit" class="header-visit-btn">Visit Us &rarr;</a>
-                <div class="coffee-menu-toggle" id="coffeeToggle" aria-label="Open Menu">
+                <button class="coffee-menu-toggle" id="coffeeToggle" aria-label="Toggle navigation menu" type="button">
                     <span class="circle-line"></span>
                     <span class="circle-line"></span>
                     <span class="circle-line"></span>
-                </div>
+                </button>
             </div>
         </div>
     </header>
@@ -256,39 +256,43 @@ $hero = $settings['hero'] ?? null;
         </div>
     </div>
 
-    <!-- Coffee Liquid Background Overlay (Kept for legacy or fallback, but replaced by full screen overlay) -->
     <!-- The Full-Screen Premium Coffee Bar Overlay -->
-    <div class="coffee-bar-overlay" id="coffeeOverlay">
+    <div class="coffee-bar-overlay" id="coffeeOverlay" aria-modal="true" role="dialog">
         <div class="overlay-bg-image"></div>
         <div class="overlay-blur"></div>
         
         <div class="overlay-header">
-            <button class="close-overlay-btn" id="closeSidebar">
-                <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="1.5" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <div class="overlay-brand">
+                <img src="<?= htmlspecialchars($brand['logo_url'] ?? 'assets/images/logo.png') ?>" alt="Orah House" class="overlay-logo-img">
+            </div>
+            <button class="close-overlay-btn" id="closeSidebar" aria-label="Close Menu" type="button">
+                <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="1.6" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
         </div>
 
         <nav class="overlay-nav-menu">
             <ul>
-                <li style="--anim-delay: 0.1s"><a href="#home">Home</a></li>
-                <li style="--anim-delay: 0.2s"><a href="#menu">Menu</a></li>
-                <li style="--anim-delay: 0.3s"><a href="#story">Our Story</a></li>
-                <li style="--anim-delay: 0.4s"><a href="#gallery">Gallery</a></li>
-                <li style="--anim-delay: 0.5s"><a href="#contact">Contact</a></li>
-                <li style="--anim-delay: 0.7s" class="cta-li"><a href="#reserve" class="reserve-cta">Reserve a Table</a></li>
+                <li style="--anim-delay: 0.06s"><a href="#home">Home</a></li>
+                <li style="--anim-delay: 0.12s"><a href="#menu">Menu</a></li>
+                <li style="--anim-delay: 0.18s"><a href="#story">Our Story</a></li>
+                <li style="--anim-delay: 0.24s"><a href="#experiences">Experiences</a></li>
+                <li style="--anim-delay: 0.30s"><a href="#gallery">Gallery</a></li>
+                <li style="--anim-delay: 0.36s"><a href="#contact">Contact</a></li>
+                <li style="--anim-delay: 0.44s" class="cta-li"><a href="#reserve" class="reserve-cta">Reserve a Table &rarr;</a></li>
             </ul>
         </nav>
         
         <div class="overlay-footer">
+            <div class="overlay-tagline">EAT. SIP. GATHER. · NASHIK</div>
             <div class="overlay-socials">
                 <a href="#" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                 </a>
                 <a href="#" aria-label="Facebook">
-                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                 </a>
             </div>
-            <p>EAT. SIP. GATHER. &copy; <?= date('Y') ?></p>
+            <p>&copy; <?= date('Y') ?> Orah House. All Rights Reserved.</p>
         </div>
     </div>
 

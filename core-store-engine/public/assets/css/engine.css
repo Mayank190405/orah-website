@@ -245,14 +245,14 @@
 }
 
 .corner-bottom-left {
-    bottom: calc(clamp(240px, 30vh, 300px) + 24px);
+    bottom: calc(clamp(240px, 30vh, 300px) + 75px);
     left: 48px;
     text-align: left;
     align-items: flex-start;
 }
 
 .corner-bottom-right {
-    bottom: calc(clamp(240px, 30vh, 300px) + 24px);
+    bottom: calc(clamp(240px, 30vh, 300px) + 75px);
     right: 48px;
     text-align: right;
     align-items: flex-end;
@@ -635,251 +635,322 @@
     animation: slideInRight 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.8s;
 }
 
-/* Coffee Menu Toggle - SVG Animation */
+/* ==========================================================================
+   Hamburger Menu Button & Luxury Fullscreen Overlay
+   ========================================================================== */
+
 .coffee-menu-toggle {
     cursor: pointer;
-    display: flex;
+    display: flex !important;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     z-index: 1000;
     width: 44px;
     height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(104, 20, 24, 0.4);
+    background: transparent;
+    padding: 0;
     position: relative;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
 }
 
-.coffee-anim-svg {
-    width: 100%;
-    height: 100%;
-    stroke: var(--primary-accent);
-    stroke-width: 5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
-    overflow: visible;
-    transition: stroke 0.4s ease;
+.coffee-menu-toggle:hover {
+    border-color: var(--primary-accent);
+    background: rgba(104, 20, 24, 0.06);
+    transform: scale(1.05);
 }
 
-/* Base states */
-.burger-lines line {
-    transition: opacity 0.3s ease, stroke-dashoffset 0.4s ease;
-    stroke-dasharray: 60;
-    stroke-dashoffset: 0;
+.coffee-menu-toggle .circle-line {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background-color: var(--primary-accent);
+    border-radius: 2px;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.25s ease,
+                background-color 0.35s ease,
+                width 0.3s ease;
+    transform-origin: center;
 }
-.cup-path, .cup-handle {
-    stroke-dasharray: 200;
-    stroke-dashoffset: 200;
-    transition: stroke-dashoffset 0.5s ease;
+
+/* Active State for Hamburger Button */
+body.coffee-menu-open .coffee-menu-toggle,
+.coffee-menu-toggle.is-active {
+    border-color: rgba(251, 246, 238, 0.6);
+    background: rgba(251, 246, 238, 0.12);
 }
-.coffee-liquid-fill {
-    fill: var(--primary-accent);
-    stroke: none;
-    transform-origin: bottom;
-    transform: scaleY(0);
-    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), fill 0.4s ease;
+
+body.coffee-menu-open .coffee-menu-toggle .circle-line,
+.coffee-menu-toggle.is-active .circle-line {
+    background-color: var(--bg-color);
 }
-.steam {
-    stroke-dasharray: 40;
-    stroke-dashoffset: 40;
+
+body.coffee-menu-open .coffee-menu-toggle .circle-line:nth-child(1),
+.coffee-menu-toggle.is-active .circle-line:nth-child(1) {
+    transform: translateY(5.5px) rotate(45deg);
+}
+
+body.coffee-menu-open .coffee-menu-toggle .circle-line:nth-child(2),
+.coffee-menu-toggle.is-active .circle-line:nth-child(2) {
     opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.5s ease;
+    transform: scaleX(0);
 }
 
-/* Morphing State (.is-morphing) */
-body.is-morphing .burger-lines line,
-body.is-pouring .burger-lines line,
-body.is-expanding .burger-lines line,
-body.coffee-menu-open .burger-lines line,
-body.is-closing .burger-lines line {
-    stroke-dashoffset: 60;
-    opacity: 0;
-}
-body.is-morphing .cup-path,
-body.is-pouring .cup-path,
-body.is-expanding .cup-path,
-body.coffee-menu-open .cup-path,
-body.is-closing .cup-path,
-body.is-morphing .cup-handle,
-body.is-pouring .cup-handle,
-body.is-expanding .cup-handle,
-body.coffee-menu-open .cup-handle,
-body.is-closing .cup-handle {
-    stroke-dashoffset: 0;
+body.coffee-menu-open .coffee-menu-toggle .circle-line:nth-child(3),
+.coffee-menu-toggle.is-active .circle-line:nth-child(3) {
+    transform: translateY(-5.5px) rotate(-45deg);
 }
 
-/* Pouring State (.is-pouring) */
-body.is-pouring .coffee-liquid-fill,
-body.is-expanding .coffee-liquid-fill,
-body.coffee-menu-open .coffee-liquid-fill,
-body.is-closing .coffee-liquid-fill {
-    transform: scaleY(1);
-}
-body.is-pouring .steam,
-body.is-expanding .steam,
-body.coffee-menu-open .steam,
-body.is-closing .steam {
-    stroke-dashoffset: 0;
-    opacity: 0.6;
-    transform: translateY(0);
-}
-body.is-pouring .steam-1, body.is-expanding .steam-1, body.coffee-menu-open .steam-1, body.is-closing .steam-1 { transition-delay: 0.1s; }
-body.is-pouring .steam-2, body.is-expanding .steam-2, body.coffee-menu-open .steam-2, body.is-closing .steam-2 { transition-delay: 0.2s; }
-body.is-pouring .steam-3, body.is-expanding .steam-3, body.coffee-menu-open .steam-3, body.is-closing .steam-3 { transition-delay: 0.3s; }
-
-/* The Overlay */
+/* Luxury Fullscreen Menu Overlay */
 .coffee-bar-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100vw;
     height: 100vh;
     z-index: 950;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding: 36px 40px 32px;
+    box-sizing: border-box;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.4s ease; /* Fast fade out on close */
+    transition: opacity 0.4s ease, visibility 0.4s ease;
 }
+
 .overlay-bg-image {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    background-color: #2a1610; /* Very dark rich burgundy/coffee */
-    background-size: cover;
-    background-position: center;
+    background: radial-gradient(circle at calc(100% - 60px) 45px, #7e191f 0%, #520f12 45%, #2a0507 100%);
     z-index: -2;
-    /* Simulate expansion from top right */
-    clip-path: circle(0% at 90% 10%);
-    -webkit-clip-path: circle(0% at 90% 10%);
-    transition: clip-path 0.8s cubic-bezier(0.7, 0, 0.2, 1), -webkit-clip-path 0.8s cubic-bezier(0.7, 0, 0.2, 1);
+    clip-path: circle(0% at calc(100% - 45px) 45px);
+    -webkit-clip-path: circle(0% at calc(100% - 45px) 45px);
+    transition: clip-path 0.7s cubic-bezier(0.77, 0, 0.175, 1), -webkit-clip-path 0.7s cubic-bezier(0.77, 0, 0.175, 1);
 }
+
 .overlay-blur {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    background: rgba(42, 22, 16, 0.85); /* Dark espresso tint */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(42, 5, 7, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-/* Expanding State (.is-expanding) */
-body.is-expanding .coffee-bar-overlay,
-body.coffee-menu-open .coffee-bar-overlay,
-body.is-closing .coffee-bar-overlay {
+body.coffee-menu-open .coffee-bar-overlay {
     opacity: 1;
+    visibility: visible;
     pointer-events: all;
-    transition: opacity 0.1s ease; /* Ensure it stays visible during close sequence */
-}
-body.is-expanding .overlay-bg-image,
-body.coffee-menu-open .overlay-bg-image,
-body.is-closing .overlay-bg-image {
-    clip-path: circle(150% at 90% 10%);
-    -webkit-clip-path: circle(150% at 90% 10%);
 }
 
-/* Change hamburger color when overlay is open */
-body.is-expanding .coffee-anim-svg,
-body.coffee-menu-open .coffee-anim-svg,
-body.is-closing .coffee-anim-svg {
-    stroke: var(--bg-color);
-}
-body.is-expanding .coffee-liquid-fill,
-body.coffee-menu-open .coffee-liquid-fill,
-body.is-closing .coffee-liquid-fill {
-    fill: var(--bg-color);
+body.coffee-menu-open .overlay-bg-image {
+    clip-path: circle(160% at calc(100% - 45px) 45px);
+    -webkit-clip-path: circle(160% at calc(100% - 45px) 45px);
 }
 
-/* Menu Items */
+body.coffee-menu-open .overlay-blur {
+    opacity: 1;
+}
+
+/* Overlay Top Header */
 .overlay-header {
-    position: absolute;
-    top: 40px;
-    right: 40px;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
 }
+
+.overlay-logo-img {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+}
+
 .close-overlay-btn {
-    background: none;
-    border: none;
+    background: transparent;
+    border: 1px solid rgba(251, 246, 238, 0.35);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
     color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
 }
+
 .close-overlay-btn:hover {
+    border-color: var(--bg-color);
+    background: rgba(251, 246, 238, 0.15);
     transform: rotate(90deg);
+}
+
+/* Overlay Navigation List */
+.overlay-nav-menu {
+    width: 100%;
+    max-width: 600px;
+    margin: auto 0;
+    text-align: center;
 }
 
 .overlay-nav-menu ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: clamp(14px, 2.8vh, 26px);
 }
+
 .overlay-nav-menu li {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.overlay-nav-menu a {
-    text-decoration: none;
-    font-family: var(--font-heading);
-    font-size: 4rem;
-    color: var(--bg-color);
-    transition: opacity 0.3s ease;
-    display: inline-block;
-}
-.overlay-nav-menu a:hover {
-    opacity: 0.7;
+    transform: translateY(28px);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body.coffee-menu-open .overlay-nav-menu li {
     opacity: 1;
     transform: translateY(0);
-    transition-delay: var(--anim-delay);
+    transition-delay: var(--anim-delay, 0.1s);
 }
 
-.cta-li {
-    margin-top: 30px;
+.overlay-nav-menu a {
+    text-decoration: none;
+    font-family: 'Dream Avenue', var(--font-heading), serif;
+    font-size: clamp(2rem, 5.5vh, 3.4rem);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--bg-color);
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease;
+    padding: 2px 10px;
 }
-.reserve-cta {
+
+.overlay-nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0%;
+    height: 1.5px;
+    background-color: var(--accent-gold);
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.overlay-nav-menu a:hover {
+    color: var(--accent-gold);
+    transform: translateY(-2px);
+}
+
+.overlay-nav-menu a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.overlay-nav-menu .cta-li {
+    margin-top: clamp(8px, 1.5vh, 18px);
+}
+
+.overlay-nav-menu .reserve-cta {
     font-family: var(--font-body) !important;
-    font-size: 1.1rem !important;
+    font-size: 0.85rem !important;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 3px;
-    border: 1px solid var(--bg-color);
-    padding: 16px 32px;
-    border-radius: 4px;
-}
-.reserve-cta:hover {
-    background-color: var(--bg-color);
-    color: #2a1610 !important;
-    opacity: 1 !important;
+    border: 1px solid rgba(251, 246, 238, 0.6);
+    padding: 14px 34px;
+    border-radius: 40px;
+    color: var(--bg-color) !important;
+    background: transparent;
+    transition: all 0.35s ease;
 }
 
+.overlay-nav-menu .reserve-cta::after {
+    display: none;
+}
+
+.overlay-nav-menu .reserve-cta:hover {
+    background-color: var(--bg-color);
+    color: #340608 !important;
+    border-color: var(--bg-color);
+    transform: scale(1.04);
+}
+
+/* Overlay Footer */
 .overlay-footer {
-    position: absolute;
-    bottom: 40px;
-    color: var(--bg-color);
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: rgba(251, 246, 238, 0.7);
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     letter-spacing: 2px;
     opacity: 0;
-    transition: opacity 0.5s ease 1s;
-}
-body.coffee-menu-open .overlay-footer {
-    opacity: 0.5;
+    transform: translateY(15px);
+    transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;
+    text-align: center;
 }
 
-/* Coffee Menu Toggle - Always visible on all screens */
-.coffee-menu-toggle {
-    display: flex !important;
+body.coffee-menu-open .overlay-footer {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.overlay-tagline {
+    font-size: 0.75rem;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+    color: rgba(251, 246, 238, 0.9);
+    text-transform: uppercase;
+}
+
+.overlay-socials {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.overlay-socials a {
+    color: rgba(251, 246, 238, 0.75);
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay-socials a:hover {
+    color: var(--accent-gold);
+    transform: translateY(-2px);
+}
+
+.overlay-footer p {
+    margin: 0;
+    font-size: 0.62rem;
+    letter-spacing: 1.5px;
+    opacity: 0.6;
 }
 
 @media (max-width: 1024px) {
@@ -914,11 +985,11 @@ body.coffee-menu-open .overlay-footer {
     .corner-top-right { right: 24px; top: 20px; }
     .corner-bottom-left {
         left: 24px;
-        bottom: calc(clamp(200px, 26vh, 260px) + 20px);
+        bottom: calc(clamp(200px, 26vh, 260px) + 55px);
     }
     .corner-bottom-right {
         right: 24px;
-        bottom: calc(clamp(200px, 26vh, 260px) + 20px);
+        bottom: calc(clamp(200px, 26vh, 260px) + 55px);
     }
 
     .hero-step-indicator {

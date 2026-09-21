@@ -78,48 +78,65 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
     }
 
-    // 4. Coffee Pour Sidebar Animation Sequence
+    // 5. Luxury Hamburger Menu & Fullscreen Overlay Toggle
     const coffeeToggle = document.getElementById('coffeeToggle');
     const closeSidebar = document.getElementById('closeSidebar');
-    
-    if (coffeeToggle && closeSidebar) {
-        coffeeToggle.addEventListener('click', () => {
-            // Forward sequence
-            document.body.classList.add('is-morphing');
-            
-            setTimeout(() => {
-                document.body.classList.add('is-pouring');
-            }, 500); // Wait for cup to draw
-            
-            setTimeout(() => {
-                document.body.classList.add('is-expanding');
-            }, 1200); // Wait for cup to fill
-            
-            setTimeout(() => {
-                document.body.classList.add('coffee-menu-open'); // Reveals menu items
-            }, 1800); // Wait for overlay to expand
-        });
+    const coffeeOverlay = document.getElementById('coffeeOverlay');
 
-        closeSidebar.addEventListener('click', () => {
-            // Reverse sequence
-            document.body.classList.add('is-closing'); // Triggers menu fade out
-            document.body.classList.remove('coffee-menu-open');
-            
-            setTimeout(() => {
-                document.body.classList.remove('is-expanding'); // Collapse overlay
-            }, 400); 
-            
-            setTimeout(() => {
-                document.body.classList.remove('is-pouring'); // Empty cup, hide steam
-            }, 1200); 
-            
-            setTimeout(() => {
-                document.body.classList.remove('is-morphing'); // Erase cup, show hamburger
-            }, 1700);
-            
-            setTimeout(() => {
-                document.body.classList.remove('is-closing'); // Reset state
-            }, 2200);
+    function openNavMenu() {
+        document.body.classList.add('coffee-menu-open');
+        coffeeToggle?.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeNavMenu() {
+        document.body.classList.remove('coffee-menu-open');
+        coffeeToggle?.classList.remove('is-active');
+        document.body.style.overflow = '';
+    }
+
+    function toggleNavMenu() {
+        if (document.body.classList.contains('coffee-menu-open')) {
+            closeNavMenu();
+        } else {
+            openNavMenu();
+        }
+    }
+
+    if (coffeeToggle) {
+        coffeeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleNavMenu();
         });
     }
+
+    if (closeSidebar) {
+        closeSidebar.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeNavMenu();
+        });
+    }
+
+    // Close on click outside menu contents
+    if (coffeeOverlay) {
+        coffeeOverlay.addEventListener('click', (e) => {
+            if (e.target === coffeeOverlay || e.target.classList.contains('overlay-bg-image') || e.target.classList.contains('overlay-blur')) {
+                closeNavMenu();
+            }
+        });
+    }
+
+    // Close when clicking any menu link
+    document.querySelectorAll('.overlay-nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            closeNavMenu();
+        });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('coffee-menu-open')) {
+            closeNavMenu();
+        }
+    });
 });
