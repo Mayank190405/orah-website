@@ -209,8 +209,8 @@ $hero = $settings['hero'] ?? null;
     <section class="about-section" id="story">
         <!-- Burgundy Arch Dome Transition Shape -->
         <div class="hero-dome-transition">
-            <svg class="dome-curve-svg" viewBox="0 0 1400 180" preserveAspectRatio="none" aria-hidden="true">
-                <path id="domeCurvePath" d="M -1200, 150 C -700, 130 -200, 106 0, 92 C 200, 78 450, 60 700, 60 C 950, 60 1200, 78 1400, 92 C 1600, 106 2800, 130 4200, 150" fill="none" />
+            <svg class="dome-curve-svg" viewBox="0 0 1400 200" preserveAspectRatio="none" aria-hidden="true">
+                <path id="domeCurvePath" d="M -2800, 150 C -2500, 75 -1700, 75 -1400, 150 C -1100, 75 -300, 75 0, 150 C 300, 75 1100, 75 1400, 150 C 1700, 75 2500, 75 2800, 150 C 3100, 75 3900, 75 4200, 150" fill="none" />
                 <text class="dome-curve-text">
                     <textPath id="domeMarqueePath" href="#domeCurvePath" startOffset="0">
                         <tspan id="marqueeItem">DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; </tspan>

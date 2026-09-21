@@ -504,20 +504,19 @@
 .hero-dome-transition {
     position: relative;
     width: 100%;
-    height: clamp(160px, 22vh, 220px);
+    height: clamp(170px, 24vh, 230px);
     flex-shrink: 0;
-    background-color: var(--primary-accent);
-    border-radius: 50% 50% 0 0 / clamp(30px, 4.2vh, 46px) clamp(30px, 4.2vh, 46px) 0 0;
+    background-color: transparent;
+    border-radius: 50% 50% 0 0 / clamp(80px, 11vw, 150px) clamp(80px, 11vw, 150px) 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
     overflow: hidden;
     margin-top: 0;
-    padding-bottom: clamp(18px, 2.8vh, 28px);
+    padding-bottom: clamp(20px, 3vh, 32px);
     box-sizing: border-box;
     z-index: 3;
-    box-shadow: 0 -12px 40px rgba(104, 20, 24, 0.18);
 }
 
 .dome-curve-svg {
@@ -612,9 +611,9 @@
     z-index: 10;
     background-color: var(--primary-accent);
     color: #FBF6EE;
-    margin-top: calc(-1 * clamp(160px, 22vh, 220px));
+    margin-top: calc(-1 * clamp(170px, 24vh, 230px));
     padding: 0 0 clamp(85px, 11vh, 130px) 0;
-    border-radius: 0 0 clamp(32px, 4vw, 48px) clamp(32px, 4vw, 48px);
+    border-radius: 50% 50% 0 0 / clamp(80px, 11vw, 150px) clamp(80px, 11vw, 150px) 0 0;
     box-shadow: 0 -24px 70px rgba(0, 0, 0, 0.35), 0 24px 60px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
     overflow: hidden;
@@ -1721,8 +1720,9 @@ body.coffee-menu-open .overlay-footer {
 
     /* About Section - Mobile */
     .about-section {
-        border-radius: 0 0 28px 28px;
-        padding: 45px 0 65px 0;
+        border-radius: 50% 50% 0 0 / clamp(45px, 10vw, 65px) clamp(45px, 10vw, 65px) 0 0;
+        margin-top: calc(-1 * clamp(150px, 22vh, 190px));
+        padding: 0 0 65px 0;
     }
     .about-signature-row {
         flex-direction: column;
