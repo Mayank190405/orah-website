@@ -76,6 +76,61 @@
    padding: clamp(8px, 1.2vh, 12px) 0;
 }
 
+/* Header Burgundy Mode (When merged with About Us section) */
+.store-header.header-burgundy {
+   background-color: var(--primary-accent) !important;
+   backdrop-filter: blur(16px);
+   -webkit-backdrop-filter: blur(16px);
+   border-bottom: 1px solid rgba(251, 246, 238, 0.12) !important;
+   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35) !important;
+}
+
+.store-header.header-burgundy .brand-title {
+   color: #FBF6EE !important;
+}
+
+.store-header.header-burgundy .brand-subtitle {
+   color: rgba(251, 246, 238, 0.8) !important;
+}
+
+.store-header.header-burgundy .header-logo-img {
+   filter: brightness(0) invert(1) drop-shadow(0 2px 6px rgba(0,0,0,0.3)) !important;
+}
+
+.store-header.header-burgundy .nav-menu a {
+   color: #FBF6EE !important;
+}
+
+.store-header.header-burgundy .nav-menu a:hover,
+.store-header.header-burgundy .nav-menu a.active {
+   color: var(--secondary-accent, #c99a68) !important;
+}
+
+.store-header.header-burgundy .nav-menu a.active {
+   border-bottom-color: var(--secondary-accent, #c99a68) !important;
+}
+
+.store-header.header-burgundy .header-visit-btn {
+   background-color: #FBF6EE !important;
+   color: var(--primary-accent, #681418) !important;
+   border-color: #FBF6EE !important;
+   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+}
+
+.store-header.header-burgundy .header-visit-btn:hover {
+   background-color: var(--secondary-accent, #c99a68) !important;
+   color: #ffffff !important;
+   border-color: var(--secondary-accent, #c99a68) !important;
+}
+
+.store-header.header-burgundy .coffee-menu-toggle .circle-line {
+   border-color: #FBF6EE !important;
+}
+
+.store-header.header-burgundy .action-icon {
+   color: #FBF6EE !important;
+}
+
 .header-container {
    max-width: 1400px;
    margin: 0 auto;
@@ -499,9 +554,10 @@
     to { transform: rotate(360deg); }
 }
 
-/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh */
+/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh & Sticky on Dock */
 .hero-dome-transition {
-    position: relative;
+    position: sticky;
+    top: 0;
     width: 100%;
     height: clamp(165px, 22vh, 215px);
     flex-shrink: 0;
@@ -516,7 +572,31 @@
     padding-top: clamp(62px, 8.5vh, 82px);
     padding-bottom: clamp(12px, 1.8vh, 20px);
     box-sizing: border-box;
-    z-index: 3;
+    z-index: 90;
+    transition: height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), padding 0.4s ease, border-radius 0.4s ease, background-color 0.4s ease;
+}
+
+/* When the dome reaches the header and docks */
+.hero-dome-transition.is-docked {
+    height: clamp(80px, 11vh, 98px);
+    padding-top: clamp(12px, 1.6vh, 20px);
+    padding-bottom: 0;
+    background-color: var(--primary-accent);
+    border-radius: 0;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
+.hero-dome-transition.is-docked .dome-scroll-indicator {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.hero-dome-transition.is-docked .dome-botanical-svg {
+    opacity: 0.15;
+    transition: opacity 0.3s ease;
 }
 
 .dome-curve-svg {
@@ -619,7 +699,7 @@
     border-radius: 50% 50% 0 0 / clamp(65px, 9vw, 110px) clamp(65px, 9vw, 110px) 0 0;
     box-shadow: 0 -24px 70px rgba(0, 0, 0, 0.35), 0 24px 60px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .about-top-crest {

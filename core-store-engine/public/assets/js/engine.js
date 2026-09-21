@@ -47,16 +47,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Glassmorphism Sticky Header on Scroll
+    // 3. Header Scroll & Burgundy Transition Engine
     const header = document.querySelector('.store-header');
-    if (header) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 20) {
-                header.classList.add('is-scrolled');
+    const aboutSection = document.querySelector('.about-section');
+    const domeTransition = document.querySelector('.hero-dome-transition');
+
+    function updateHeaderState() {
+        if (!header) return;
+        const scrollY = window.scrollY || window.pageYOffset;
+        
+        // Base scrolled state (glassmorphism over cream hero)
+        if (scrollY > 20) {
+            header.classList.add('is-scrolled');
+        } else {
+            header.classList.remove('is-scrolled');
+        }
+
+        // Burgundy header & docked dome when reaching About Us section
+        if (aboutSection) {
+            const headerHeight = header.offsetHeight || 70;
+            const aboutRect = aboutSection.getBoundingClientRect();
+            const domeRect = domeTransition ? domeTransition.getBoundingClientRect() : aboutRect;
+
+            // Trigger when the arch dome reaches the header
+            // and remains active until About Us section finishes
+            const isAtOrPastDome = domeRect.top <= headerHeight + 5;
+            const isAboutActive = aboutRect.bottom > headerHeight;
+
+            if (isAtOrPastDome && isAboutActive) {
+                header.classList.add('header-burgundy');
+                if (domeTransition) {
+                    domeTransition.classList.add('is-docked');
+                }
             } else {
-                header.classList.remove('is-scrolled');
+                header.classList.remove('header-burgundy');
+                if (domeTransition) {
+                    domeTransition.classList.remove('is-docked');
+                }
             }
-        }, { passive: true });
+        }
+    }
+
+    if (header) {
+        window.addEventListener('scroll', updateHeaderState, { passive: true });
+        window.addEventListener('resize', updateHeaderState, { passive: true });
+        updateHeaderState();
     }
     
     // 4. Architectural & Editorial Parallax Scroll Engine

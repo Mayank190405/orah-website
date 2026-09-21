@@ -551,6 +551,6 @@ $hero = $settings['hero'] ?? null;
     </div>
 
     <!-- Load Core Engine JS -->
-    <script src="assets/js/engine.js"></script>
+    <script src="assets/js/engine.js?v=<?= filemtime(__DIR__ . '/assets/js/engine.js') ?>"></script>
 </body>
 </html>
