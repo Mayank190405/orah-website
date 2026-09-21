@@ -39,6 +39,10 @@ $hero = $settings['hero'] ?? null;
     <style>
         <?= $themeEngine->renderCssCustomProperties() ?>
         
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
             font-family: var(--font-body);
             background-color: var(--bg-color);
@@ -217,7 +221,7 @@ $hero = $settings['hero'] ?? null;
                 </text>
             </svg>
             
-            <div class="dome-scroll-indicator">
+            <a href="#story" class="dome-scroll-indicator" id="heroScrollIndicator" aria-label="Scroll down to Our Story">
                 <span class="scroll-word">SCROLL</span>
                 <div class="scroll-arrow-line">
                     <svg viewBox="0 0 20 60" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -225,7 +229,7 @@ $hero = $settings['hero'] ?? null;
                         <polyline points="4,44 10,52 16,44" />
                     </svg>
                 </div>
-            </div>
+            </a>
 
             <div class="dome-footer-hallmark">
                 <div class="hallmark-divider"></div>

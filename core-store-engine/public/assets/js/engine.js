@@ -223,4 +223,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, { passive: true });
     }
+
+    // 8. Hero Scroll Down Indicator Click Action
+    const heroScrollIndicator = document.getElementById('heroScrollIndicator');
+    if (heroScrollIndicator) {
+        heroScrollIndicator.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.getElementById('story') || document.getElementById('catalog');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
 });

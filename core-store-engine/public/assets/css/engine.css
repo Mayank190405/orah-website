@@ -547,9 +547,19 @@
     align-items: center;
     gap: 3px;
     color: #FBF6EE;
-    opacity: 0.85;
-    z-index: 2;
+    opacity: 0.88;
+    z-index: 5;
+    text-decoration: none;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
     animation: scrollPulse 2.5s ease-in-out infinite;
+}
+
+.dome-scroll-indicator:hover {
+    opacity: 1;
+    transform: translateY(4px);
+    color: var(--secondary-accent, #c99a68);
 }
 
 .dome-scroll-indicator .scroll-word {
