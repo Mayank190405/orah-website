@@ -363,12 +363,12 @@
 }
 
 .hero-title {
-    font-family: var(--font-heading);
+    font-family: 'Playfair Display', Georgia, serif;
     font-size: clamp(3.4rem, 7.8vw, 5.8rem);
-    font-weight: 400;
+    font-weight: 700;
     color: var(--primary-accent);
-    line-height: 0.90;
-    letter-spacing: 0.02em;
+    line-height: 0.92;
+    letter-spacing: 0.01em;
     margin: 0 0 8px 0;
 }
 

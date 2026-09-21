@@ -58,10 +58,10 @@ $hero = $settings['hero'] ?? null;
     <!-- Load Core Engine Styles -->
     <link rel="stylesheet" href="assets/css/engine.css">
     
-    <!-- Preconnect and Load Google Fonts: Italianno (subheading), Manrope (body) -->
+    <!-- Preconnect and Load Google Fonts: Italianno (subheading), Manrope (body), Playfair Display (editorial serif) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600..900;1,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 </head>
 <body>
 
