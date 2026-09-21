@@ -198,33 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(animateMarquee);
     }
 
-    // 7. Hero Sticky Parallax & Overlay Depth Effect
-    const heroSection = document.querySelector('.hero-section');
-    const heroArchWrapper = document.querySelector('.hero-arch-wrapper');
-
-    if (heroSection && heroArchWrapper) {
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    const scrolled = window.scrollY;
-                    const heroHeight = heroSection.offsetHeight;
-                    if (scrolled <= heroHeight) {
-                        const progress = Math.min(scrolled / heroHeight, 1);
-                        // Subtle depth scale and dimming as about section rolls over
-                        heroArchWrapper.style.transform = `translateY(${scrolled * 0.12}px) scale(${1 - progress * 0.06})`;
-                        heroArchWrapper.style.opacity = `${1 - progress * 0.5}`;
-                    } else {
-                        heroArchWrapper.style.opacity = '0.5';
-                    }
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
-    }
-
-    // 8. Hero Scroll Down Indicator Click Action
+    // 7. Hero Scroll Down Indicator Click Action
     const heroScrollIndicator = document.getElementById('heroScrollIndicator');
     if (heroScrollIndicator) {
         heroScrollIndicator.addEventListener('click', (e) => {
