@@ -74,14 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const isAtHeader = aboutRect.top <= headerHeight + 10;
             const isBeforeAboutEnd = aboutRect.bottom > headerHeight;
 
-            const shouldMergeBurgundy = isScrolledPastHero && isAtHeader && isBeforeAboutEnd;
+            const shouldLockInAbout = isScrolledPastHero && isAtHeader && isBeforeAboutEnd;
 
-            if (shouldMergeBurgundy) {
-                header.classList.add('header-burgundy');
-                document.body.classList.add('in-about-section');
-            } else {
-                header.classList.remove('header-burgundy');
-                document.body.classList.remove('in-about-section');
+            if (domeTransition) {
+                if (shouldLockInAbout) {
+                    domeTransition.classList.add('is-locked');
+                } else {
+                    domeTransition.classList.remove('is-locked');
+                }
             }
         }
     }
