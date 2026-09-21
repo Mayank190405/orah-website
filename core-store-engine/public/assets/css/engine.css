@@ -578,11 +578,10 @@
 
 /* When the dome reaches the header and docks */
 .hero-dome-transition.is-docked {
-    height: clamp(80px, 11vh, 98px);
-    padding-top: clamp(12px, 1.6vh, 20px);
+    height: clamp(120px, 16vh, 150px);
+    padding-top: clamp(40px, 5.5vh, 60px);
     padding-bottom: 0;
     background-color: var(--primary-accent);
-    border-radius: 0;
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
 }
 

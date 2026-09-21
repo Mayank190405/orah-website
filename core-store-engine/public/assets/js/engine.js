@@ -67,14 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (aboutSection) {
             const headerHeight = header.offsetHeight || 70;
             const aboutRect = aboutSection.getBoundingClientRect();
-            const domeRect = domeTransition ? domeTransition.getBoundingClientRect() : aboutRect;
+            
+            // Only allow docking when user has scrolled past the hero threshold
+            // and the top of About Us has reached the header
+            const isScrolledPastHero = scrollY > (headerHeight * 2.5);
+            const isAtHeader = aboutRect.top <= headerHeight + 10;
+            const isBeforeAboutEnd = aboutRect.bottom > headerHeight;
 
-            // Trigger when the arch dome reaches the header
-            // and remains active until About Us section finishes
-            const isAtOrPastDome = domeRect.top <= headerHeight + 5;
-            const isAboutActive = aboutRect.bottom > headerHeight;
+            const shouldMergeBurgundy = isScrolledPastHero && isAtHeader && isBeforeAboutEnd;
 
-            if (isAtOrPastDome && isAboutActive) {
+            if (shouldMergeBurgundy) {
                 header.classList.add('header-burgundy');
                 if (domeTransition) {
                     domeTransition.classList.add('is-docked');
