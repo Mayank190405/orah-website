@@ -78,10 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const shouldBeBurgundy = isScrolledPastHero && isAtHeader && isBeforeAboutEnd;
 
             if (shouldBeBurgundy) {
-                header.classList.add('header-burgundy');
                 document.body.classList.add('in-about-section');
             } else {
-                header.classList.remove('header-burgundy');
                 document.body.classList.remove('in-about-section');
             }
 
