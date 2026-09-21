@@ -231,15 +231,6 @@ $hero = $settings['hero'] ?? null;
                 </div>
             </a>
 
-            <div class="dome-footer-hallmark">
-                <div class="hallmark-divider"></div>
-                <div class="hallmark-text">
-                    <span class="hallmark-brand">ORAH HOUSE</span>
-                    <span class="hallmark-city">NASHIK</span>
-                </div>
-                <div class="hallmark-divider"></div>
-            </div>
-
             <!-- Faint Botanical Line Art on Bottom Right -->
             <svg class="dome-botanical-svg" viewBox="0 0 180 180" fill="none" stroke="rgba(201, 154, 104, 0.35)" stroke-width="1.2" aria-hidden="true">
                 <path d="M 140,180 C 140,110 80,70 10,110 C 80,150 120,175 140,180 Z" />
@@ -250,8 +241,8 @@ $hero = $settings['hero'] ?? null;
     </section>
     <?php endif; ?>
 
-    <!-- Architectural About Us Overlay Parallax Section -->
-    <section class="about-parallax-section" id="story">
+    <!-- Architectural Burgundy About Us Section -->
+    <section class="about-section" id="story">
         <!-- Top Decorative Architectural Line & Crest -->
         <div class="about-top-crest">
             <span class="crest-line"></span>
