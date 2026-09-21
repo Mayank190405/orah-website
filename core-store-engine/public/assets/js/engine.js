@@ -140,17 +140,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 6. Seamless Curved Arch Marquee Animation
+    // 6. Seamless Curved Arch Marquee Animation (Endless Loop)
     const marqueePath = document.getElementById('domeMarqueePath');
+    const marqueeItem = document.getElementById('marqueeItem');
     if (marqueePath) {
         let offset = 0;
         let repeatWidth = 0;
 
         function updateRepeatWidth() {
             try {
+                if (marqueeItem) {
+                    const itemLen = marqueeItem.getComputedTextLength();
+                    if (itemLen > 50) {
+                        repeatWidth = itemLen;
+                        return;
+                    }
+                }
                 const totalLen = marqueePath.getComputedTextLength();
                 if (totalLen > 0) {
-                    repeatWidth = totalLen / 6; // 6 identical repetitions
+                    repeatWidth = totalLen / 8;
                 }
             } catch (e) {
                 repeatWidth = 0;
@@ -159,27 +167,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (document.fonts && document.fonts.ready) {
             document.fonts.ready.then(updateRepeatWidth);
-        } else {
-            setTimeout(updateRepeatWidth, 400);
         }
+        window.addEventListener('resize', updateRepeatWidth);
+        setTimeout(updateRepeatWidth, 200);
+        setTimeout(updateRepeatWidth, 600);
+        setTimeout(updateRepeatWidth, 1500);
 
         let lastTime = performance.now();
-        const speed = 42; // Smooth luxury marquee speed in SVG units per second
+        const speed = 48; // Smooth luxury marquee speed in SVG units per second
 
         function animateMarquee(now) {
             const delta = Math.min((now - lastTime) / 1000, 0.1);
             lastTime = now;
 
-            if (repeatWidth === 0) {
+            if (repeatWidth <= 0) {
                 updateRepeatWidth();
             }
 
-            offset -= speed * delta;
-            if (repeatWidth > 0 && offset <= -repeatWidth) {
-                offset += repeatWidth;
+            if (repeatWidth > 0) {
+                offset -= speed * delta;
+                while (offset <= -repeatWidth) {
+                    offset += repeatWidth;
+                }
+                marqueePath.setAttribute('startOffset', offset);
             }
 
-            marqueePath.setAttribute('startOffset', `${offset}px`);
             requestAnimationFrame(animateMarquee);
         }
 
