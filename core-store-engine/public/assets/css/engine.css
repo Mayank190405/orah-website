@@ -204,9 +204,11 @@
    gap: 15px;
 }
 
-/* Hero Section - Strict 100vh Viewport Layout */
+/* Hero Section - Strict 100vh Viewport Layout with Sticky Parallax Pinned Layer */
 .hero-section {
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 1;
     width: 100%;
     height: 100vh;
     height: 100dvh;
@@ -220,6 +222,7 @@
     padding-top: clamp(82px, 11vh, 105px);
     padding-bottom: 0;
     box-sizing: border-box;
+    will-change: transform;
 }
 
 /* Editorial Corner Callouts */
@@ -644,8 +647,516 @@
 }
 
 /* ==========================================================================
-   Hamburger Menu Button & Luxury Fullscreen Overlay
+   Architectural About Us Overlay Parallax Section
    ========================================================================== */
+.about-parallax-section {
+    position: relative;
+    z-index: 10;
+    background-color: var(--bg-color);
+    box-shadow: 0 -28px 70px rgba(104, 20, 24, 0.22);
+    border-radius: 48px 48px 0 0;
+    padding: clamp(55px, 8.5vh, 100px) 0 clamp(65px, 10vh, 110px) 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    color: var(--primary-accent);
+}
+
+.about-top-crest {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(16px, 3vw, 36px);
+    max-width: 900px;
+    margin: 0 auto clamp(28px, 4vh, 48px) auto;
+    padding: 0 24px;
+}
+
+.about-top-crest .crest-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(104, 20, 24, 0.25), transparent);
+}
+
+.about-top-crest .crest-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.about-top-crest .crest-swans {
+    width: clamp(34px, 4.5vh, 44px);
+    height: auto;
+    opacity: 0.85;
+}
+
+.about-top-crest .crest-tagline {
+    font-family: var(--font-body);
+    font-size: clamp(0.50rem, 0.85vh, 0.60rem);
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    color: rgba(104, 20, 24, 0.65);
+    text-transform: uppercase;
+}
+
+.about-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 56px);
+    box-sizing: border-box;
+}
+
+.about-header {
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto clamp(40px, 6.5vh, 72px) auto;
+}
+
+.about-eyebrow {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: clamp(0.58rem, 0.95vh, 0.70rem);
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--secondary-accent, #c99a68);
+    text-transform: uppercase;
+    margin-bottom: clamp(10px, 1.6vh, 16px);
+}
+
+.about-main-title {
+    font-family: 'Dream Avenue', Georgia, serif;
+    font-size: clamp(2.2rem, 4.2vw, 3.8rem);
+    line-height: 1.05;
+    font-weight: 400;
+    color: var(--primary-accent);
+    margin: 0 0 clamp(14px, 2.2vh, 22px) 0;
+    letter-spacing: 1px;
+}
+
+.about-subtitle {
+    font-family: var(--font-body);
+    font-size: clamp(0.92rem, 1.3vw, 1.12rem);
+    line-height: 1.65;
+    color: rgba(104, 20, 24, 0.78);
+    margin: 0 auto;
+    max-width: 680px;
+}
+
+/* 2-Column Editorial Grid */
+.about-editorial-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+    margin-bottom: clamp(60px, 9vh, 100px);
+}
+
+.story-card-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.story-chapter {
+    font-family: var(--font-body);
+    font-size: clamp(0.52rem, 0.85vh, 0.62rem);
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--secondary-accent, #c99a68);
+    margin-bottom: clamp(8px, 1.4vh, 14px);
+}
+
+.story-heading {
+    font-family: 'Dream Avenue', Georgia, serif;
+    font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+    line-height: 1.15;
+    font-weight: 400;
+    color: var(--primary-accent);
+    margin: 0 0 clamp(14px, 2vh, 20px) 0;
+}
+
+.story-lead {
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+    line-height: 1.7;
+    font-weight: 500;
+    color: rgba(104, 20, 24, 0.9);
+    margin: 0 0 16px 0;
+}
+
+.story-body {
+    font-family: var(--font-body);
+    font-size: clamp(0.88rem, 1.1vw, 0.98rem);
+    line-height: 1.7;
+    color: rgba(104, 20, 24, 0.75);
+    margin: 0 0 clamp(20px, 3vh, 32px) 0;
+}
+
+.about-quote {
+    margin: 0 0 clamp(24px, 3.5vh, 36px) 0;
+    padding: clamp(16px, 2.2vh, 22px) clamp(18px, 2.5vw, 28px);
+    border-left: 3px solid var(--primary-accent);
+    background: rgba(104, 20, 24, 0.035);
+    border-radius: 0 12px 12px 0;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--primary-accent);
+}
+
+.about-quote cite {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--secondary-accent, #c99a68);
+    margin-top: 10px;
+}
+
+.about-signature-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: clamp(16px, 2.5vh, 24px) 0;
+    border-top: 1px solid rgba(104, 20, 24, 0.12);
+    border-bottom: 1px solid rgba(104, 20, 24, 0.12);
+}
+
+.signature-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sig-number {
+    font-family: 'Dream Avenue', Georgia, serif;
+    font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+    line-height: 1;
+    color: var(--primary-accent);
+}
+
+.sig-label {
+    font-family: var(--font-body);
+    font-size: clamp(0.56rem, 0.85vh, 0.66rem);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(104, 20, 24, 0.65);
+}
+
+.signature-divider {
+    width: 1px;
+    height: 32px;
+    background-color: rgba(104, 20, 24, 0.15);
+}
+
+/* Right Visual Column */
+.about-visual-frame {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.frame-arch-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 240px 240px 24px 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(104, 20, 24, 0.22);
+    border: 1px solid rgba(104, 20, 24, 0.12);
+}
+
+.about-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.about-visual-frame:hover .about-hero-img {
+    transform: scale(1.04);
+}
+
+.frame-overlay-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(104, 20, 24, 0.35) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.floating-about-badge {
+    position: absolute;
+    top: 24px;
+    right: -16px;
+    background: rgba(251, 246, 238, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 10px 18px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+    border: 1px solid rgba(104, 20, 24, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    z-index: 3;
+    animation: badgeFloat 4s ease-in-out infinite;
+}
+
+.floating-about-badge .badge-accent {
+    font-family: var(--font-body);
+    font-size: 0.50rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--secondary-accent, #c99a68);
+}
+
+.floating-about-badge .badge-title {
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--primary-accent);
+}
+
+.floating-about-card {
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    background: rgba(251, 246, 238, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 14px 20px;
+    border-radius: 16px;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(104, 20, 24, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 290px;
+    z-index: 3;
+}
+
+.floating-card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--primary-accent);
+    color: #FBF6EE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.floating-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.fcard-title {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--primary-accent);
+}
+
+.fcard-desc {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    line-height: 1.35;
+    color: rgba(104, 20, 24, 0.75);
+}
+
+@keyframes badgeFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* Pillars Section */
+.about-pillars-wrapper {
+    margin-bottom: clamp(55px, 8.5vh, 95px);
+}
+
+.pillars-header {
+    text-align: center;
+    margin-bottom: clamp(30px, 4.5vh, 50px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pillars-eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.60rem;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    color: var(--secondary-accent, #c99a68);
+    margin-bottom: 8px;
+}
+
+.pillars-title {
+    font-family: 'Dream Avenue', Georgia, serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 400;
+    color: var(--primary-accent);
+    margin: 0 0 12px 0;
+    letter-spacing: 1px;
+}
+
+.pillars-line {
+    width: 48px;
+    height: 1.5px;
+    background-color: var(--primary-accent);
+    opacity: 0.35;
+}
+
+.about-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(20px, 2.8vw, 32px);
+}
+
+.pillar-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(104, 20, 24, 0.10);
+    border-radius: 20px;
+    padding: clamp(28px, 4vh, 38px) clamp(22px, 2.5vw, 30px);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.35s ease;
+    position: relative;
+}
+
+.pillar-card:hover {
+    transform: translateY(-5px);
+    background: #ffffff;
+    box-shadow: 0 18px 45px rgba(104, 20, 24, 0.12);
+    border-color: rgba(104, 20, 24, 0.22);
+}
+
+.pillar-num {
+    font-family: 'Dream Avenue', Georgia, serif;
+    font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+    color: rgba(104, 20, 24, 0.25);
+    margin-bottom: 12px;
+    line-height: 1;
+    transition: color 0.35s ease;
+}
+
+.pillar-card:hover .pillar-num {
+    color: var(--secondary-accent, #c99a68);
+}
+
+.pillar-name {
+    font-family: 'Dream Avenue', Georgia, serif;
+    font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+    font-weight: 400;
+    color: var(--primary-accent);
+    margin: 0 0 12px 0;
+}
+
+.pillar-desc {
+    font-family: var(--font-body);
+    font-size: clamp(0.82rem, 0.95vw, 0.92rem);
+    line-height: 1.65;
+    color: rgba(104, 20, 24, 0.74);
+    margin: 0 0 20px 0;
+    flex: 1;
+}
+
+.pillar-tag {
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--secondary-accent, #c99a68);
+    text-transform: uppercase;
+    padding-top: 14px;
+    border-top: 1px solid rgba(104, 20, 24, 0.08);
+}
+
+/* Call to Action Banner */
+.about-cta-banner {
+    background: linear-gradient(135deg, #681418 0%, #4a0c0f 100%);
+    border-radius: 28px;
+    padding: clamp(36px, 5.5vh, 56px) clamp(24px, 4vw, 48px);
+    text-align: center;
+    color: #FBF6EE;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(104, 20, 24, 0.28);
+}
+
+.cta-banner-content {
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cta-banner-eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.60rem;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    color: var(--secondary-accent, #c99a68);
+    margin-bottom: 10px;
+}
+
+.cta-banner-title {
+    font-family: 'Dream Avenue', Georgia, serif;
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: #FBF6EE;
+    margin: 0 0 12px 0;
+    letter-spacing: 1px;
+}
+
+.cta-banner-desc {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.1vw, 0.98rem);
+    line-height: 1.6;
+    color: rgba(251, 246, 238, 0.82);
+    margin: 0 0 24px 0;
+}
+
+.about-explore-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #FBF6EE;
+    color: #681418;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 13px 30px;
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+    transition: all 0.3s ease;
+}
+
+.about-explore-btn:hover {
+    background-color: var(--secondary-accent, #c99a68);
+    color: #FBF6EE;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
 
 .coffee-menu-toggle {
     cursor: pointer;
@@ -1067,8 +1578,18 @@ body.coffee-menu-open .overlay-footer {
         margin-top: 2px;
     }
 
-    .overlay-nav-menu a {
-        font-size: 3rem;
+    /* About Parallax Section - Tablet */
+    .about-editorial-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .about-pillars-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .floating-about-card {
+        bottom: -10px;
+        left: 0;
     }
 }
 
@@ -1224,6 +1745,33 @@ body.coffee-menu-open .overlay-footer {
     .overlay-header {
         top: 20px;
         right: 20px;
+    }
+
+    /* About Parallax Section - Mobile */
+    .about-parallax-section {
+        border-radius: 32px 32px 0 0;
+        padding: 45px 0 60px 0;
+    }
+    .about-signature-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    .signature-divider {
+        width: 100%;
+        height: 1px;
+    }
+    .frame-arch-image {
+        border-radius: 160px 160px 20px 20px;
+    }
+    .floating-about-card {
+        position: static;
+        max-width: 100%;
+        margin-top: 16px;
+    }
+    .floating-about-badge {
+        right: 12px;
+        top: 16px;
     }
 }
 

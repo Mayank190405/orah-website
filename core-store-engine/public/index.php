@@ -246,6 +246,153 @@ $hero = $settings['hero'] ?? null;
     </section>
     <?php endif; ?>
 
+    <!-- Architectural About Us Overlay Parallax Section -->
+    <section class="about-parallax-section" id="story">
+        <!-- Top Decorative Architectural Line & Crest -->
+        <div class="about-top-crest">
+            <span class="crest-line"></span>
+            <div class="crest-badge">
+                <img src="assets/images/swans_only.png" alt="Orah Emblem" class="crest-swans">
+                <span class="crest-tagline">EST. 2024 &bull; NASHIK</span>
+            </div>
+            <span class="crest-line"></span>
+        </div>
+
+        <div class="about-container">
+            <!-- Main Section Header -->
+            <div class="about-header">
+                <span class="about-eyebrow">OUR HERITAGE &amp; PHILOSOPHY</span>
+                <h2 class="about-main-title">A SANCTUARY FOR SLOW LIVING &amp; MEANINGFUL CONNECTIONS</h2>
+                <p class="about-subtitle">
+                    Born in the heart of Nashik, Orah House was envisioned as a timeless retreat where specialty coffee, honest culinary craft, and architectural serenity converge.
+                </p>
+            </div>
+
+            <!-- 2-Column Editorial Story Showcase -->
+            <div class="about-editorial-grid">
+                <!-- Left Column: Rich Storytelling -->
+                <div class="about-story-col">
+                    <div class="story-card-inner">
+                        <span class="story-chapter">CHAPTER I &mdash; THE VISION</span>
+                        <h3 class="story-heading">More Than A Café. A Gathering Place for the Senses.</h3>
+                        
+                        <p class="story-lead">
+                            In a world rushing forward, Orah is an invitation to pause. From the first pour of single-origin espresso at daybreak to evening conversations over freshly spun pasta, every detail is curated with stillness in mind.
+                        </p>
+                        
+                        <p class="story-body">
+                            Our coffee journey begins with micro-lot beans roasted to accentuate natural terroir, while our kitchen champions artisanal techniques &mdash; long-fermentation sourdoughs, handmade sauces, and seasonal produce rooted in Maharashtra's fertile soils.
+                        </p>
+
+                        <!-- Quote Block -->
+                        <blockquote class="about-quote">
+                            &ldquo;Food that nourishes the spirit, coffee that awakens the mind, and spaces that invite you to stay a little longer.&rdquo;
+                            <cite>&mdash; The Curators of Orah House</cite>
+                        </blockquote>
+
+                        <!-- Signature Metrics Row -->
+                        <div class="about-signature-row">
+                            <div class="signature-item">
+                                <span class="sig-number">100%</span>
+                                <span class="sig-label">Specialty Grade Arabica</span>
+                            </div>
+                            <div class="signature-divider"></div>
+                            <div class="signature-item">
+                                <span class="sig-number">Daily</span>
+                                <span class="sig-label">Hand-Rolled Artisanal Fare</span>
+                            </div>
+                            <div class="signature-divider"></div>
+                            <div class="signature-item">
+                                <span class="sig-number">Nashik</span>
+                                <span class="sig-label">Our Home &amp; Inspiration</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Visual Showcase Frame -->
+                <div class="about-visual-col">
+                    <div class="about-visual-frame">
+                        <div class="frame-arch-image">
+                            <img src="assets/images/hero_cafe.png" alt="Orah House Ambiance" class="about-hero-img">
+                            <div class="frame-overlay-glow"></div>
+                        </div>
+                        
+                        <!-- Floating Architectural Badges -->
+                        <div class="floating-about-badge badge-top-right">
+                            <span class="badge-accent">&bull; SPECIALTY ROASTS &bull;</span>
+                            <span class="badge-title">ARTISANAL BATCHES</span>
+                        </div>
+
+                        <div class="floating-about-card card-bottom-left">
+                            <div class="floating-card-icon">
+                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+                            </div>
+                            <div class="floating-card-text">
+                                <span class="fcard-title">Crafted with Intention</span>
+                                <span class="fcard-desc">Every cup brewed with calibrated temperature &amp; grind profile.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3 Pillars of Orah Experience -->
+            <div class="about-pillars-wrapper">
+                <div class="pillars-header">
+                    <span class="pillars-eyebrow">THE EXPERIENCE</span>
+                    <h3 class="pillars-title">THREE PILLARS OF ORAH</h3>
+                    <div class="pillars-line"></div>
+                </div>
+
+                <div class="about-pillars-grid">
+                    <!-- Pillar 1 -->
+                    <div class="pillar-card">
+                        <div class="pillar-num">01</div>
+                        <h4 class="pillar-name">Artisanal Brews</h4>
+                        <p class="pillar-desc">
+                            Sourced from high-altitude estates, our coffees are pulled on precision machines and hand-dripped through V60 pour-overs to celebrate distinct botanical and cocoa notes.
+                        </p>
+                        <span class="pillar-tag">POUR-OVER &bull; ESPRESSO &bull; COLD DRIP</span>
+                    </div>
+
+                    <!-- Pillar 2 -->
+                    <div class="pillar-card">
+                        <div class="pillar-num">02</div>
+                        <h4 class="pillar-name">Culinary Devotion</h4>
+                        <p class="pillar-desc">
+                            From hand-stretched mozzarella flatbreads and slow-infused beetroot pasta to golden brioche toasts, every dish is an ode to fresh ingredients and European culinary traditions.
+                        </p>
+                        <span class="pillar-tag">HANDMADE PASTAS &bull; FLATBREADS &bull; SALADS</span>
+                    </div>
+
+                    <!-- Pillar 3 -->
+                    <div class="pillar-card">
+                        <div class="pillar-num">03</div>
+                        <h4 class="pillar-name">Architectural Calm</h4>
+                        <p class="pillar-desc">
+                            High archways, soothing earth tones, and warm natural lighting create an unhurried atmosphere tailored for peaceful solo work, quiet reading, or heartfelt gatherings.
+                        </p>
+                        <span class="pillar-tag">CURATED AMBIANCE &bull; TIMELESS DESIGN</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action Banner leading into Catalog -->
+            <div class="about-cta-banner">
+                <div class="cta-banner-content">
+                    <span class="cta-banner-eyebrow">TASTE THE PASSION</span>
+                    <h3 class="cta-banner-title">READY TO EXPERIENCE ORAH?</h3>
+                    <p class="cta-banner-desc">Explore our seasonal selection of artisanal coffees, savory delicacies, and sweet creations.</p>
+                    <a href="#catalog" class="about-explore-btn">
+                        <span>EXPLORE FULL MENU</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <div class="container" id="catalog">
         <div class="store-catalog-grid">
             <?php foreach ($catalog as $index => $product): ?>
