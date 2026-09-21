@@ -84,6 +84,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 header.classList.remove('header-burgundy');
                 document.body.classList.remove('in-about-section');
             }
+
+            // Hide the scroll indicator once user begins scrolling into the story
+            if (domeTransition) {
+                const isScrollingStory = shouldBeBurgundy && (aboutRect.top < 0);
+                if (isScrollingStory) {
+                    domeTransition.classList.add('hide-scroll-indicator');
+                } else {
+                    domeTransition.classList.remove('hide-scroll-indicator');
+                }
+            }
         }
     }
 
