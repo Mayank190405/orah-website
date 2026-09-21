@@ -172,10 +172,10 @@ $hero = $settings['hero'] ?? null;
             <!-- Circular Rotating Stamp Badge -->
             <div class="hero-stamp-badge" aria-hidden="true">
                 <svg class="stamp-svg" viewBox="0 0 160 160">
-                    <path id="stampCirclePath" d="M 80, 80 m -60, 0 a 60,60 0 1,1 120,0 a 60,60 0 1,1 -120,0" fill="none" />
+                    <path id="stampCirclePath" d="M 80, 20 a 60,60 0 1,1 0,120 a 60,60 0 1,1 0,-120" fill="none" />
                     <text class="stamp-text">
-                        <textPath href="#stampCirclePath" startOffset="0%">
-                            • COFFEE • PEOPLE • COFFEE • PEOPLE •
+                        <textPath href="#stampCirclePath" startOffset="0%" textLength="376.99" lengthAdjust="spacing">
+                            COFFEE &nbsp;•&nbsp; PEOPLE &nbsp;•&nbsp; COFFEE &nbsp;•&nbsp; PEOPLE &nbsp;•&nbsp;
                         </textPath>
                     </text>
                 </svg>
