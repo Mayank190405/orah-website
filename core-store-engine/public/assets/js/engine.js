@@ -74,14 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const isAtHeader = aboutRect.top <= headerHeight + 10;
             const isBeforeAboutEnd = aboutRect.bottom > headerHeight;
 
-            const shouldLockInAbout = isScrolledPastHero && isAtHeader && isBeforeAboutEnd;
+            const shouldBeBurgundy = isScrolledPastHero && isAtHeader && isBeforeAboutEnd;
 
-            if (domeTransition) {
-                if (shouldLockInAbout) {
-                    domeTransition.classList.add('is-locked');
-                } else {
-                    domeTransition.classList.remove('is-locked');
-                }
+            if (shouldBeBurgundy) {
+                header.classList.add('header-burgundy');
+                document.body.classList.add('in-about-section');
+            } else {
+                header.classList.remove('header-burgundy');
+                document.body.classList.remove('in-about-section');
             }
         }
     }

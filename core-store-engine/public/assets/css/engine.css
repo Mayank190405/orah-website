@@ -562,14 +562,13 @@ body.in-about-section .dome-curve-svg {
     to { transform: rotate(360deg); }
 }
 
-/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh & Sticky Locked in About Section */
+/* Burgundy Arch Dome Transition Shape - Pinned to bottom of 100vh */
 .hero-dome-transition {
-    position: sticky;
-    top: 0;
+    position: relative;
     width: 100%;
     height: clamp(165px, 22vh, 215px);
     flex-shrink: 0;
-    background: linear-gradient(180deg, var(--primary-accent) 0%, var(--primary-accent) 60%, transparent 100%);
+    background-color: transparent;
     border-radius: 50% 50% 0 0 / clamp(65px, 9vw, 110px) clamp(65px, 9vw, 110px) 0 0;
     display: flex;
     flex-direction: column;
@@ -580,23 +579,7 @@ body.in-about-section .dome-curve-svg {
     padding-top: clamp(62px, 8.5vh, 82px);
     padding-bottom: clamp(12px, 1.8vh, 20px);
     box-sizing: border-box;
-    z-index: 40;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-/* While locked in About Us section */
-.hero-dome-transition.is-locked .dome-scroll-indicator {
-    opacity: 0 !important;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-8px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.hero-dome-transition.is-locked .dome-botanical-svg {
-    opacity: 0 !important;
-    transition: opacity 0.25s ease;
+    z-index: 3;
 }
 
 .dome-curve-svg {
