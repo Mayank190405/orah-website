@@ -202,10 +202,10 @@ $hero = $settings['hero'] ?? null;
         <!-- Burgundy Arch Dome Transition Shape -->
         <div class="hero-dome-transition">
             <svg class="dome-curve-svg" viewBox="0 0 1400 180" preserveAspectRatio="none" aria-hidden="true">
-                <path id="domeCurvePath" d="M -1600, 135 Q 700, 42 3000, 135" fill="none" />
+                <path id="domeCurvePath" d="M -600, 260 Q 700, -220 2000, 260" fill="none" />
                 <text class="dome-curve-text">
                     <textPath id="domeMarqueePath" href="#domeCurvePath" startOffset="0">
-                        DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp;
+                        DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp; DESSERTS &nbsp; · &nbsp; COFFEE &nbsp; · &nbsp; CONVERSATIONS &nbsp; · &nbsp; PASTA &nbsp; · &nbsp; GOOD TIMES &nbsp; · &nbsp;
                     </textPath>
                 </text>
             </svg>

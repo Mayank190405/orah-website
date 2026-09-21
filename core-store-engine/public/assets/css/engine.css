@@ -527,18 +527,18 @@
 
 .dome-curve-text {
     font-family: 'Dream Avenue', Georgia, serif;
-    font-size: clamp(24px, 3.2vw, 36px);
+    font-size: clamp(26px, 3.5vw, 38px);
     font-weight: 400;
-    letter-spacing: clamp(4px, 0.5vw, 6.5px);
+    letter-spacing: clamp(5px, 0.6vw, 8px);
     fill: #FBF6EE;
-    opacity: 0.88;
+    opacity: 0.92;
     text-transform: uppercase;
     text-rendering: geometricPrecision;
     user-select: none;
 }
 
 .dome-scroll-indicator {
-    margin-top: clamp(48px, 7vh, 72px);
+    margin-top: clamp(52px, 7.5vh, 76px);
     display: flex;
     flex-direction: column;
     align-items: center;

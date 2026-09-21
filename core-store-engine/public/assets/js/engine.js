@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const totalLen = marqueePath.getComputedTextLength();
                 if (totalLen > 0) {
-                    repeatWidth = totalLen / 5; // 5 identical repetitions
+                    repeatWidth = totalLen / 6; // 6 identical repetitions
                 }
             } catch (e) {
                 repeatWidth = 0;
