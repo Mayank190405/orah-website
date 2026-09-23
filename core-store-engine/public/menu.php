@@ -143,89 +143,162 @@ $sectionKeys = array_keys($orderedSections);
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Top App Bar */
-        .menu-appbar {
-            position: sticky;
-            top: 0;
-            width: 100%;
-            background: rgba(251, 246, 238, 0.96);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid var(--border-light);
-            z-index: 200;
-            transition: all 0.3s ease;
+        /* Minimal Editorial Top Masthead (Replaces bulky sticky header & old text area) */
+        .menu-top-masthead {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 20px 24px;
+            box-sizing: border-box;
         }
 
-        .menu-appbar-inner {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 14px 20px;
+        @media (max-width: 768px) {
+            .menu-top-masthead {
+                padding: 16px 14px 18px;
+            }
+        }
+
+        .masthead-utility-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 22px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(104, 20, 24, 0.08);
         }
 
-        .brand-link {
-            display: flex;
+        @media (max-width: 768px) {
+            .masthead-utility-row {
+                margin-bottom: 16px;
+                padding-bottom: 10px;
+            }
+        }
+
+        .masthead-back-link {
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
-            text-decoration: none;
+            gap: 6px;
             color: var(--burgundy);
-        }
-
-        .brand-logo-img {
-            height: 36px;
-            width: auto;
-        }
-
-        .brand-title {
-            font-family: var(--font-heading);
-            font-size: 1.25rem;
-            letter-spacing: 2px;
-            font-weight: 500;
-        }
-
-        .appbar-nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .appbar-btn {
-            font-size: 0.80rem;
-            font-weight: 600;
-            letter-spacing: 1.2px;
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            text-decoration: none;
-            color: var(--burgundy);
-            padding: 7px 15px;
+            padding: 6px 14px;
+            background: rgba(104, 20, 24, 0.05);
             border-radius: 20px;
             transition: all 0.2s ease;
         }
 
-        .appbar-btn:hover {
-            background: rgba(104, 20, 24, 0.08);
+        .masthead-back-link:hover {
+            background: var(--burgundy);
+            color: #FBF6EE;
+            transform: translateX(-2px);
         }
 
-        .btn-download-pdf {
-            background: var(--burgundy);
-            color: #FBF6EE !important;
+        .masthead-brand-crest {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--burgundy);
+        }
+
+        .masthead-swans-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .masthead-brand-name {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 520px) {
+            .masthead-brand-name {
+                display: none;
+            }
+        }
+
+        .masthead-pdf-link {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 16px;
+            background: var(--burgundy);
+            color: #FBF6EE;
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            padding: 7px 14px;
             border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(104, 20, 24, 0.2);
+            box-shadow: 0 4px 12px rgba(104, 20, 24, 0.15);
+            transition: all 0.2s ease;
         }
 
-        .btn-download-pdf:hover {
-            background: var(--burgundy-dark) !important;
+        .masthead-pdf-link:hover {
+            background: var(--burgundy-dark);
             transform: translateY(-1px);
+        }
+
+        /* Editorial Header Center */
+        .masthead-center-content {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .masthead-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 3.5px;
+            color: var(--gold-accent);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .masthead-title {
+            font-family: 'Dream Avenue', 'Cormorant Garamond', Georgia, serif;
+            font-size: clamp(2.4rem, 5.2vw, 3.6rem);
+            color: var(--burgundy);
+            line-height: 1.05;
+            font-weight: 400;
+            margin: 0 0 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .masthead-flourish {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            max-width: 220px;
+            margin: 0 auto 12px;
+        }
+
+        .flourish-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(104, 20, 24, 0.25), transparent);
+        }
+
+        .flourish-glyph {
+            color: var(--gold-accent);
+            font-size: 0.75rem;
+        }
+
+        .masthead-tagline {
+            font-size: clamp(0.85rem, 1.4vw, 0.96rem);
+            color: #5d564e;
+            line-height: 1.5;
+            margin: 0 auto;
         }
 
         /* Main View Container */
         .views-wrapper {
             position: relative;
-            min-height: calc(100vh - 120px);
+            min-height: 100vh;
             width: 100%;
         }
 
@@ -236,39 +309,6 @@ $sectionKeys = array_keys($orderedSections);
             display: block;
             opacity: 1;
             transition: opacity 0.3s ease;
-        }
-
-        .overview-hero {
-            text-align: center;
-            padding: 55px 20px 30px;
-            max-width: 820px;
-            margin: 0 auto;
-        }
-
-        .overview-eyebrow {
-            font-size: 0.70rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: var(--gold-accent);
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .overview-title {
-            font-family: var(--font-heading);
-            font-size: clamp(2.3rem, 5vw, 3.6rem);
-            line-height: 1.05;
-            margin-bottom: 14px;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-        }
-
-        .overview-subtitle {
-            font-size: clamp(0.95rem, 1.8vw, 1.1rem);
-            color: rgba(104, 20, 24, 0.82);
-            line-height: 1.55;
-            margin-bottom: 30px;
         }
 
         /* Sections Grid */
@@ -546,8 +586,8 @@ $sectionKeys = array_keys($orderedSections);
         /* Detail Sticky Subheader */
         .detail-nav-bar {
             position: sticky;
-            top: 65px;
-            background: rgba(251, 246, 238, 0.96);
+            top: 0;
+            background: rgba(251, 246, 238, 0.98);
             backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--border-light);
             z-index: 150;
@@ -944,7 +984,7 @@ $sectionKeys = array_keys($orderedSections);
             }
 
             .detail-nav-bar {
-                top: 55px;
+                top: 0;
             }
 
             .detail-nav-container {
@@ -974,19 +1014,14 @@ $sectionKeys = array_keys($orderedSections);
                 box-sizing: border-box;
             }
 
-            .appbar-btn {
-                padding: 5px 9px;
-                font-size: 0.72rem;
+            .masthead-back-link {
+                padding: 5px 11px;
+                font-size: 0.70rem;
             }
 
-            .btn-download-pdf span {
-                display: none;
-            }
-
-            .btn-download-pdf::after {
-                content: "PDF";
-                font-size: 0.72rem;
-                font-weight: 700;
+            .masthead-pdf-link {
+                padding: 6px 12px;
+                font-size: 0.68rem;
             }
         }
 
@@ -1003,37 +1038,43 @@ $sectionKeys = array_keys($orderedSections);
 </head>
 <body>
 
-    <!-- Header Navigation -->
-    <header class="menu-appbar">
-        <div class="menu-appbar-inner">
-            <a href="index.php" class="brand-link">
-                <img src="assets/images/swans_only.png" alt="Orah Emblem" class="brand-logo-img">
-                <span class="brand-title">ORAH HOUSE</span>
-            </a>
-
-            <div class="appbar-nav-actions">
-                <a href="index.php" class="appbar-btn">Home</a>
-                <a href="index.php#story" class="appbar-btn">Our Story</a>
-                <a href="Menu.pdf" target="_blank" download="Orah_House_Menu.pdf" class="appbar-btn btn-download-pdf">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                    <span>Download PDF</span>
-                </a>
-            </div>
-        </div>
-    </header>
-
     <div class="views-wrapper">
 
         <!-- ==========================================================================
              VIEW 1: MENU SECTIONS OVERVIEW (First Page)
              ========================================================================== -->
         <section id="sectionsOverviewView">
-            <div class="overview-hero">
-                <span class="overview-eyebrow">THE CULINARY ARCHITECTURE</span>
-                <h1 class="overview-title">Explore By Section</h1>
-                <p class="overview-subtitle">
-                    Select a section below to explore our seasonal creations. Inside each section, swipe left or right on your screen to effortlessly glide across the entire menu.
-                </p>
+            <!-- Redesigned Top Masthead (Includes discreet Home + Crest + PDF utility row) -->
+            <div class="menu-top-masthead">
+                <div class="masthead-utility-row">
+                    <a href="index.php" class="masthead-back-link" aria-label="Return to Homepage">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        <span>Home</span>
+                    </a>
+
+                    <div class="masthead-brand-crest">
+                        <img src="assets/images/swans_only.png" alt="Orah Emblem" class="masthead-swans-img">
+                        <span class="masthead-brand-name">ORAH HOUSE</span>
+                    </div>
+
+                    <a href="Menu.pdf" target="_blank" download="Orah_House_Menu.pdf" class="masthead-pdf-link" title="Download Printable Menu (PDF)">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                        <span>PDF MENU</span>
+                    </a>
+                </div>
+
+                <div class="masthead-center-content">
+                    <span class="masthead-eyebrow">CURATED ARCHITECTURAL MENU</span>
+                    <h1 class="masthead-title">The Menu</h1>
+                    <div class="masthead-flourish" aria-hidden="true">
+                        <span class="flourish-line"></span>
+                        <span class="flourish-glyph">✦</span>
+                        <span class="flourish-line"></span>
+                    </div>
+                    <p class="masthead-tagline">
+                        Handcrafted sourdoughs, slow-cooked pastas, and specialty estate roasts. Tap any section to explore.
+                    </p>
+                </div>
             </div>
 
             <div class="sections-grid-container">
