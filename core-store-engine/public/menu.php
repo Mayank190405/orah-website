@@ -19,54 +19,170 @@ $brand = $settings['brand'] ?? ['text' => 'Orah House'];
 $sections = [];
 $sectionMeta = [
     'Flat Breads' => [
-        'subtitle' => 'Hand-stretched sourdough flatbreads baked with artisanal melts & toppings',
+        'eyebrow' => 'OUR SIGNATURES',
+        'scriptQuote' => 'More than just Bread',
+        'subtitle' => 'Hand-stretched sourdough flatbreads baked with artisanal melts & toppings.',
         'image' => 'uploads/mozzarella_flatbread.jpg'
     ],
     'Pizzas' => [
-        'subtitle' => 'Slow-fermented Neapolitan style with San Marzano tomatoes & fresh basil',
+        'eyebrow' => 'WOODFIRED ARTISAN',
+        'scriptQuote' => 'Blistered & Melted',
+        'subtitle' => 'Slow-fermented Neapolitan style with San Marzano tomatoes & fresh basil.',
         'image' => 'uploads/artisanal_pizza.jpg'
     ],
     'Pasta' => [
-        'subtitle' => 'House-made pastas tossed in rich sauces with seasonal ingredients',
+        'eyebrow' => 'HANDMADE DAILY',
+        'scriptQuote' => 'Slow-cooked Tradition',
+        'subtitle' => 'House-made pastas tossed in rich reduction sauces with fine estate ingredients.',
         'image' => 'uploads/pastas_showcase.jpg'
     ],
     'Desserts' => [
-        'subtitle' => 'Sweet endings crafted with premium ingredients',
+        'eyebrow' => 'SWEET ENDINGS',
+        'scriptQuote' => 'Pure Indulgence',
+        'subtitle' => 'Artisanal confections, molten chocolate tarts, and delicate pastry craft.',
         'image' => 'uploads/desserts_showcase.jpg'
     ],
     'Appetizers' => [
-        'subtitle' => 'Char-grilled skewers, molten cheese bites, and savory small plates',
+        'eyebrow' => 'CHEF’S SMALL PLATES',
+        'scriptQuote' => 'Crisp & Savory',
+        'subtitle' => 'Char-grilled skewers, molten cheese bites, and savory small plates.',
         'image' => 'uploads/paneer_skewers.jpg'
     ],
-    'Bowls & Salads' => [
-        'subtitle' => 'Nourishing harvest grains, wild greens, and vibrant house vinaigrettes',
-        'image' => 'uploads/exotic_rice_bowl.jpg'
-    ],
-    'Salads' => [
-        'subtitle' => 'Fresh garden greens, pineapple crunch, and house-whipped dressings',
-        'image' => 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=80'
-    ],
     'Burgers' => [
-        'subtitle' => 'Artisanal patties, slow-cooked mushroom sauce, and toasted sesame brioche',
+        'eyebrow' => 'GOURMET BRIOCHE',
+        'scriptQuote' => 'Juicy & Stacked',
+        'subtitle' => 'Artisanal patties, slow-cooked mushroom sauce, and toasted sesame brioche.',
         'image' => 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=800&q=80'
     ],
     'Open Toast & Bruschetta' => [
-        'subtitle' => 'Golden toasted brioche, avocado salsa, and classic Italian crostinis',
+        'eyebrow' => 'ARTISAN CROSTINI',
+        'scriptQuote' => 'Crunch in Every Bite',
+        'subtitle' => 'Golden toasted brioche, avocado salsa, and classic Italian crostinis.',
         'image' => 'https://images.unsplash.com/photo-1506280754576-f6fa8a873550?w=800&q=80'
     ],
     'Sandwiches' => [
-        'subtitle' => 'Multi-grain artisan loaves pressed with gourmet tandoor & BBQ fillings',
+        'eyebrow' => 'PRESSED LOAVES',
+        'scriptQuote' => 'Warm & Golden',
+        'subtitle' => 'Multi-grain artisan loaves pressed with gourmet tandoor & BBQ fillings.',
         'image' => 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&q=80'
     ],
+    'Bowls & Salads' => [
+        'eyebrow' => 'HARVEST GREENS',
+        'scriptQuote' => 'Fresh & Nourishing',
+        'subtitle' => 'Nourishing harvest grains, wild greens, and vibrant house vinaigrettes.',
+        'image' => 'uploads/exotic_rice_bowl.jpg'
+    ],
+    'Salads' => [
+        'eyebrow' => 'GARDEN FRESH',
+        'scriptQuote' => 'Crisp & Vibrant',
+        'subtitle' => 'Fresh garden greens, pineapple crunch, and house-whipped dressings.',
+        'image' => 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=80'
+    ],
     'Siders' => [
-        'subtitle' => 'Crispy golden fries, rustic roasted wedges, and warm dipping nachos',
+        'eyebrow' => 'CRUNCH & DIPS',
+        'scriptQuote' => 'Golden Bites',
+        'subtitle' => 'Crispy golden fries, rustic roasted wedges, and warm dipping nachos.',
         'image' => 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=800&q=80'
     ],
     'Coffee & Beverages' => [
-        'subtitle' => 'V60 single origin pour-overs, textured Spanish lattes, and cold steeps',
+        'eyebrow' => 'SPECIALTY ROASTS',
+        'scriptQuote' => 'The Perfect Brew',
+        'subtitle' => 'V60 single origin pour-overs, textured Spanish lattes, and cold steeps.',
         'image' => 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80'
     ]
 ];
+
+// Helper to provide ingredient highlights with icons matching reference mockup
+function getDishHighlights($dish) {
+    $text = strtolower(($dish['name'] ?? '') . ' ' . ($dish['particular'] ?? '') . ' ' . ($dish['description'] ?? ''));
+
+    if (strpos($text, 'mozzarella') !== false || strpos($text, 'golden melt') !== false) {
+        return [
+            ['icon' => '🧀', 'name' => 'Mozzarella'],
+            ['icon' => '🫑', 'name' => 'Roasted Peppers'],
+            ['icon' => '🫒', 'name' => 'Olives'],
+            ['icon' => '🌿', 'name' => 'Fresh Herbs']
+        ];
+    }
+    if (strpos($text, 'mushroom') !== false || strpos($text, 'truffle') !== false) {
+        return [
+            ['icon' => '🍄', 'name' => 'Wild Mushrooms'],
+            ['icon' => '🫒', 'name' => 'Truffle Oil'],
+            ['icon' => '🧀', 'name' => 'Mozzarella'],
+            ['icon' => '🌿', 'name' => 'Fresh Herbs']
+        ];
+    }
+    if (strpos($text, 'paneer') !== false || strpos($text, 'tikka') !== false || strpos($text, 'bhurji') !== false) {
+        return [
+            ['icon' => '🧀', 'name' => 'Artisan Paneer'],
+            ['icon' => '🧅', 'name' => 'Roasted Onions'],
+            ['icon' => '🌶️', 'name' => 'Tandoor Spices'],
+            ['icon' => '🌿', 'name' => 'Fresh Herbs']
+        ];
+    }
+    if (strpos($text, 'pizza') !== false || strpos($text, 'farmhouse') !== false) {
+        return [
+            ['icon' => '🍅', 'name' => 'San Marzano Sauce'],
+            ['icon' => '🧀', 'name' => 'Fior Di Latte'],
+            ['icon' => '🫑', 'name' => 'Sweet Peppers'],
+            ['icon' => '🌿', 'name' => 'Fresh Basil']
+        ];
+    }
+    if (strpos($text, 'pasta') !== false || strpos($text, 'spaghetti') !== false || strpos($text, 'mac') !== false) {
+        return [
+            ['icon' => '🍝', 'name' => 'Durum Wheat Pasta'],
+            ['icon' => '🧀', 'name' => 'Parmigiano Reggiano'],
+            ['icon' => '🧄', 'name' => 'Roasted Garlic'],
+            ['icon' => '🌿', 'name' => 'Estate Herbs']
+        ];
+    }
+    if (strpos($text, 'salad') !== false || strpos($text, 'harvest') !== false || strpos($text, 'greens') !== false) {
+        return [
+            ['icon' => '🥑', 'name' => 'Avocado Salsa'],
+            ['icon' => '🥬', 'name' => 'Garden Greens'],
+            ['icon' => '🌽', 'name' => 'Crisp Corn'],
+            ['icon' => '🍋', 'name' => 'House Dressing']
+        ];
+    }
+    if (strpos($text, 'dessert') !== false || strpos($text, 'chocolate') !== false) {
+        return [
+            ['icon' => '🍫', 'name' => 'Belgian Cacao'],
+            ['icon' => '🍦', 'name' => 'Madagascar Vanilla'],
+            ['icon' => '🍓', 'name' => 'Berry Coulis'],
+            ['icon' => '🍯', 'name' => 'Caramel Crunch']
+        ];
+    }
+    if (strpos($text, 'coffee') !== false || strpos($text, 'latte') !== false || strpos($text, 'brew') !== false) {
+        return [
+            ['icon' => '☕', 'name' => 'Single Origin Roast'],
+            ['icon' => '🥛', 'name' => 'Textured Microfoam'],
+            ['icon' => '✨', 'name' => 'Artisan Pour'],
+            ['icon' => '🌿', 'name' => 'Estate Notes']
+        ];
+    }
+
+    return [
+        ['icon' => '🌿', 'name' => 'Artisanal Base'],
+        ['icon' => '✨', 'name' => 'Chef Craft'],
+        ['icon' => '🔥', 'name' => 'Slow Baked'],
+        ['icon' => '🌱', 'name' => 'Fresh Herbs']
+    ];
+}
+
+// Helper to provide evocative handwritten script taglines
+function getDishTagline($index, $dish) {
+    $pool = [
+        'Crispy edges, Endless flavour',
+        'Earthy Indulgence',
+        'Sun-blessed Mediterranean Craft',
+        'Golden Melts & Hearth Crust',
+        'Slow Fermented Bliss',
+        'Rich & Comforting',
+        'Velvet Texture, Pure Harmony',
+        'Smoky Oven Warmth'
+    ];
+    return $pool[$index % count($pool)];
+}
 
 foreach ($catalog as $dish) {
     if (!($dish['available'] ?? true)) continue;
@@ -117,7 +233,7 @@ $sectionKeys = array_keys($orderedSections);
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="assets/css/engine.css">
     
@@ -546,20 +662,22 @@ $sectionKeys = array_keys($orderedSections);
         .detail-nav-bar {
             position: sticky;
             top: 0;
-            background: rgba(251, 246, 238, 0.98);
+            background: rgba(251, 246, 238, 0.96);
             backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--border-light);
             z-index: 150;
-            padding: 10px 0;
+            padding: 8px 0;
         }
 
         .detail-nav-container {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 16px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            justify-content: space-between;
+            gap: 12px;
         }
 
         .back-to-sections-btn {
@@ -568,11 +686,11 @@ $sectionKeys = array_keys($orderedSections);
             gap: 6px;
             background: #ffffff;
             border: 1px solid var(--border-light);
-            padding: 8px 14px;
+            padding: 6px 14px;
             border-radius: 20px;
             color: var(--burgundy);
-            font-size: 0.82rem;
-            font-weight: 600;
+            font-size: 0.78rem;
+            font-weight: 700;
             letter-spacing: 0.5px;
             cursor: pointer;
             white-space: nowrap;
@@ -585,68 +703,28 @@ $sectionKeys = array_keys($orderedSections);
             border-color: var(--burgundy);
         }
 
-        /* Horizontal Category Pills Carousel */
-        .category-pills-carousel {
+        .detail-brand-crest {
             display: flex;
             align-items: center;
-            gap: 8px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            padding: 4px 0;
-            flex: 1;
-        }
-
-        .category-pills-carousel::-webkit-scrollbar {
-            display: none;
-        }
-
-        .cat-tab-btn {
-            background: #ffffff;
-            border: 1px solid var(--border-light);
-            color: var(--burgundy);
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-        }
-
-        .cat-tab-btn:hover {
-            border-color: var(--burgundy);
-        }
-
-        .cat-tab-btn.active {
-            background: var(--burgundy);
-            color: #FBF6EE;
-            border-color: var(--burgundy);
-            box-shadow: 0 4px 12px rgba(104, 20, 24, 0.2);
-        }
-
-        /* Swipe Controller & Indicators */
-        .swipe-hint-bar {
-            text-align: center;
-            padding: 14px 20px 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 0.76rem;
-            font-weight: 600;
+            gap: 6px;
+            font-family: 'Dream Avenue', 'Cormorant Garamond', Georgia, serif;
+            font-size: 0.95rem;
             letter-spacing: 1.5px;
-            color: var(--gold-accent);
-            text-transform: uppercase;
+            color: var(--burgundy);
+            font-weight: 600;
+        }
+
+        .detail-brand-crest img {
+            width: 20px;
+            height: auto;
         }
 
         /* Carousel Deck for Swiping */
         .swipe-deck-viewport {
             position: relative;
-            max-width: 1280px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 10px 20px 70px;
+            padding: 14px 16px 130px;
             overflow: hidden;
             touch-action: pan-y;
         }
@@ -665,129 +743,591 @@ $sectionKeys = array_keys($orderedSections);
             transition: opacity 0.25s ease;
         }
 
-        .section-slide-header {
-            margin-bottom: 30px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-light);
+        /* Editorial Section Header matching reference mockup */
+        .editorial-section-header {
             display: flex;
-            align-items: flex-end;
+            align-items: flex-start;
             justify-content: space-between;
             gap: 16px;
+            margin-bottom: 22px;
+            padding: 8px 4px 4px;
         }
 
-        .section-slide-title {
-            font-family: var(--font-heading);
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            color: var(--burgundy);
+        .editorial-header-left {
+            flex: 1;
+        }
+
+        .editorial-eyebrow {
+            font-size: 0.70rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #a08264;
+            text-transform: uppercase;
+            display: block;
             margin-bottom: 4px;
-            font-weight: 500;
         }
 
-        .section-slide-desc {
-            font-size: 0.92rem;
+        .editorial-title {
+            font-family: 'Dream Avenue', 'Cormorant Garamond', Georgia, serif;
+            font-size: clamp(2.3rem, 6vw, 3.4rem);
+            color: var(--burgundy);
+            line-height: 1.02;
+            font-weight: 400;
+            margin: 0 0 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .editorial-title-underline {
+            width: 34px;
+            height: 2px;
+            background: var(--burgundy);
+            margin-bottom: 10px;
+        }
+
+        .editorial-desc {
+            font-size: clamp(0.82rem, 1.8vw, 0.92rem);
             color: #5d564e;
-            max-width: 620px;
-            line-height: 1.5;
+            max-width: 440px;
+            line-height: 1.45;
+            margin: 0;
         }
 
-        /* Desktop Prev / Next Buttons */
-        .deck-nav-btn {
+        .editorial-header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .editorial-counter-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-left: 1.5px solid rgba(104, 20, 24, 0.2);
+            padding-left: 10px;
+            line-height: 1;
+        }
+
+        .counter-number {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--burgundy);
+        }
+
+        .counter-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #8c7355;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .editorial-cursive-quote {
+            position: relative;
+            margin-top: 10px;
+            font-family: 'Caveat', cursive;
+            font-size: clamp(1.4rem, 3.2vw, 1.85rem);
+            color: #a67c52;
+            white-space: nowrap;
+            transform: rotate(-6deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cursive-underline-svg {
+            width: 100%;
+            height: 10px;
+            color: #a67c52;
+            margin-top: -4px;
+            opacity: 0.85;
+        }
+
+        /* Dishes Catalog Stack - Split Cards */
+        .dishes-catalog-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .dish-split-card {
+            background: #FAF5EB;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(70, 25, 20, 0.07);
+            border: 1px solid rgba(104, 20, 24, 0.08);
+            display: flex;
+            flex-direction: row;
+            position: relative;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .dish-split-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 34px rgba(70, 25, 20, 0.12);
+        }
+
+        /* Left Half: Photography & Vignette Overlays */
+        .split-card-media {
+            flex: 0 0 47%;
+            position: relative;
+            min-height: 240px;
+            overflow: hidden;
+            background: #e8ded2;
+        }
+
+        .split-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .dish-split-card:hover .split-card-img {
+            transform: scale(1.05);
+        }
+
+        .split-card-vignette {
             position: absolute;
-            top: 45%;
-            transform: translateY(-50%);
-            width: 46px;
-            height: 46px;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(20, 10, 8, 0.72) 0%, rgba(20, 10, 8, 0.08) 38%, rgba(20, 10, 8, 0.25) 60%, rgba(20, 10, 8, 0.88) 100%);
+            pointer-events: none;
+        }
+
+        .media-top-overlay {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 8px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .media-index-number {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: clamp(1.8rem, 4vw, 2.3rem);
+            line-height: 1;
+            color: #FAF5EE;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+            display: block;
+            font-weight: 400;
+        }
+
+        .media-accent-bar {
+            width: 20px;
+            height: 1.5px;
+            background: rgba(250, 245, 238, 0.85);
+            margin: 4px 0 6px;
+        }
+
+        .media-stacked-title {
+            font-size: clamp(0.58rem, 1.4vw, 0.70rem);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #FAF5EE;
+            line-height: 1.25;
+            text-transform: uppercase;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            max-width: 130px;
+        }
+
+        .media-script-tagline {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            right: 8px;
+            z-index: 2;
+            font-family: 'Caveat', cursive;
+            font-size: clamp(1.1rem, 2.6vw, 1.35rem);
+            color: #FAF5EE;
+            line-height: 1.1;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+            transform: rotate(-4deg);
+            pointer-events: none;
+        }
+
+        /* Right Half: Editorial Details */
+        .split-card-details {
+            flex: 1 1 53%;
+            padding: 14px 14px 14px 16px;
+            background: #FAF5EB;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .split-details-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .title-and-price {
+            flex: 1;
+        }
+
+        .split-dish-title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+            font-weight: 600;
+            color: #2B241E;
+            line-height: 1.15;
+            margin: 0 0 2px;
+        }
+
+        .split-dish-price {
+            font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+            font-weight: 700;
+            color: #2B241E;
+            margin-bottom: 4px;
+        }
+
+        .split-fav-btn {
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: #ffffff;
-            border: 1px solid var(--border-light);
-            color: var(--burgundy);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            z-index: 50;
+            color: #a49a8f;
+            flex-shrink: 0;
             transition: all 0.2s ease;
         }
 
-        .deck-nav-btn:hover {
-            background: var(--burgundy);
-            color: #FBF6EE;
-            transform: translateY(-50%) scale(1.08);
+        .split-fav-btn:hover {
+            transform: scale(1.08);
+            color: var(--burgundy);
         }
 
-        .deck-nav-btn.prev-btn { left: 4px; }
-        .deck-nav-btn.next-btn { right: 4px; }
-
-        @media (max-width: 900px) {
-            .deck-nav-btn { display: none; }
+        .split-fav-btn.active {
+            color: #b71c1c;
+            border-color: rgba(183, 28, 28, 0.2);
+            background: #ffebee;
         }
 
-        /* Dish Card in Detailed View */
-        .dishes-catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 28px;
+        .split-fav-btn.active svg {
+            fill: #b71c1c;
         }
 
-        .dish-detail-card {
-            background: #ffffff;
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
+        .split-dish-desc {
+            font-size: clamp(0.68rem, 1.5vw, 0.76rem);
+            color: #665b50;
+            line-height: 1.35;
+            margin: 0 0 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
+        }
+
+        .split-divider {
+            border-top: 1px solid rgba(104, 20, 24, 0.08);
+            margin: 4px 0 6px;
+        }
+
+        .split-highlights-list {
             display: flex;
             flex-direction: column;
-            box-shadow: 0 6px 20px rgba(104, 20, 24, 0.05);
-            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+            gap: 3px;
+            margin-bottom: 6px;
         }
 
-        .dish-detail-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 14px 32px rgba(104, 20, 24, 0.12);
+        .split-highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: clamp(0.64rem, 1.4vw, 0.70rem);
+            color: #5a5046;
+            line-height: 1.25;
         }
 
-        .dish-detail-media {
-            position: relative;
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            background: #eae2d5;
+        .highlight-icon {
+            font-size: 0.76rem;
+            line-height: 1;
+            flex-shrink: 0;
         }
 
-        .dish-detail-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        .split-diet-row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #8a7153;
+            text-transform: uppercase;
+            margin: 4px 0 8px;
         }
 
-        .dish-detail-card:hover .dish-detail-img {
+        .diet-dot.veg {
+            color: #388e3c;
+        }
+
+        .diet-dot.non-veg {
+            color: #d32f2f;
+        }
+
+        .split-action-row {
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .split-view-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--burgundy);
+            color: #FAF5EE;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: clamp(0.70rem, 1.6vw, 0.78rem);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(104, 20, 24, 0.22);
+            transition: all 0.2s ease;
+        }
+
+        .split-view-btn:hover {
+            background: #500f12;
+            transform: translateY(-1px);
+        }
+
+        /* ==========================================================================
+           FLOATING SLIDE NAVIGATION DOCK
+           ========================================================================== */
+        .floating-slide-dock {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 24px);
+            max-width: 430px;
+            background: rgba(248, 243, 235, 0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px;
+            box-shadow: 0 12px 36px rgba(45, 20, 15, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 12px;
+            box-sizing: border-box;
+        }
+
+        .dock-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            padding: 4px;
+            cursor: pointer;
+            color: inherit;
+            text-decoration: none;
+            border-radius: 24px;
+            transition: background 0.2s;
+            flex: 1;
+        }
+
+        .dock-nav-btn.next {
+            justify-content: flex-end;
+        }
+
+        .dock-arrow-circle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(104, 20, 24, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--burgundy);
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+
+        .dock-nav-btn:hover .dock-arrow-circle {
+            background: var(--burgundy);
+            color: #FAF5EE;
             transform: scale(1.06);
         }
 
-        .dish-detail-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(251, 246, 238, 0.95);
+        .dock-text-col {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+            text-align: left;
+            max-width: 85px;
+        }
+
+        .dock-text-col.text-right {
+            text-align: right;
+        }
+
+        .dock-action-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #2B241E;
+            letter-spacing: 0.2px;
+        }
+
+        .dock-target-name {
+            font-size: 0.65rem;
+            color: #887d72;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dock-center-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -18px;
+            padding: 0 8px;
+            flex-shrink: 0;
+        }
+
+        .dock-explore-circle {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--burgundy);
+            color: #FAF5EE;
+            border: 3px solid #FAF5EE;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(104, 20, 24, 0.35);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .dock-explore-circle:hover {
+            transform: scale(1.08);
+            background: #500f12;
+        }
+
+        .dock-explore-label {
+            font-size: 0.64rem;
+            font-weight: 600;
+            color: #63574c;
+            margin-top: 3px;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+        }
+
+        /* ==========================================================================
+           DISH QUICK-VIEW MODAL
+           ========================================================================== */
+        .dish-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 10, 8, 0.65);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .dish-modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .dish-modal-dialog {
+            background: #FAF5EE;
+            border-radius: 24px;
+            max-width: 440px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform: translateY(20px) scale(0.96);
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .dish-modal-backdrop.active .dish-modal-dialog {
+            transform: translateY(0) scale(1);
+        }
+
+        .dish-modal-close-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             color: var(--burgundy);
+            z-index: 5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s;
+        }
+
+        .dish-modal-close-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .dish-modal-media {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            background: #e8ded2;
+        }
+
+        .dish-modal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dish-modal-badge {
+            position: absolute;
+            bottom: 12px;
+            left: 14px;
+            background: rgba(251, 246, 238, 0.95);
+            color: var(--burgundy);
+            padding: 4px 10px;
+            border-radius: 12px;
             font-size: 0.70rem;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            padding: 4px 10px;
-            border-radius: 12px;
         }
 
-        .dish-detail-body {
-            padding: 22px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
+        .dish-modal-content {
+            padding: 20px 22px 24px;
         }
 
-        .dish-header-row {
+        .dish-modal-header {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
@@ -795,76 +1335,49 @@ $sectionKeys = array_keys($orderedSections);
             margin-bottom: 8px;
         }
 
-        .dish-unique-title {
-            font-family: var(--font-heading);
-            font-size: 1.35rem;
+        .dish-modal-title {
+            font-family: 'Dream Avenue', 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.55rem;
             color: var(--burgundy);
-            font-weight: 500;
-            line-height: 1.2;
+            margin: 0;
+            line-height: 1.15;
         }
 
-        .dish-price-text {
-            font-size: 1.2rem;
+        .dish-modal-price {
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--burgundy);
             white-space: nowrap;
         }
 
-        .dish-particular-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--gold-accent);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .dish-desc-text {
+        .dish-modal-desc {
             font-size: 0.88rem;
-            color: #5a544c;
+            color: #63574c;
             line-height: 1.5;
-            margin-bottom: 20px;
-            flex: 1;
+            margin: 0 0 18px;
         }
 
-        .dish-footer-row {
+        .dish-modal-wa-btn {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding-top: 14px;
-            border-top: 1px solid rgba(104, 20, 24, 0.08);
-        }
-
-        .dish-diet-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #2e7d32;
-        }
-
-        .dish-order-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(104, 20, 24, 0.07);
-            color: var(--burgundy);
+            justify-content: center;
+            gap: 8px;
+            background: #25D366;
+            color: #ffffff;
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 16px;
-            font-size: 0.80rem;
-            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 28px;
+            font-weight: 700;
+            font-size: 0.88rem;
             letter-spacing: 0.5px;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
             transition: all 0.2s ease;
         }
 
-        .dish-order-link:hover {
-            background: var(--burgundy);
-            color: #FBF6EE;
+        .dish-modal-wa-btn:hover {
+            background: #1eb956;
+            transform: translateY(-2px);
         }
-
 
         /* Mobile Viewport Optimizations */
         @media (max-width: 768px) {
@@ -872,47 +1385,28 @@ $sectionKeys = array_keys($orderedSections);
                 padding: 15px 14px 50px;
             }
 
-            .overview-hero {
-                padding: 30px 12px 18px;
-            }
-
             .sections-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 14px;
-            }
-
-            .dishes-catalog-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .dish-detail-media {
-                height: 190px;
+                gap: 12px;
             }
 
             .swipe-deck-viewport {
-                padding: 8px 12px 50px;
+                padding: 10px 10px 120px;
             }
 
-            .detail-nav-bar {
-                top: 0;
+            .dish-split-card {
+                border-radius: 18px;
             }
 
-            .detail-nav-container {
-                padding: 0 12px;
-                gap: 10px;
+            .split-card-media {
+                flex: 0 0 47%;
+                min-height: 220px;
             }
 
-            .back-to-sections-btn {
-                padding: 7px 11px;
-                font-size: 0.76rem;
+            .split-card-details {
+                flex: 1 1 53%;
+                padding: 12px 10px;
             }
-
-            .cat-tab-btn {
-                padding: 7px 14px;
-                font-size: 0.76rem;
-            }
-
         }
 
 
@@ -1004,7 +1498,7 @@ $sectionKeys = array_keys($orderedSections);
              VIEW 2: DETAILED MENU WITH TOUCH SWIPE CONTROLLER
              ========================================================================== -->
         <section id="detailMenuView">
-            <!-- Sticky Section Navigation Bar -->
+            <!-- Sticky Top Header in Detailed View -->
             <div class="detail-nav-bar">
                 <div class="detail-nav-container">
                     <button type="button" class="back-to-sections-btn" id="backToSectionsBtn">
@@ -1012,51 +1506,58 @@ $sectionKeys = array_keys($orderedSections);
                         <span>All Sections</span>
                     </button>
 
-                    <div class="category-pills-carousel" id="categoryTabsCarousel">
-                        <?php foreach ($sectionKeys as $idx => $sKey): ?>
-                            <button type="button" class="cat-tab-btn <?= $idx === 0 ? 'active' : '' ?>" data-index="<?= $idx ?>" data-key="<?= htmlspecialchars($sKey) ?>">
-                                <?= htmlspecialchars($sKey) ?>
-                            </button>
-                        <?php endforeach; ?>
+                    <div class="detail-brand-crest">
+                        <img src="assets/images/swans_only.png" alt="Orah Emblem">
+                        <span>ORAH HOUSE</span>
                     </div>
+
+                    <div style="width: 80px;" aria-hidden="true"></div>
                 </div>
             </div>
 
-            <!-- Swipe Guidance Indicator -->
-            <div class="swipe-hint-bar">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8L22 12L18 16M6 8L2 12L6 16M2 12H22"/></svg>
-                <span>Swipe left / right or tap tabs above to switch sections</span>
-            </div>
-
-            <!-- Swiping Viewport -->
+            <!-- Swiping Viewport with Slide Deck -->
             <div class="swipe-deck-viewport" id="swipeDeckViewport">
-                <!-- Floating Arrow Buttons for Desktop Navigation -->
-                <button type="button" class="deck-nav-btn prev-btn" id="prevSectionBtn" aria-label="Previous Section">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-                </button>
-                <button type="button" class="deck-nav-btn next-btn" id="nextSectionBtn" aria-label="Next Section">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-                </button>
-
-                <!-- Slider Containing Panes for Each Section -->
                 <div class="swipe-deck-slider" id="swipeDeckSlider">
+                    <?php 
+                        $sIndex = 0;
+                        $totalSecCount = count($orderedSections);
+                    ?>
                     <?php foreach ($orderedSections as $sKey => $dishes): ?>
                         <?php 
                             $meta = $sectionMeta[$sKey] ?? [
+                                'eyebrow' => 'OUR SIGNATURES',
+                                'scriptQuote' => 'Artisan Craft',
                                 'subtitle' => 'Handcrafted delicacies prepared with fine estate ingredients.'
                             ];
+                            $count = count($dishes);
+                            $displayName = ($sKey === 'Pasta') ? 'Pastas' : $sKey;
                         ?>
-                        <div class="section-slide-pane" data-section-key="<?= htmlspecialchars($sKey) ?>">
-                            <div class="section-slide-header">
-                                <div>
-                                    <h2 class="section-slide-title"><?= htmlspecialchars($sKey) ?></h2>
-                                    <p class="section-slide-desc"><?= htmlspecialchars($meta['subtitle']) ?></p>
+                        <div class="section-slide-pane" data-section-key="<?= htmlspecialchars($sKey) ?>" data-pane-index="<?= $sIndex ?>">
+                            <!-- Top Editorial Section Header matching reference mockup -->
+                            <header class="editorial-section-header">
+                                <div class="editorial-header-left">
+                                    <span class="editorial-eyebrow"><?= htmlspecialchars($meta['eyebrow'] ?? 'OUR SIGNATURES') ?></span>
+                                    <h2 class="editorial-title"><?= htmlspecialchars($displayName) ?></h2>
+                                    <div class="editorial-title-underline"></div>
+                                    <p class="editorial-desc"><?= htmlspecialchars($meta['subtitle']) ?></p>
                                 </div>
-                                <span style="font-weight: 700; font-size: 0.85rem; color: var(--gold-accent);"><?= count($dishes) ?> Items</span>
-                            </div>
+                                <div class="editorial-header-right">
+                                    <div class="editorial-counter-box">
+                                        <span class="counter-number"><?= $count ?></span>
+                                        <span class="counter-label">ITEMS</span>
+                                    </div>
+                                    <div class="editorial-cursive-quote">
+                                        <span><?= htmlspecialchars($meta['scriptQuote'] ?? 'Artisan Craft') ?></span>
+                                        <svg class="cursive-underline-svg" viewBox="0 0 100 20" preserveAspectRatio="none">
+                                            <path d="M 2 12 Q 50 18 98 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </header>
 
-                            <div class="dishes-catalog-grid">
-                                <?php foreach ($dishes as $dish): ?>
+                            <!-- Stack of Editorial Split Dish Cards -->
+                            <div class="dishes-catalog-stack">
+                                <?php foreach ($dishes as $dIdx => $dish): ?>
                                     <?php 
                                         $dishName = $dish['name'] ?? 'Untitled Dish';
                                         $particular = $dish['particular'] ?? $dishName;
@@ -1064,50 +1565,169 @@ $sectionKeys = array_keys($orderedSections);
                                         $dishDesc = $dish['description'] ?? '';
                                         $dishImg = $dish['image'] ?? 'uploads/artisanal_pizza.jpg';
                                         $isVeg = !empty($dish['is_veg']);
-                                        $orderUrl = "https://wa.me/?text=" . urlencode("Hello Orah House, I'd like to order: {$dishName} ({$dishPrice})");
+                                        $indexNum = str_pad($dIdx + 1, 2, '0', STR_PAD_LEFT);
+                                        $highlights = getDishHighlights($dish);
+                                        $tagline = getDishTagline($dIdx, $dish);
+                                        $nameWords = preg_split('/[\s&]+/', strtoupper($dishName));
+                                        $waText = "Hello Orah House, I would like to order: " . $dishName . " (" . $dishPrice . ")";
+                                        $waUrl = "https://wa.me/?text=" . urlencode($waText);
                                     ?>
-                                    <article class="dish-detail-card">
-                                        <div class="dish-detail-media">
-                                            <img src="<?= htmlspecialchars($dishImg) ?>" alt="<?= htmlspecialchars($dishName) ?>" class="dish-detail-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&q=80'">
-                                            <span class="dish-detail-badge"><?= htmlspecialchars($sKey) ?></span>
-                                        </div>
+                                    <article class="dish-split-card" data-dish-id="<?= htmlspecialchars($dish['id'] ?? '') ?>">
+                                        <!-- Left Side: Photo with Vignette Overlays -->
+                                        <div class="split-card-media">
+                                            <img src="<?= htmlspecialchars($dishImg) ?>" alt="<?= htmlspecialchars($dishName) ?>" class="split-card-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&q=80'">
+                                            <div class="split-card-vignette"></div>
 
-                                        <div class="dish-detail-body">
-                                            <div class="dish-header-row">
-                                                <h3 class="dish-unique-title"><?= htmlspecialchars($dishName) ?></h3>
-                                                <span class="dish-price-text"><?= htmlspecialchars($dishPrice) ?></span>
+                                            <!-- Top Left: 01, Accent Line, Stacked Caps Title -->
+                                            <div class="media-top-overlay">
+                                                <span class="media-index-number"><?= $indexNum ?></span>
+                                                <div class="media-accent-bar"></div>
+                                                <div class="media-stacked-title">
+                                                    <?php foreach (array_slice($nameWords, 0, 3) as $w): ?>
+                                                        <span><?= htmlspecialchars($w) ?></span>
+                                                    <?php endforeach; ?>
+                                                </div>
                                             </div>
 
-                                            <?php if (!empty($particular) && $particular !== $dishName): ?>
-                                                <span class="dish-particular-label"><?= htmlspecialchars($particular) ?></span>
-                                            <?php endif; ?>
+                                            <!-- Bottom Left: Cursive Script Tagline -->
+                                            <div class="media-script-tagline">
+                                                <?= htmlspecialchars($tagline) ?>
+                                            </div>
+                                        </div>
 
-                                            <p class="dish-desc-text"><?= htmlspecialchars($dishDesc) ?></p>
+                                        <!-- Right Side: Details, Highlights, & Action Button -->
+                                        <div class="split-card-details">
+                                            <div>
+                                                <div class="split-details-header">
+                                                    <div class="title-and-price">
+                                                        <h3 class="split-dish-title"><?= htmlspecialchars($dishName) ?></h3>
+                                                        <div class="split-dish-price"><?= htmlspecialchars($dishPrice) ?></div>
+                                                    </div>
+                                                    <button type="button" class="split-fav-btn" aria-label="Favorite <?= htmlspecialchars($dishName) ?>">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                                                            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
 
-                                            <div class="dish-footer-row">
-                                                <span class="dish-diet-tag">
-                                                    <span>●</span>
-                                                    <span><?= $isVeg ? 'Vegetarian' : 'Non-Veg' ?></span>
-                                                </span>
+                                                <?php if (!empty($dishDesc)): ?>
+                                                    <p class="split-dish-desc"><?= htmlspecialchars($dishDesc) ?></p>
+                                                <?php elseif (!empty($particular) && $particular !== $dishName): ?>
+                                                    <p class="split-dish-desc"><?= htmlspecialchars($particular) ?> prepared with slow-fermented artisanal craft and fresh estate ingredients.</p>
+                                                <?php else: ?>
+                                                    <p class="split-dish-desc">House signature prepared with artisanal craft, estate herbs, and slow-baked pantry ingredients.</p>
+                                                <?php endif; ?>
 
-                                                <a href="<?= htmlspecialchars($orderUrl) ?>" target="_blank" rel="noopener" class="dish-order-link">
-                                                    <span>Order Dish</span>
-                                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                                                </a>
+                                                <div class="split-divider"></div>
+
+                                                <!-- 4 Highlights with Icons -->
+                                                <div class="split-highlights-list">
+                                                    <?php foreach ($highlights as $hl): ?>
+                                                        <div class="split-highlight-item">
+                                                            <span class="highlight-icon"><?= $hl['icon'] ?></span>
+                                                            <span class="highlight-name"><?= htmlspecialchars($hl['name']) ?></span>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+
+                                                <!-- Dietary Badge -->
+                                                <div class="split-diet-row">
+                                                    <span class="diet-dot <?= $isVeg ? 'veg' : 'non-veg' ?>">●</span>
+                                                    <span><?= $isVeg ? 'VEGETARIAN' : 'NON-VEG' ?></span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Bottom Action Button -->
+                                            <div class="split-action-row">
+                                                <button type="button" class="split-view-btn"
+                                                        data-name="<?= htmlspecialchars($dishName) ?>"
+                                                        data-price="<?= htmlspecialchars($dishPrice) ?>"
+                                                        data-desc="<?= htmlspecialchars($dishDesc ?: ($particular . ' prepared with slow-fermented artisanal craft.')) ?>"
+                                                        data-img="<?= htmlspecialchars($dishImg) ?>"
+                                                        data-badge="<?= htmlspecialchars($displayName) ?>"
+                                                        data-veg="<?= $isVeg ? '1' : '0' ?>"
+                                                        data-wa="<?= htmlspecialchars($waUrl) ?>">
+                                                    <span>View Dish</span>
+                                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                                </button>
                                             </div>
                                         </div>
                                     </article>
                                 <?php endforeach; ?>
                             </div>
                         </div>
+                        <?php $sIndex++; ?>
                     <?php endforeach; ?>
                 </div>
             </div>
+
+            <!-- Floating Slide Navigation Dock matching reference mockup -->
+            <aside class="floating-slide-dock" id="floatingSlideDock" aria-label="Menu category slide dock">
+                <!-- Previous Section -->
+                <button type="button" class="dock-nav-btn prev" id="dockPrevBtn" aria-label="Previous section">
+                    <div class="dock-arrow-circle">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                    </div>
+                    <div class="dock-text-col">
+                        <span class="dock-action-label">Previous</span>
+                        <span class="dock-target-name" id="dockPrevLabel">...</span>
+                    </div>
+                </button>
+
+                <!-- Center Explore Menu Button -->
+                <div class="dock-center-wrap">
+                    <button type="button" class="dock-explore-circle" id="dockExploreBtn" aria-label="Explore Menu Overview">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <span class="dock-explore-label">Explore Menu</span>
+                </div>
+
+                <!-- Next Section -->
+                <button type="button" class="dock-nav-btn next" id="dockNextBtn" aria-label="Next section">
+                    <div class="dock-text-col text-right">
+                        <span class="dock-action-label">Next</span>
+                        <span class="dock-target-name" id="dockNextLabel">...</span>
+                    </div>
+                    <div class="dock-arrow-circle">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                    </div>
+                </button>
+            </aside>
         </section>
 
     </div>
 
-
+    <!-- Dish Quick-View Modal -->
+    <div class="dish-modal-backdrop" id="dishModalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="dish-modal-dialog">
+            <button type="button" class="dish-modal-close-btn" id="dishModalCloseBtn" aria-label="Close dialog">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <div class="dish-modal-media">
+                <img src="" alt="" id="modalDishImg" class="dish-modal-img">
+                <span class="dish-modal-badge" id="modalDishBadge"></span>
+            </div>
+            <div class="dish-modal-content">
+                <div class="dish-modal-header">
+                    <div>
+                        <h3 class="dish-modal-title" id="modalDishTitle"></h3>
+                        <div style="font-size: 0.72rem; color: #8a7153; font-weight: 700; text-transform: uppercase; margin-top: 3px;" id="modalDishDiet"></div>
+                    </div>
+                    <div class="dish-modal-price" id="modalDishPrice"></div>
+                </div>
+                <p class="dish-modal-desc" id="modalDishDesc"></p>
+                <a href="#" target="_blank" rel="noopener" class="dish-modal-wa-btn" id="modalDishWaBtn">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/>
+                    </svg>
+                    <span>Order on WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- Interactive Navigation & Touch Swipe Engine -->
     <script>
@@ -1116,25 +1736,76 @@ $sectionKeys = array_keys($orderedSections);
             const detailView = document.getElementById('detailMenuView');
             const backBtn = document.getElementById('backToSectionsBtn');
             const sectionCards = document.querySelectorAll('.section-card');
-            const catTabs = document.querySelectorAll('.cat-tab-btn');
             const slider = document.getElementById('swipeDeckSlider');
             const viewport = document.getElementById('swipeDeckViewport');
-            const prevBtn = document.getElementById('prevSectionBtn');
-            const nextBtn = document.getElementById('nextSectionBtn');
-            const tabsCarousel = document.getElementById('categoryTabsCarousel');
+            const dockPrevBtn = document.getElementById('dockPrevBtn');
+            const dockNextBtn = document.getElementById('dockNextBtn');
+            const dockExploreBtn = document.getElementById('dockExploreBtn');
+            const dockPrevLabel = document.getElementById('dockPrevLabel');
+            const dockNextLabel = document.getElementById('dockNextLabel');
 
-            const totalSections = catTabs.length;
+            const sectionPanes = Array.from(document.querySelectorAll('.section-slide-pane'));
+            const totalSections = sectionPanes.length;
+            const sectionKeys = sectionPanes.map(p => p.getAttribute('data-section-key'));
             let currentSectionIndex = 0;
+
+            // Modal elements
+            const modalBackdrop = document.getElementById('dishModalBackdrop');
+            const modalCloseBtn = document.getElementById('dishModalCloseBtn');
+            const modalImg = document.getElementById('modalDishImg');
+            const modalBadge = document.getElementById('modalDishBadge');
+            const modalTitle = document.getElementById('modalDishTitle');
+            const modalPrice = document.getElementById('modalDishPrice');
+            const modalDesc = document.getElementById('modalDishDesc');
+            const modalDiet = document.getElementById('modalDishDiet');
+            const modalWaBtn = document.getElementById('modalDishWaBtn');
+
+            // Get display name for labels
+            function getCleanName(key) {
+                if (!key) return '';
+                return (key === 'Pasta') ? 'Pastas' : key;
+            }
+
+            // Update dock previous and next labels
+            function updateDockLabels() {
+                const prevIdx = (currentSectionIndex - 1 + totalSections) % totalSections;
+                const nextIdx = (currentSectionIndex + 1) % totalSections;
+
+                if (dockPrevLabel) {
+                    dockPrevLabel.textContent = getCleanName(sectionKeys[prevIdx]);
+                }
+                if (dockNextLabel) {
+                    dockNextLabel.textContent = getCleanName(sectionKeys[nextIdx]);
+                }
+            }
+
+            // Slide to a specific section
+            function goToSection(index, animated = true) {
+                if (index < 0) index = 0;
+                if (index >= totalSections) index = totalSections - 1;
+                currentSectionIndex = index;
+
+                // Update slider transform
+                slider.style.transition = animated ? 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)' : 'none';
+                slider.style.transform = `translateX(-${currentSectionIndex * 100}%)`;
+
+                // Update dock labels
+                updateDockLabels();
+
+                // Update URL hash
+                const activeKey = sectionKeys[currentSectionIndex];
+                if (activeKey) {
+                    history.replaceState(null, '', '#' + encodeURIComponent(activeKey.toLowerCase().replace(/[\s&]+/g, '-')));
+                }
+
+                // Scroll viewport to top on section change
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
 
             // Show Detailed Menu
             function openDetailView(sectionKey) {
-                // Find index
-                let targetIndex = 0;
-                catTabs.forEach((tab, idx) => {
-                    if (tab.getAttribute('data-key') === sectionKey) {
-                        targetIndex = idx;
-                    }
-                });
+                let targetIndex = sectionKeys.findIndex(k => k === sectionKey);
+                if (targetIndex === -1) targetIndex = 0;
 
                 overviewView.style.display = 'none';
                 detailView.style.display = 'block';
@@ -1144,7 +1815,6 @@ $sectionKeys = array_keys($orderedSections);
 
                 goToSection(targetIndex, false);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                history.replaceState(null, '', '#' + encodeURIComponent(sectionKey.toLowerCase().replace(/[\s&]+/g, '-')));
             }
 
             // Return to Overview (First Page)
@@ -1161,6 +1831,18 @@ $sectionKeys = array_keys($orderedSections);
             }
 
             backBtn?.addEventListener('click', showOverview);
+            dockExploreBtn?.addEventListener('click', showOverview);
+
+            // Dock Prev / Next Click Handlers
+            dockPrevBtn?.addEventListener('click', () => {
+                const targetIdx = (currentSectionIndex - 1 + totalSections) % totalSections;
+                goToSection(targetIdx, true);
+            });
+
+            dockNextBtn?.addEventListener('click', () => {
+                const targetIdx = (currentSectionIndex + 1) % totalSections;
+                goToSection(targetIdx, true);
+            });
 
             // Clicking any section card on Page 1 opens Page 2
             sectionCards.forEach(card => {
@@ -1170,53 +1852,8 @@ $sectionKeys = array_keys($orderedSections);
                 });
             });
 
-            // Slide to a specific section
-            function goToSection(index, animated = true) {
-                if (index < 0) index = 0;
-                if (index >= totalSections) index = totalSections - 1;
-                currentSectionIndex = index;
-
-                // Update slider transform
-                slider.style.transition = animated ? 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)' : 'none';
-                slider.style.transform = `translateX(-${currentSectionIndex * 100}%)`;
-
-                // Update tabs
-                catTabs.forEach((tab, idx) => {
-                    if (idx === currentSectionIndex) {
-                        tab.classList.add('active');
-                        tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                    } else {
-                        tab.classList.remove('active');
-                    }
-                });
-
-                // Update button disabled state
-                if (prevBtn) prevBtn.style.opacity = (currentSectionIndex === 0) ? '0.35' : '1';
-                if (nextBtn) nextBtn.style.opacity = (currentSectionIndex === totalSections - 1) ? '0.35' : '1';
-
-                const activeKey = catTabs[currentSectionIndex]?.getAttribute('data-key');
-                if (activeKey) {
-                    history.replaceState(null, '', '#' + encodeURIComponent(activeKey.toLowerCase().replace(/[\s&]+/g, '-')));
-                }
-            }
-
-            // Clicking Tabs
-            catTabs.forEach((tab, idx) => {
-                tab.addEventListener('click', () => {
-                    goToSection(idx, true);
-                });
-            });
-
-            // Desktop Arrow navigation
-            prevBtn?.addEventListener('click', () => {
-                if (currentSectionIndex > 0) goToSection(currentSectionIndex - 1, true);
-            });
-            nextBtn?.addEventListener('click', () => {
-                if (currentSectionIndex < totalSections - 1) goToSection(currentSectionIndex + 1, true);
-            });
-
             // =========================================================================
-            // TOUCH / MOUSE SWIPE GESTURE ENGINE
+            // TOUCH / SWIPE GESTURE ENGINE (SLIDE FEATURE)
             // =========================================================================
             let startX = 0;
             let startY = 0;
@@ -1244,17 +1881,14 @@ $sectionKeys = array_keys($orderedSections);
                 const diffX = currentX - startX;
                 const diffY = currentY - startY;
 
-                // Determine swipe orientation if not yet decided
                 if (isHorizontalSwipe === null) {
                     if (Math.abs(diffX) > 10 || Math.abs(diffY) > 10) {
                         isHorizontalSwipe = Math.abs(diffX) > Math.abs(diffY);
                     }
                 }
 
-                // If user is swiping horizontally, prevent vertical scroll and track visually
                 if (isHorizontalSwipe) {
                     if (e.cancelable) e.preventDefault();
-                    // Slight resistance at the ends
                     let dragOffset = diffX;
                     if ((currentSectionIndex === 0 && diffX > 0) || (currentSectionIndex === totalSections - 1 && diffX < 0)) {
                         dragOffset = diffX * 0.3;
@@ -1274,59 +1908,114 @@ $sectionKeys = array_keys($orderedSections);
 
                 if (isHorizontalSwipe) {
                     const diffX = currentX - startX;
-                    const threshold = 45; // Minimum px to trigger section switch
+                    const threshold = 45; // Minimum px to trigger slide
 
-                    if (diffX < -threshold && currentSectionIndex < totalSections - 1) {
-                        goToSection(currentSectionIndex + 1, true); // Swipe left -> next
-                    } else if (diffX > threshold && currentSectionIndex > 0) {
-                        goToSection(currentSectionIndex - 1, true); // Swipe right -> prev
+                    if (diffX < -threshold) {
+                        // Swipe left -> Next
+                        const nextIdx = (currentSectionIndex + 1) % totalSections;
+                        goToSection(nextIdx, true);
+                    } else if (diffX > threshold) {
+                        // Swipe right -> Prev
+                        const prevIdx = (currentSectionIndex - 1 + totalSections) % totalSections;
+                        goToSection(prevIdx, true);
                     } else {
-                        goToSection(currentSectionIndex, true); // Return to current
+                        goToSection(currentSectionIndex, true);
                     }
                 }
                 isHorizontalSwipe = null;
             }
 
-            // Touch listeners (Mobile / Tablets)
+            // Touch Listeners for Mobile Swipe
             viewport.addEventListener('touchstart', handleTouchStart, { passive: true });
             viewport.addEventListener('touchmove', handleTouchMove, { passive: false });
             viewport.addEventListener('touchend', handleTouchEnd);
             viewport.addEventListener('touchcancel', handleTouchEnd);
 
-            // Mouse drag listeners (Desktop swipe)
-            let isMouseDown = false;
-            viewport.addEventListener('mousedown', (e) => {
-                if (e.target.closest('button') || e.target.closest('a')) return;
-                isMouseDown = true;
-                handleTouchStart(e);
-            });
-            window.addEventListener('mousemove', (e) => {
-                if (!isMouseDown) return;
-                handleTouchMove(e);
-            });
-            window.addEventListener('mouseup', () => {
-                if (!isMouseDown) return;
-                isMouseDown = false;
-                handleTouchEnd();
+            // Keyboard Arrow Support
+            window.addEventListener('keydown', (e) => {
+                if (detailView.style.display !== 'none' && detailView.style.display !== '') {
+                    if (e.key === 'ArrowRight') {
+                        goToSection((currentSectionIndex + 1) % totalSections, true);
+                    } else if (e.key === 'ArrowLeft') {
+                        goToSection((currentSectionIndex - 1 + totalSections) % totalSections, true);
+                    } else if (e.key === 'Escape') {
+                        closeModal();
+                    }
+                }
             });
 
-            // Check URL Hash on load
+            // =========================================================================
+            // FAVORITE BUTTON INTERACTION
+            // =========================================================================
+            document.querySelectorAll('.split-fav-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    btn.classList.toggle('active');
+                });
+            });
+
+            // =========================================================================
+            // DISH MODAL QUICK VIEW
+            // =========================================================================
+            function openModal(data) {
+                if (!modalBackdrop) return;
+                modalImg.src = data.img;
+                modalBadge.textContent = data.badge;
+                modalTitle.textContent = data.name;
+                modalPrice.textContent = data.price;
+                modalDesc.textContent = data.desc;
+                modalDiet.textContent = (data.veg === '1') ? '● VEGETARIAN' : '● NON-VEG';
+                modalDiet.style.color = (data.veg === '1') ? '#2e7d32' : '#c62828';
+                modalWaBtn.href = data.wa;
+
+                modalBackdrop.classList.add('active');
+                modalBackdrop.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                if (!modalBackdrop) return;
+                modalBackdrop.classList.remove('active');
+                modalBackdrop.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
+
+            document.querySelectorAll('.split-view-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openModal({
+                        name: btn.getAttribute('data-name'),
+                        price: btn.getAttribute('data-price'),
+                        desc: btn.getAttribute('data-desc'),
+                        img: btn.getAttribute('data-img'),
+                        badge: btn.getAttribute('data-badge'),
+                        veg: btn.getAttribute('data-veg'),
+                        wa: btn.getAttribute('data-wa')
+                    });
+                });
+            });
+
+            modalCloseBtn?.addEventListener('click', closeModal);
+            modalBackdrop?.addEventListener('click', (e) => {
+                if (e.target === modalBackdrop) closeModal();
+            });
+
+            // Initial Hash Routing
             const initialHash = window.location.hash.replace('#', '').toLowerCase();
             if (initialHash) {
-                let matchedKey = null;
-                catTabs.forEach(tab => {
-                    const key = tab.getAttribute('data-key');
+                const matchedKey = sectionKeys.find(key => {
                     const slug = key.toLowerCase().replace(/[\s&]+/g, '-');
-                    if (slug === initialHash || slug.includes(initialHash)) {
-                        matchedKey = key;
-                    }
+                    return slug === initialHash || slug.includes(initialHash);
                 });
 
                 if (matchedKey) {
                     openDetailView(matchedKey);
                 }
             }
+
+            updateDockLabels();
         });
     </script>
 </body>
 </html>
+
