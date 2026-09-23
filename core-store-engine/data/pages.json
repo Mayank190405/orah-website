@@ -1,0 +1,18 @@
+{
+    "menu.php": {
+        "title": "Menu Page",
+        "url": "menu.php",
+        "status": "live",
+        "down_message": "Our architectural menu is currently undergoing seasonal curation. Our doors remain open\u2014please connect with our concierge for reservations.",
+        "down_action": "maintenance",
+        "redirect_to": "index.php"
+    },
+    "index.php": {
+        "title": "Storefront Home",
+        "url": "index.php",
+        "status": "live",
+        "down_message": "Our storefront is temporarily offline for a private tasting event. You can still explore our live menu.",
+        "down_action": "maintenance",
+        "redirect_to": "menu.php"
+    }
+}

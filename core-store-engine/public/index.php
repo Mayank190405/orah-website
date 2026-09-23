@@ -7,6 +7,18 @@ use CoreStore\Engine\JsonStorage;
 use CoreStore\Engine\ThemeEngine;
 use CoreStore\Engine\CardRenderer;
 
+// Page Controller Gate Check (Live or Down)
+$pagesStorage = new JsonStorage(__DIR__ . '/../data/pages.json');
+$pagesConfig = $pagesStorage->read() ?: [];
+if (isset($pagesConfig['index.php']) && ($pagesConfig['index.php']['status'] ?? 'live') === 'down') {
+    if (($pagesConfig['index.php']['down_action'] ?? '') === 'redirect' && !empty($pagesConfig['index.php']['redirect_to'])) {
+        header('Location: ' . $pagesConfig['index.php']['redirect_to']);
+        exit;
+    }
+    require_once __DIR__ . '/maintenance.php';
+    exit;
+}
+
 // Initialize Core Engine Components
 $storage = new JsonStorage(__DIR__ . '/../data/settings.json');
 $settings = $storage->read();
@@ -576,5 +588,8 @@ $hero = $settings['hero'] ?? null;
 
     <!-- Load Core Engine JS -->
     <script src="assets/js/engine.js?v=<?= filemtime(__DIR__ . '/assets/js/engine.js') ?>"></script>
+
+    <!-- Dynamic Pop-Up & Form Studio Integration -->
+    <?php require_once __DIR__ . '/popup_engine.php'; ?>
 </body>
 </html>

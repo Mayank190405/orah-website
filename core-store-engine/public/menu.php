@@ -5,6 +5,18 @@ require_once __DIR__ . '/../engine/ThemeEngine.php';
 use CoreStore\Engine\JsonStorage;
 use CoreStore\Engine\ThemeEngine;
 
+// Page Controller Gate Check (Live or Down)
+$pagesStorage = new JsonStorage(__DIR__ . '/../data/pages.json');
+$pagesConfig = $pagesStorage->read() ?: [];
+if (isset($pagesConfig['menu.php']) && ($pagesConfig['menu.php']['status'] ?? 'live') === 'down') {
+    if (($pagesConfig['menu.php']['down_action'] ?? '') === 'redirect' && !empty($pagesConfig['menu.php']['redirect_to'])) {
+        header('Location: ' . $pagesConfig['menu.php']['redirect_to']);
+        exit;
+    }
+    require_once __DIR__ . '/maintenance.php';
+    exit;
+}
+
 // Read settings & catalog
 $settingsStorage = new JsonStorage(__DIR__ . '/../data/settings.json');
 $settings = $settingsStorage->read();
@@ -2094,6 +2106,9 @@ $sectionKeys = array_keys($orderedSections);
             updateDockLabels();
         });
     </script>
+
+    <!-- Dynamic Pop-Up & Form Studio Integration -->
+    <?php require_once __DIR__ . '/popup_engine.php'; ?>
 </body>
 </html>
 

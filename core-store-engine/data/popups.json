@@ -1,0 +1,27 @@
+[
+    {
+        "id": "popup_table_reservation",
+        "name": "Table Reservation",
+        "target_page": "menu.php",
+        "active": true,
+        "layout": "center_modal",
+        "trigger_type": "both",
+        "trigger_delay_sec": 7,
+        "floating_btn_text": "\u2726 Reserve Table",
+        "badge_text": "ORAH HOUSE",
+        "title": "Reserve Your Dining Experience",
+        "subtitle": "Immerse yourself in our architectural hearth dining, artisanal sourdough flatbreads, and specialty brews.",
+        "button_text": "Confirm Reservation Request",
+        "image": "uploads/mozzarella_flatbread.jpg",
+        "elements": {
+            "show_badge": true,
+            "show_title": true,
+            "show_subtitle": true,
+            "show_image": true,
+            "show_guests": true,
+            "show_datetime": true,
+            "show_notes": true,
+            "show_close": true
+        }
+    }
+]

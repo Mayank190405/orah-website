@@ -1,0 +1,28 @@
+[
+    {
+        "id": "lead_1790167207_c6021c",
+        "created_at": "2026-09-23 12:40",
+        "form_name": "Table Reservation",
+        "page": "menu.php",
+        "name": "Aarav Sharma",
+        "phone": "919876543210",
+        "guests": "2 Guests",
+        "date": "2026-09-23",
+        "time": "Dinner (8:00 PM)",
+        "notes": "Celebrating anniversary",
+        "status": "completed"
+    },
+    {
+        "id": "lead_sample_101",
+        "created_at": "2026-09-23 17:30",
+        "form_name": "Table Reservation & Tasting",
+        "page": "menu.php",
+        "name": "Karan Sharma",
+        "phone": "+91 98200 12345",
+        "guests": "4 Guests",
+        "date": "2026-09-25",
+        "time": "Dinner (8:00 PM)",
+        "notes": "Anniversary celebration. Prefer hearthside seating.",
+        "status": "confirmed"
+    }
+]
