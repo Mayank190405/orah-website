@@ -26,6 +26,14 @@ $sectionMeta = [
         'subtitle' => 'Slow-fermented Neapolitan style with San Marzano tomatoes & fresh basil',
         'image' => 'uploads/artisanal_pizza.jpg'
     ],
+    'Pasta' => [
+        'subtitle' => 'House-made pastas tossed in rich sauces with seasonal ingredients',
+        'image' => 'uploads/pastas_showcase.jpg'
+    ],
+    'Desserts' => [
+        'subtitle' => 'Sweet endings crafted with premium ingredients',
+        'image' => 'uploads/desserts_showcase.jpg'
+    ],
     'Appetizers' => [
         'subtitle' => 'Char-grilled skewers, molten cheese bites, and savory small plates',
         'image' => 'uploads/paneer_skewers.jpg'
@@ -36,35 +44,27 @@ $sectionMeta = [
     ],
     'Salads' => [
         'subtitle' => 'Fresh garden greens, pineapple crunch, and house-whipped dressings',
-        'image' => 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=700&q=80'
-    ],
-    'Pasta' => [
-        'subtitle' => 'Silky handcrafted tagliatelle and al dente spaghetti in rich herb reductions',
-        'image' => 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=700&q=80'
+        'image' => 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=80'
     ],
     'Burgers' => [
         'subtitle' => 'Artisanal patties, slow-cooked mushroom sauce, and toasted sesame brioche',
-        'image' => 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&q=80'
+        'image' => 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=800&q=80'
     ],
     'Open Toast & Bruschetta' => [
         'subtitle' => 'Golden toasted brioche, avocado salsa, and classic Italian crostinis',
-        'image' => 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=700&q=80'
+        'image' => 'https://images.unsplash.com/photo-1506280754576-f6fa8a873550?w=800&q=80'
     ],
     'Sandwiches' => [
         'subtitle' => 'Multi-grain artisan loaves pressed with gourmet tandoor & BBQ fillings',
-        'image' => 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=700&q=80'
+        'image' => 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&q=80'
     ],
     'Siders' => [
         'subtitle' => 'Crispy golden fries, rustic roasted wedges, and warm dipping nachos',
-        'image' => 'https://images.unsplash.com/photo-1576107232684-1279f3908594?w=700&q=80'
+        'image' => 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=800&q=80'
     ],
     'Coffee & Beverages' => [
         'subtitle' => 'V60 single origin pour-overs, textured Spanish lattes, and cold steeps',
-        'image' => 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=700&q=80'
-    ],
-    'Desserts' => [
-        'subtitle' => 'Savoiardi espresso tiramisu coupes and warm Belgian chocolate tarts',
-        'image' => 'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=700&q=80'
+        'image' => 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80'
     ]
 ];
 
@@ -77,20 +77,20 @@ foreach ($catalog as $dish) {
     $sections[$badge][] = $dish;
 }
 
-// Preferred visual order for sections
+// Preferred visual order for sections (Matches reference showcase)
 $preferredOrder = [
     'Flat Breads',
     'Pizzas',
-    'Appetizers',
     'Pasta',
+    'Desserts',
+    'Appetizers',
     'Burgers',
     'Open Toast & Bruschetta',
     'Sandwiches',
-    'Salads',
     'Bowls & Salads',
+    'Salads',
     'Siders',
-    'Coffee & Beverages',
-    'Desserts'
+    'Coffee & Beverages'
 ];
 
 $orderedSections = [];
@@ -272,116 +272,266 @@ $sectionKeys = array_keys($orderedSections);
         }
 
         /* Sections Grid */
+        /* Sections Grid - 2 Columns Matching Editorial Showcase Reference */
         .sections-grid-container {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto 70px;
             padding: 0 20px;
         }
 
         .sections-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 28px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
         }
 
+        @media (min-width: 1100px) {
+            .sections-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 28px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sections-grid-container {
+                padding: 0 12px;
+                margin-bottom: 50px;
+            }
+
+            .sections-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        /* Editorial Section Card with Full-Bleed Imagery & Dark Vignette */
         .section-card {
-            background: #ffffff;
-            border: 1px solid var(--border-light);
-            border-radius: 22px;
+            position: relative;
+            min-height: 480px;
+            height: 100%;
+            border-radius: 26px;
             overflow: hidden;
-            box-shadow: 0 8px 24px rgba(104, 20, 24, 0.05);
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.2s ease;
-            position: relative;
+            justify-content: space-between;
+            padding: 24px;
+            box-sizing: border-box;
+            background-color: #1a0a0c;
+            box-shadow: 0 14px 38px rgba(28, 12, 10, 0.20);
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+        }
+
+        @media (max-width: 768px) {
+            .section-card {
+                min-height: 390px;
+                padding: 16px 14px;
+                border-radius: 20px;
+            }
         }
 
         .section-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 16px 36px rgba(104, 20, 24, 0.14);
-            border-color: rgba(104, 20, 24, 0.3);
+            box-shadow: 0 22px 50px rgba(28, 12, 10, 0.32);
         }
 
-        .section-card-media {
-            position: relative;
+        /* Full Bleed Background Image */
+        .section-card-bg {
+            position: absolute;
+            inset: 0;
             width: 100%;
-            height: 220px;
+            height: 100%;
+            z-index: 1;
             overflow: hidden;
-            background: #eae2d5;
         }
 
         .section-card-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: block;
+            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .section-card:hover .section-card-img {
-            transform: scale(1.08);
+            transform: scale(1.06);
         }
 
-        .section-card-count {
+        /* Deep Warm Dark Gradient Overlay matching reference image */
+        .section-card-overlay {
             position: absolute;
-            top: 14px;
-            right: 14px;
-            background: rgba(104, 20, 24, 0.88);
-            backdrop-filter: blur(8px);
-            color: #FBF6EE;
-            font-size: 0.70rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 5px 12px;
-            border-radius: 12px;
-        }
-
-        .section-card-content {
-            padding: 24px 22px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .section-card-name {
-            font-family: var(--font-heading);
-            font-size: 1.55rem;
-            margin-bottom: 6px;
-            color: var(--burgundy);
-            font-weight: 500;
-        }
-
-        .section-card-desc {
-            font-size: 0.88rem;
-            color: #5d564e;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            flex: 1;
-        }
-
-        .section-card-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: space-between;
+            inset: 0;
             width: 100%;
-            padding: 10px 16px;
-            background: var(--cream-bg);
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            color: var(--burgundy);
-            font-size: 0.80rem;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(20, 10, 8, 0.12) 0%,
+                rgba(24, 11, 10, 0.30) 32%,
+                rgba(22, 9, 8, 0.82) 64%,
+                rgba(16, 6, 7, 0.98) 100%
+            );
+            pointer-events: none;
+        }
+
+        /* Top-Left Maroon Pill Badge */
+        .section-card-badge {
+            position: relative;
+            z-index: 5;
+            align-self: flex-start;
+        }
+
+        .section-card-badge span {
+            display: inline-block;
+            background: rgba(82, 15, 18, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: 0.68rem;
             font-weight: 700;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        .section-card:hover .section-card-btn {
-            background: var(--burgundy);
-            color: #FBF6EE;
-            border-color: var(--burgundy);
+        @media (max-width: 768px) {
+            .section-card-badge span {
+                font-size: 0.58rem;
+                padding: 4px 10px;
+                letter-spacing: 1px;
+            }
+        }
+
+        /* Bottom Body Content */
+        .section-card-body {
+            position: relative;
+            z-index: 5;
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-card-title {
+            font-family: 'Dream Avenue', 'Cormorant Garamond', Georgia, serif;
+            font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+            font-weight: 400;
+            color: #ffffff;
+            line-height: 1.05;
+            margin: 0;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+        }
+
+        @media (max-width: 768px) {
+            .section-card-title {
+                font-size: 1.45rem;
+            }
+        }
+
+        .section-title-line {
+            width: 36px;
+            height: 1.5px;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 8px 0 12px;
+        }
+
+        @media (max-width: 768px) {
+            .section-title-line {
+                width: 28px;
+                margin: 6px 0 10px;
+            }
+        }
+
+        .section-card-desc {
+            font-family: var(--font-body);
+            font-size: clamp(0.78rem, 1.1vw, 0.88rem);
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.48;
+            margin: 0 0 18px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .section-card-desc {
+                font-size: 0.72rem;
+                line-height: 1.35;
+                margin-bottom: 12px;
+                -webkit-line-clamp: 2;
+            }
+        }
+
+        /* Explore Row with Text & Circular Outline Arrow */
+        .section-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .explore-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #ffffff;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+            .explore-label {
+                font-size: 0.62rem;
+                letter-spacing: 1.5px;
+            }
+        }
+
+        .explore-circle-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .explore-circle-btn {
+                width: 30px;
+                height: 30px;
+            }
+            .explore-circle-btn svg {
+                width: 13px;
+                height: 13px;
+            }
+        }
+
+        .section-card:hover .explore-circle-btn {
+            background: #ffffff;
+            border-color: #ffffff;
+            color: var(--burgundy);
+            transform: scale(1.1);
+        }
+
+        .section-card:hover .explore-label {
+            color: #ffffff;
+            transform: translateX(2px);
         }
 
         /* ==========================================================================
@@ -776,12 +926,8 @@ $sectionKeys = array_keys($orderedSections);
             }
 
             .sections-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .section-card-media {
-                height: 190px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
             }
 
             .dishes-catalog-grid {
@@ -900,19 +1046,35 @@ $sectionKeys = array_keys($orderedSections);
                             ];
                             $count = count($dishes);
                         ?>
-                        <article class="section-card" data-section-target="<?= htmlspecialchars($sectionName) ?>">
-                            <div class="section-card-media">
-                                <img src="<?= htmlspecialchars($meta['image']) ?>" alt="<?= htmlspecialchars($sectionName) ?>" class="section-card-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&q=80'">
-                                <span class="section-card-count"><?= $count ?> Items</span>
+                        <?php 
+                            $displayName = ($sectionName === 'Pasta') ? 'Pastas' : $sectionName;
+                        ?>
+                        <article class="section-card" data-section-target="<?= htmlspecialchars($sectionName) ?>" tabindex="0" role="button" aria-label="Explore <?= htmlspecialchars($displayName) ?>">
+                            <!-- Full Bleed Background Media with Warm Dark Vignette -->
+                            <div class="section-card-bg">
+                                <img src="<?= htmlspecialchars($meta['image']) ?>" alt="<?= htmlspecialchars($displayName) ?>" class="section-card-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&q=80'">
+                                <div class="section-card-overlay"></div>
                             </div>
 
-                            <div class="section-card-content">
-                                <h2 class="section-card-name"><?= htmlspecialchars($sectionName) ?></h2>
+                            <!-- Top-Left Maroon Pill Badge -->
+                            <div class="section-card-badge">
+                                <span><?= $count ?> ITEMS</span>
+                            </div>
+
+                            <!-- Bottom Content Stack -->
+                            <div class="section-card-body">
+                                <h2 class="section-card-title"><?= htmlspecialchars($displayName) ?></h2>
+                                <div class="section-title-line"></div>
                                 <p class="section-card-desc"><?= htmlspecialchars($meta['subtitle']) ?></p>
 
-                                <div class="section-card-btn">
-                                    <span>Explore <?= htmlspecialchars($sectionName) ?></span>
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                <div class="section-card-footer">
+                                    <span class="explore-label">EXPLORE</span>
+                                    <div class="explore-circle-btn" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            <polyline points="12 5 19 12 12 19"></polyline>
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
                         </article>
