@@ -7,7 +7,10 @@
         "subtitle": "Hand-stretched sourdough flatbreads baked with artisanal melts & toppings.",
         "image": "uploads/mozzarella_flatbread.jpg",
         "order": 1,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_pizzas",
@@ -17,7 +20,10 @@
         "subtitle": "Slow-fermented Neapolitan style with San Marzano tomatoes & fresh basil.",
         "image": "uploads/artisanal_pizza.jpg",
         "order": 2,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_pasta",
@@ -27,7 +33,10 @@
         "subtitle": "House-made pastas tossed in rich reduction sauces with fine estate ingredients.",
         "image": "uploads/pastas_showcase.jpg",
         "order": 3,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_desserts",
@@ -37,7 +46,10 @@
         "subtitle": "Artisanal confections, molten chocolate tarts, and delicate pastry craft.",
         "image": "uploads/desserts_showcase.jpg",
         "order": 4,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_appetizers",
@@ -47,7 +59,10 @@
         "subtitle": "Char-grilled skewers, molten cheese bites, and savory small plates.",
         "image": "uploads/paneer_skewers.jpg",
         "order": 5,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_burgers",
@@ -57,7 +72,10 @@
         "subtitle": "Artisanal patties, slow-cooked mushroom sauce, and toasted sesame brioche.",
         "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=800&q=80",
         "order": 6,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_open_toast",
@@ -67,7 +85,10 @@
         "subtitle": "Golden toasted brioche, avocado salsa, and classic Italian crostinis.",
         "image": "https://images.unsplash.com/photo-1506280754576-f6fa8a873550?w=800&q=80",
         "order": 7,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_sandwiches",
@@ -77,7 +98,10 @@
         "subtitle": "Multi-grain artisan loaves pressed with gourmet tandoor & BBQ fillings.",
         "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&q=80",
         "order": 8,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_bowls_salads",
@@ -87,7 +111,10 @@
         "subtitle": "Nourishing harvest grains, wild greens, and vibrant house vinaigrettes.",
         "image": "uploads/exotic_rice_bowl.jpg",
         "order": 9,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_salads",
@@ -97,7 +124,10 @@
         "subtitle": "Fresh garden greens, pineapple crunch, and house-whipped dressings.",
         "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=80",
         "order": 10,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_siders",
@@ -107,7 +137,10 @@
         "subtitle": "Crispy golden fries, rustic roasted wedges, and warm dipping nachos.",
         "image": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=800&q=80",
         "order": 11,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     },
     {
         "id": "cat_coffee_beverages",
@@ -117,6 +150,9 @@
         "subtitle": "V60 single origin pour-overs, textured Spanish lattes, and cold steeps.",
         "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80",
         "order": 12,
-        "active": true
+        "active": true,
+        "animation": "none",
+        "card_bg": "",
+        "border_color": ""
     }
 ]

@@ -10,7 +10,7 @@
     "index.php": {
         "title": "Storefront Home",
         "url": "index.php",
-        "status": "live",
+        "status": "down",
         "down_message": "Our storefront is temporarily offline for a private tasting event. You can still explore our live menu.",
         "down_action": "maintenance",
         "redirect_to": "menu.php"

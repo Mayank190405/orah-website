@@ -1130,3 +1130,250 @@ input:checked + .slider:before {
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================================================================
+   CATEGORY WRAPPERS IN DISHES WORKSPACE
+   ========================================================================= */
+.category-wrappers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.category-block-wrap {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.cat-block-header {
+    background: #fdfbf7;
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s ease;
+}
+
+.cat-block-header:hover {
+    background: #f7f1e6;
+}
+
+.cat-block-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cat-toggle-arrow {
+    font-size: 0.8rem;
+    color: var(--primary-accent);
+    transition: transform 0.25s ease;
+    display: inline-block;
+}
+
+.category-block-wrap.collapsed .cat-toggle-arrow {
+    transform: rotate(-90deg);
+}
+
+.category-block-wrap.collapsed .cat-block-body {
+    display: none;
+}
+
+.cat-block-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid rgba(104, 20, 24, 0.12);
+}
+
+.cat-block-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.cat-block-name {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary-accent);
+}
+
+.cat-block-count-badge {
+    background: rgba(104, 20, 24, 0.08);
+    color: var(--primary-accent);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.cat-block-anim-badge {
+    background: linear-gradient(135deg, #FFFDF8, #FAF1DE);
+    border: 1px solid #d4af37;
+    color: #581116;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.cat-block-desc {
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.cat-block-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* =========================================================================
+   ORDER SHUFFLE CONTROLS (NUMBER SHUFFLE FOR PRODUCTS)
+   ========================================================================= */
+.order-shuffle-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+}
+
+.order-seq-badge {
+    display: inline-block;
+    min-width: 28px;
+    padding: 3px 6px;
+    background: #FAF7F2;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary-accent);
+    text-align: center;
+}
+
+.order-shuffle-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.order-btn {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    width: 20px;
+    height: 16px;
+    font-size: 0.58rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+.order-btn:hover:not([disabled]) {
+    background: var(--primary-accent);
+    color: #ffffff;
+    border-color: var(--primary-accent);
+}
+
+/* =========================================================================
+   CHEF SPECIAL BADGE WITH PAPER CLIP
+   ========================================================================= */
+.badge-chef-special {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: linear-gradient(135deg, #FFFDF8, #FAF1DE);
+    border: 1px solid #d4af37;
+    color: #581116;
+    padding: 1px 7px;
+    border-radius: 12px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-left: 6px;
+    box-shadow: 0 1px 3px rgba(40, 15, 10, 0.08);
+}
+
+/* =========================================================================
+   ADMIN CARD STYLING & ANIMATION PILLS
+   ========================================================================= */
+.admin-card-style-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.anim-pill {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.anim-pill-muted {
+    font-size: 0.68rem;
+    color: #9c9890;
+    background: #f5f2ed;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+.anim-pill-gradient_shimmer {
+    background: linear-gradient(135deg, #FFF4D0, #FAF1DE);
+    color: #581116;
+    border: 1px solid #d4af37;
+}
+
+.anim-pill-gold_aura {
+    background: #FFF8E7;
+    color: #8c5d26;
+    border: 1px solid #c99a68;
+}
+
+.anim-pill-burgundy_pulse {
+    background: rgba(104, 20, 24, 0.08);
+    color: #681418;
+    border: 1px solid rgba(104, 20, 24, 0.2);
+}
+
+.anim-pill-color_shift {
+    background: #F3E8FF;
+    color: #6B21A8;
+    border: 1px solid #D8B4FE;
+}
+
+.anim-pill-floating_tilt {
+    background: #E0F2FE;
+    color: #0369A1;
+    border: 1px solid #BAE6FD;
+}
+
+.color-dot-indicator {
+    display: inline-flex;
+    align-items: center;
+}
+
+.color-dot-sample {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}

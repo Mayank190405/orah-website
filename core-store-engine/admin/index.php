@@ -91,6 +91,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        $isChefSpecial = !empty($_POST['is_chef_special']);
+        $chefSpecialNote = trim($_POST['chef_special_note'] ?? '');
+        $order = isset($_POST['order']) && is_numeric($_POST['order']) ? (int)$_POST['order'] : 99;
+        $cardBg = trim($_POST['card_bg'] ?? '');
+        $cardBorder = trim($_POST['card_border'] ?? '');
+        $cardAnimation = trim($_POST['card_animation'] ?? 'none');
+
         if (empty($name)) {
             $message = 'Dish name is required.';
             $messageType = 'error';
@@ -111,7 +118,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'featured' => $featured,
                 'available' => $available,
                 'image' => $imageUrl ?: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&q=80',
-                'custom_fields' => $customFields
+                'custom_fields' => $customFields,
+                'order' => $order,
+                'is_chef_special' => $isChefSpecial,
+                'chef_special_note' => $chefSpecialNote,
+                'card_style' => [
+                    'bg_color' => $cardBg,
+                    'border_color' => $cardBorder,
+                    'accent_color' => '',
+                    'animation' => $cardAnimation
+                ]
             ];
 
             if ($isNew) {
@@ -151,6 +167,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $catalogStorage->write($catalog);
         $message = "Status updated.";
+    } elseif ($action === 'dish_reorder') {
+        $id = trim($_POST['id'] ?? '');
+        $direction = trim($_POST['direction'] ?? ''); // 'up' or 'down'
+
+        $targetDish = null;
+        foreach ($catalog as $item) {
+            if (($item['id'] ?? '') === $id) {
+                $targetDish = $item;
+                break;
+            }
+        }
+
+        if ($targetDish) {
+            $cat = $targetDish['badge'] ?? 'General';
+            $catIndices = [];
+            foreach ($catalog as $i => $item) {
+                if (($item['badge'] ?? '') === $cat) {
+                    $catIndices[] = $i;
+                }
+            }
+            usort($catIndices, function($a, $b) use ($catalog) {
+                $ordA = isset($catalog[$a]['order']) && is_numeric($catalog[$a]['order']) ? (int)$catalog[$a]['order'] : 999;
+                $ordB = isset($catalog[$b]['order']) && is_numeric($catalog[$b]['order']) ? (int)$catalog[$b]['order'] : 999;
+                return $ordA <=> $ordB;
+            });
+
+            $pos = -1;
+            foreach ($catIndices as $p => $idx) {
+                if (($catalog[$idx]['id'] ?? '') === $id) {
+                    $pos = $p;
+                    break;
+                }
+            }
+
+            if ($pos !== -1) {
+                $swapPos = ($direction === 'up') ? ($pos - 1) : ($pos + 1);
+                if ($swapPos >= 0 && $swapPos < count($catIndices)) {
+                    $currGlobal = $catIndices[$pos];
+                    $swapGlobal = $catIndices[$swapPos];
+
+                    $currOrd = (int)($catalog[$currGlobal]['order'] ?? ($pos + 1));
+                    $swapOrd = (int)($catalog[$swapGlobal]['order'] ?? ($swapPos + 1));
+
+                    if ($currOrd === $swapOrd) {
+                        $currOrd = $pos + 1;
+                        $swapOrd = $swapPos + 1;
+                    }
+
+                    $catalog[$currGlobal]['order'] = $swapOrd;
+                    $catalog[$swapGlobal]['order'] = $currOrd;
+
+                    $catalogStorage->write($catalog);
+                    $message = "Shuffled '{$targetDish['name']}' {$direction}!";
+                }
+            }
+        }
+    } elseif ($action === 'dish_renumber_category') {
+        $catName = trim($_POST['category'] ?? '');
+        $catIndices = [];
+        foreach ($catalog as $i => $item) {
+            if (($item['badge'] ?? '') === $catName) {
+                $catIndices[] = $i;
+            }
+        }
+        usort($catIndices, function($a, $b) use ($catalog) {
+            $ordA = isset($catalog[$a]['order']) && is_numeric($catalog[$a]['order']) ? (int)$catalog[$a]['order'] : 999;
+            $ordB = isset($catalog[$b]['order']) && is_numeric($catalog[$b]['order']) ? (int)$catalog[$b]['order'] : 999;
+            return $ordA <=> $ordB;
+        });
+        $seq = 1;
+        foreach ($catIndices as $idx) {
+            $catalog[$idx]['order'] = $seq++;
+        }
+        $catalogStorage->write($catalog);
+        $message = "Renumbered dishes in '{$catName}' sequentially from 1 to " . count($catIndices) . ".";
     }
 
     // 2. CATEGORY ACTIONS
@@ -164,6 +255,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $order = intval($_POST['cat_order'] ?? 99);
         $active = isset($_POST['cat_active']);
         $imageUrl = trim($_POST['cat_image_url'] ?? '');
+        $catAnim = trim($_POST['cat_animation'] ?? 'none');
+        $catBg = trim($_POST['cat_card_bg'] ?? '');
+        $catBorder = trim($_POST['cat_border_color'] ?? '');
 
         $uploaded = saveUploadedImage('cat_image_file', 'cat');
         if ($uploaded) $imageUrl = $uploaded;
@@ -182,7 +276,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'subtitle' => $subtitle,
                     'image' => $imageUrl ?: 'uploads/mozzarella_flatbread.jpg',
                     'order' => $order,
-                    'active' => $active
+                    'active' => $active,
+                    'animation' => $catAnim,
+                    'card_bg' => $catBg,
+                    'border_color' => $catBorder
                 ];
                 $categoriesData[] = $newCat;
                 $message = "Created category '{$catName}'.";
@@ -198,7 +295,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             'subtitle' => $subtitle,
                             'image' => $imageUrl,
                             'order' => $order,
-                            'active' => $active
+                            'active' => $active,
+                            'animation' => $catAnim,
+                            'card_bg' => $catBg,
+                            'border_color' => $catBorder
                         ];
                         break;
                     }
@@ -721,114 +821,275 @@ sort($distinctBadges);
                     </div>
                 </section>
 
-                <div class="items-card" style="overflow-x:auto;">
-                    <table class="items-table" id="dishesMainTable">
-                        <thead>
-                            <tr>
-                                <th>Dish / Item Details</th>
-                                <th>Category</th>
-                                <th>Price</th>
-                                <th>Dietary</th>
-                                <th>Status</th>
-                                <th style="text-align: right;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($catalog as $item): ?>
-                                <?php 
-                                    $itemId = $item['id'] ?? '';
-                                    $itemName = $item['name'] ?? 'Untitled';
-                                    $itemBadge = $item['badge'] ?? 'General';
-                                    $itemPrice = $item['price'] ?? '₹0';
-                                    $itemDesc = $item['description'] ?? '';
-                                    $itemTagline = $item['tagline'] ?? '';
-                                    $itemImg = $item['image'] ?? 'assets/placeholder.jpg';
-                                    $isVeg = !empty($item['is_veg']);
-                                    $isFeatured = !empty($item['featured']);
-                                    $isAvailable = $item['available'] ?? true;
-                                    $cFields = $item['custom_fields'] ?? [];
-                                    $resolvedImg = str_starts_with($itemImg, 'http') ? $itemImg : '../public/' . ltrim($itemImg, '/');
-                                ?>
-                                <tr class="dish-row" 
-                                    data-id="<?= htmlspecialchars($itemId) ?>"
-                                    data-name="<?= htmlspecialchars(strtolower($itemName)) ?>"
-                                    data-desc="<?= htmlspecialchars(strtolower($itemDesc)) ?>"
-                                    data-category="<?= htmlspecialchars($itemBadge) ?>"
-                                    data-price="<?= htmlspecialchars(strtolower($itemPrice)) ?>"
-                                    data-raw='<?= htmlspecialchars(json_encode($item), ENT_QUOTES, 'UTF-8') ?>'>
-                                    <td>
-                                        <div class="dish-cell">
-                                            <img src="<?= htmlspecialchars($resolvedImg) ?>" alt="<?= htmlspecialchars($itemName) ?>" class="dish-thumb" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=120&q=80'">
-                                            <div class="dish-meta">
-                                                <div class="dish-name">
-                                                    <?= htmlspecialchars($itemName) ?>
-                                                    <?php if ($isFeatured): ?>
-                                                        <span title="Chef's Featured Item" style="color: var(--secondary-accent); font-size: 1rem; margin-left: 4px;">★</span>
-                                                    <?php endif; ?>
-                                                </div>
-                                                <?php if ($itemTagline): ?>
-                                                    <div style="font-family:'Caveat',cursive; color:#a67c52; font-size:0.92rem;">&ldquo;<?= htmlspecialchars($itemTagline) ?>&rdquo;</div>
-                                                <?php endif; ?>
-                                                <div class="dish-desc"><?= htmlspecialchars($itemDesc) ?></div>
-                                                <?php if (!empty($cFields)): ?>
-                                                    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:4px;">
-                                                        <?php foreach ($cFields as $cf): ?>
-                                                            <?php if (!empty($cf['name'])): ?>
-                                                                <span style="font-size:0.68rem; background:#f0eae1; color:#5c4736; padding:2px 6px; border-radius:4px; font-weight:700;">
-                                                                    <?= htmlspecialchars($cf['name']) ?>: <?= htmlspecialchars($cf['value'] ?? '') ?>
-                                                                </span>
-                                                            <?php endif; ?>
-                                                        <?php endforeach; ?>
-                                                    </div>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="category-tag"><?= htmlspecialchars($itemBadge) ?></span></td>
-                                    <td><span class="price-tag"><?= htmlspecialchars($itemPrice) ?></span></td>
-                                    <td>
-                                        <span class="diet-badge <?= $isVeg ? 'veg' : 'non-veg' ?>">
-                                            <span><?= $isVeg ? '●' : '▲' ?></span>
-                                            <span><?= $isVeg ? 'Vegetarian' : 'Non-Veg' ?></span>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <form method="POST" style="display:inline;">
-                                            <input type="hidden" name="action" value="dish_toggle">
-                                            <input type="hidden" name="field" value="available">
-                                            <input type="hidden" name="id" value="<?= htmlspecialchars($itemId) ?>">
-                                            <button type="submit" class="status-badge <?= $isAvailable ? 'available' : 'unavailable' ?>" style="border:none; cursor:pointer;" title="Click to toggle availability">
-                                                <span class="status-dot"></span>
-                                                <span><?= $isAvailable ? 'Active' : 'Hidden' ?></span>
-                                            </button>
-                                        </form>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <div class="row-actions" style="justify-content: flex-end;">
-                                            <form method="POST" style="display:inline;" title="Toggle Featured">
-                                                <input type="hidden" name="action" value="dish_toggle">
-                                                <input type="hidden" name="field" value="featured">
-                                                <input type="hidden" name="id" value="<?= htmlspecialchars($itemId) ?>">
-                                                <button type="submit" class="action-icon-btn" style="color: <?= $isFeatured ? 'var(--secondary-accent)' : '#9c9890' ?>;">★</button>
-                                            </form>
+                <?php
+                // Group dishes by category according to category definitions sequence
+                $categoryBuckets = [];
+                foreach ($categoriesData as $c) {
+                    $cName = $c['name'];
+                    $categoryBuckets[$cName] = [
+                        'meta' => $c,
+                        'items' => []
+                    ];
+                }
+                foreach ($catalog as $item) {
+                    $b = $item['badge'] ?? 'General';
+                    if (!isset($categoryBuckets[$b])) {
+                        $categoryBuckets[$b] = [
+                            'meta' => ['name' => $b, 'image' => '', 'animation' => 'none'],
+                            'items' => []
+                        ];
+                    }
+                    $categoryBuckets[$b]['items'][] = $item;
+                }
 
-                                            <button type="button" class="action-icon-btn edit-dish-btn" title="Edit Item">
-                                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                                            </button>
+                // Sort dishes inside each category by explicit order sequence
+                foreach ($categoryBuckets as $cName => &$bucket) {
+                    usort($bucket['items'], function($a, $b) {
+                        $ordA = isset($a['order']) && is_numeric($a['order']) ? (int)$a['order'] : 999;
+                        $ordB = isset($b['order']) && is_numeric($b['order']) ? (int)$b['order'] : 999;
+                        if ($ordA === $ordB) return 0;
+                        return ($ordA < $ordB) ? -1 : 1;
+                    });
+                }
+                unset($bucket);
+                ?>
 
-                                            <form method="POST" onsubmit="return confirm('Are you sure you want to delete \'<?= htmlspecialchars(addslashes($itemName)) ?>\'?');" style="display:inline;">
-                                                <input type="hidden" name="action" value="dish_delete">
-                                                <input type="hidden" name="id" value="<?= htmlspecialchars($itemId) ?>">
-                                                <button type="submit" class="action-icon-btn delete-btn" title="Delete Item">
-                                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-                                                </button>
-                                            </form>
+                <div class="category-wrappers-container" id="categoryWrappersContainer">
+                    <?php foreach ($categoryBuckets as $catName => $bucket): ?>
+                        <?php 
+                            $catItems = $bucket['items'];
+                            $catCount = count($catItems);
+                            $catMeta = $bucket['meta'];
+                            $catImg = $catMeta['image'] ?? '';
+                            $resolvedCatImg = '';
+                            if ($catImg) {
+                                $resolvedCatImg = str_starts_with($catImg, 'http') ? $catImg : '../public/' . ltrim($catImg, '/');
+                            }
+                            $catAnim = $catMeta['animation'] ?? 'none';
+                            $safeCatId = 'cat_wrap_' . md5($catName);
+                        ?>
+                        <div class="category-block-wrap" data-category-name="<?= htmlspecialchars(strtolower($catName)) ?>" id="<?= $safeCatId ?>">
+                            <div class="cat-block-header" onclick="toggleCategoryWrap('<?= $safeCatId ?>')">
+                                <div class="cat-block-left">
+                                    <span class="cat-toggle-arrow">▼</span>
+                                    <?php if (!empty($resolvedCatImg)): ?>
+                                        <img src="<?= htmlspecialchars($resolvedCatImg) ?>" class="cat-block-thumb" alt="" onerror="this.style.display='none'">
+                                    <?php endif; ?>
+                                    <div>
+                                        <div class="cat-block-title-row">
+                                            <span class="cat-block-name"><?= htmlspecialchars($catName) ?></span>
+                                            <span class="cat-block-count-badge"><?= $catCount ?> dishes</span>
+                                            <?php if ($catAnim !== 'none'): ?>
+                                                <span class="cat-block-anim-badge">✨ <?= htmlspecialchars(ucwords(str_replace('_', ' ', $catAnim))) ?></span>
+                                            <?php endif; ?>
                                         </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                                        <?php if (!empty($catMeta['subtitle'])): ?>
+                                            <div class="cat-block-desc"><?= htmlspecialchars($catMeta['subtitle']) ?></div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+
+                                <div class="cat-block-right" onclick="event.stopPropagation();">
+                                    <button type="button" class="btn-primary" style="padding: 5px 12px; font-size: 0.78rem;" onclick="openDishModalForCategory('<?= htmlspecialchars(addslashes($catName)) ?>')">
+                                        + Add Dish
+                                    </button>
+                                    <form method="POST" style="display:inline;" onsubmit="return confirm('Renumber all dishes in <?= htmlspecialchars(addslashes($catName)) ?> sequentially from 1 to <?= $catCount ?>?');">
+                                        <input type="hidden" name="action" value="dish_renumber_category">
+                                        <input type="hidden" name="category" value="<?= htmlspecialchars($catName) ?>">
+                                        <button type="submit" class="btn-secondary" style="padding: 5px 10px; font-size: 0.75rem;" title="Reset sequence 1..N">
+                                            🔢 1..N
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="cat-block-body">
+                                <?php if (empty($catItems)): ?>
+                                    <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.88rem;">
+                                        No dishes added to this category yet.
+                                        <button type="button" class="btn-secondary" style="margin-left: 8px; font-size: 0.78rem;" onclick="openDishModalForCategory('<?= htmlspecialchars(addslashes($catName)) ?>')">+ Add First Dish</button>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="items-card" style="margin:0; border:none; border-radius:0 0 12px 12px; overflow-x:auto;">
+                                        <table class="items-table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 90px; text-align: center;">Order / Shuffle</th>
+                                                    <th>Dish / Item Details</th>
+                                                    <th>Card Styling & Animation</th>
+                                                    <th>Price</th>
+                                                    <th>Dietary</th>
+                                                    <th>Status</th>
+                                                    <th style="text-align: right;">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($catItems as $pos => $item): ?>
+                                                    <?php 
+                                                        $itemId = $item['id'] ?? '';
+                                                        $itemName = $item['name'] ?? 'Untitled';
+                                                        $itemBadge = $item['badge'] ?? 'General';
+                                                        $itemPrice = $item['price'] ?? '₹0';
+                                                        $itemDesc = $item['description'] ?? '';
+                                                        $itemTagline = $item['tagline'] ?? '';
+                                                        $itemImg = $item['image'] ?? 'assets/placeholder.jpg';
+                                                        $isVeg = !empty($item['is_veg']);
+                                                        $isFeatured = !empty($item['featured']);
+                                                        $isAvailable = $item['available'] ?? true;
+                                                        $isChefSpecial = !empty($item['is_chef_special']);
+                                                        $chefSpecialNote = $item['chef_special_note'] ?? '';
+                                                        $cardStyle = $item['card_style'] ?? [];
+                                                        $cardAnim = $cardStyle['animation'] ?? 'none';
+                                                        $cardBg = $cardStyle['bg_color'] ?? '';
+                                                        $cardBorder = $cardStyle['border_color'] ?? '';
+                                                        $orderNum = (int)($item['order'] ?? ($pos + 1));
+                                                        $cFields = $item['custom_fields'] ?? [];
+                                                        $resolvedImg = str_starts_with($itemImg, 'http') ? $itemImg : '../public/' . ltrim($itemImg, '/');
+                                                    ?>
+                                                    <tr class="dish-row" 
+                                                        data-id="<?= htmlspecialchars($itemId) ?>"
+                                                        data-name="<?= htmlspecialchars(strtolower($itemName)) ?>"
+                                                        data-desc="<?= htmlspecialchars(strtolower($itemDesc)) ?>"
+                                                        data-category="<?= htmlspecialchars($itemBadge) ?>"
+                                                        data-price="<?= htmlspecialchars(strtolower($itemPrice)) ?>"
+                                                        data-raw='<?= htmlspecialchars(json_encode($item), ENT_QUOTES, 'UTF-8') ?>'>
+                                                        
+                                                        <!-- Sequence & Shuffle Buttons -->
+                                                        <td style="text-align: center; vertical-align: middle;">
+                                                            <div class="order-shuffle-controls">
+                                                                <span class="order-seq-badge">#<?= $orderNum ?></span>
+                                                                <div class="order-shuffle-btns">
+                                                                    <form method="POST" style="display:inline;">
+                                                                        <input type="hidden" name="action" value="dish_reorder">
+                                                                        <input type="hidden" name="id" value="<?= htmlspecialchars($itemId) ?>">
+                                                                        <input type="hidden" name="direction" value="up">
+                                                                        <button type="submit" class="order-btn" title="Move Up" <?= ($pos === 0) ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : '' ?>>▲</button>
+                                                                    </form>
+                                                                    <form method="POST" style="display:inline;">
+                                                                        <input type="hidden" name="action" value="dish_reorder">
+                                                                        <input type="hidden" name="id" value="<?= htmlspecialchars($itemId) ?>">
+                                                                        <input type="hidden" name="direction" value="down">
+                                                                        <button type="submit" class="order-btn" title="Move Down" <?= ($pos === $catCount - 1) ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : '' ?>>▼</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <!-- Dish Details -->
+                                                        <td>
+                                                            <div class="dish-cell">
+                                                                <img src="<?= htmlspecialchars($resolvedImg) ?>" alt="<?= htmlspecialchars($itemName) ?>" class="dish-thumb" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=120&q=80'">
+                                                                <div class="dish-meta">
+                                                                    <div class="dish-name">
+                                                                        <?= htmlspecialchars($itemName) ?>
+                                                                        <?php if ($isChefSpecial): ?>
+                                                                            <span class="badge-chef-special" title="Chef's Special with 3D Metallic Paper Clip Tag">
+                                                                                📎 Chef's Special
+                                                                            </span>
+                                                                        <?php endif; ?>
+                                                                        <?php if ($isFeatured): ?>
+                                                                            <span title="Chef's Featured Item" style="color: var(--secondary-accent); font-size: 1rem; margin-left: 4px;">★</span>
+                                                                        <?php endif; ?>
+                                                                    </div>
+                                                                    <?php if ($isChefSpecial && !empty($chefSpecialNote)): ?>
+                                                                        <div style="font-family:'Caveat',cursive; color:#875723; font-size:0.85rem; font-weight:600;">
+                                                                            Parchment Note: &ldquo;<?= htmlspecialchars($chefSpecialNote) ?>&rdquo;
+                                                                        </div>
+                                                                    <?php endif; ?>
+                                                                    <?php if ($itemTagline): ?>
+                                                                        <div style="font-family:'Caveat',cursive; color:#a67c52; font-size:0.92rem;">&ldquo;<?= htmlspecialchars($itemTagline) ?>&rdquo;</div>
+                                                                    <?php endif; ?>
+                                                                    <div class="dish-desc"><?= htmlspecialchars($itemDesc) ?></div>
+                                                                    <?php if (!empty($cFields)): ?>
+                                                                        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:4px;">
+                                                                            <?php foreach ($cFields as $cf): ?>
+                                                                                <?php if (!empty($cf['name'])): ?>
+                                                                                    <span style="font-size:0.68rem; background:#f0eae1; color:#5c4736; padding:2px 6px; border-radius:4px; font-weight:700;">
+                                                                                        <?= htmlspecialchars($cf['name']) ?>: <?= htmlspecialchars($cf['value'] ?? '') ?>
+                                                                                    </span>
+                                                                                <?php endif; ?>
+                                                                            <?php endforeach; ?>
+                                                                        </div>
+                                                                    <?php endif; ?>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <!-- Styling & Animation column -->
+                                                        <td>
+                                                            <div class="admin-card-style-cell">
+                                                                <?php if ($cardAnim !== 'none'): ?>
+                                                                    <span class="anim-pill anim-pill-<?= htmlspecialchars($cardAnim) ?>">
+                                                                        ✨ <?= htmlspecialchars(ucwords(str_replace('_', ' ', $cardAnim))) ?>
+                                                                    </span>
+                                                                <?php else: ?>
+                                                                    <span class="anim-pill-muted">Static</span>
+                                                                <?php endif; ?>
+
+                                                                <?php if (!empty($cardBg) || !empty($cardBorder)): ?>
+                                                                    <div class="color-dot-indicator" title="Custom Colors: BG <?= htmlspecialchars($cardBg ?: 'default') ?> | Border <?= htmlspecialchars($cardBorder ?: 'default') ?>">
+                                                                        <span class="color-dot-sample" style="background:<?= htmlspecialchars($cardBg ?: '#FAF5EB') ?>; border:1.5px solid <?= htmlspecialchars($cardBorder ?: 'rgba(104,20,24,0.3)') ?>;"></span>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            </div>
+                                                        </td>
+
+                                                        <!-- Price -->
+                                                        <td><span class="price-tag"><?= htmlspecialchars($itemPrice) ?></span></td>
+
+                                                        <!-- Dietary -->
+                                                        <td>
+                                                            <span class="diet-badge <?= $isVeg ? 'veg' : 'non-veg' ?>">
+                                                                <span><?= $isVeg ? '●' : '▲' ?></span>
+                                                                <span><?= $isVeg ? 'Vegetarian' : 'Non-Veg' ?></span>
+                                                            </span>
+                                                        </td>
+
+                                                        <!-- Status -->
+                                                        <td>
+                                                            <form method="POST" style="display:inline;">
+                                                                <input type="hidden" name="action" value="dish_toggle">
+                                                                <input type="hidden" name="field" value="available">
+                                                                <input type="hidden" name="id" value="<?= htmlspecialchars($itemId) ?>">
+                                                                <button type="submit" class="status-badge <?= $isAvailable ? 'available' : 'unavailable' ?>" style="border:none; cursor:pointer;" title="Click to toggle availability">
+                                                                    <span class="status-dot"></span>
+                                                                    <span><?= $isAvailable ? 'Active' : 'Hidden' ?></span>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+
+                                                        <!-- Actions -->
+                                                        <td style="text-align: right;">
+                                                            <div class="row-actions" style="justify-content: flex-end;">
+                                                                <form method="POST" style="display:inline;" title="Toggle Featured">
+                                                                    <input type="hidden" name="action" value="dish_toggle">
+                                                                    <input type="hidden" name="field" value="featured">
+                                                                    <input type="hidden" name="id" value="<?= htmlspecialchars($itemId) ?>">
+                                                                    <button type="submit" class="action-icon-btn" style="color: <?= $isFeatured ? 'var(--secondary-accent)' : '#9c9890' ?>;">★</button>
+                                                                </form>
+
+                                                                <button type="button" class="action-icon-btn edit-dish-btn" title="Edit Item & Card Styling">
+                                                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                                                </button>
+
+                                                                <form method="POST" onsubmit="return confirm('Are you sure you want to delete \'<?= htmlspecialchars(addslashes($itemName)) ?>\'?');" style="display:inline;">
+                                                                    <input type="hidden" name="action" value="dish_delete">
+                                                                    <input type="hidden" name="id" value="<?= htmlspecialchars($itemId) ?>">
+                                                                    <button type="submit" class="action-icon-btn delete-btn" title="Delete Item">
+                                                                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
@@ -1327,8 +1588,66 @@ sort($distinctBadges);
                     </label>
                 </div>
 
+                <!-- CHEF'S SPECIAL & 3D BRASS PAPER CLIP CONTROLS -->
+                <div style="background:#FFFDF8; border:1.5px solid #d4af37; border-radius:var(--radius-md); padding:14px; margin-top:12px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                        <label class="custom-checkbox" style="margin:0;">
+                            <input type="checkbox" name="is_chef_special" id="dishChefSpecialCheck">
+                            <span style="font-weight:700; color:#581116;">✦ Mark as Chef's Special (Held with 3D Brass Paper Clip)</span>
+                        </label>
+                        <span style="font-size:1.15rem;">📎</span>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" style="font-size:0.78rem;">Parchment Note Subtitle / Artisan Recommendation</label>
+                        <input type="text" name="chef_special_note" id="dishChefSpecialNoteInput" class="form-input" placeholder="e.g. Signature Artisan Craft or Head Chef's Pick">
+                    </div>
+                </div>
+
+                <!-- ORDER / SHUFFLE SEQUENCE & ANIMATION SELECTOR -->
+                <div class="form-row-2" style="margin-top:12px;">
+                    <div class="form-group">
+                        <label class="form-label">Category Display Sequence / Order # *</label>
+                        <input type="number" name="order" id="dishOrderInput" class="form-input" min="1" value="1" placeholder="e.g. 1, 2, 3..." required>
+                        <small style="font-size:0.72rem; color:#8c8277;">Determines display order (01, 02...) within category.</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Card Dynamic Animation</label>
+                        <select name="card_animation" id="dishCardAnimSelect" class="form-select">
+                            <option value="none">Standard Luxury Static</option>
+                            <option value="gradient_shimmer">✨ Gradient Shimmer (Flowing Gold & Burgundy)</option>
+                            <option value="gold_aura">✨ Golden Aura (Ambient Breathing Glow)</option>
+                            <option value="burgundy_pulse">✨ Burgundy Pulse (Rhythmic Soft Glow)</option>
+                            <option value="color_shift">✨ Color Shift (Rotating Border Spectrum)</option>
+                            <option value="floating_tilt">✨ Floating Tilt (3D Elevation on Hover)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- CARD CUSTOM COLOR STYLING OVERRIDES -->
+                <div style="background:#FAF7F2; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:14px; margin-top:12px;">
+                    <span style="font-size:0.82rem; font-weight:700; color:var(--primary-accent); display:block; margin-bottom:10px;">
+                        🎨 Card Custom Color Styling (Optional Overrides)
+                    </span>
+                    <div class="form-row-2" style="margin-bottom:0;">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label" style="font-size:0.75rem;">Card Background Color</label>
+                            <div style="display:flex; gap:8px;">
+                                <input type="color" id="dishCardBgPicker" value="#FAF5EB" style="width:38px; height:38px; padding:0; border:none; border-radius:6px; cursor:pointer;" oninput="document.getElementById('dishCardBgInput').value = this.value">
+                                <input type="text" name="card_bg" id="dishCardBgInput" class="form-input" placeholder="Default or #hex" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)) document.getElementById('dishCardBgPicker').value = this.value">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label" style="font-size:0.75rem;">Card Border Color</label>
+                            <div style="display:flex; gap:8px;">
+                                <input type="color" id="dishCardBorderPicker" value="#c99a68" style="width:38px; height:38px; padding:0; border:none; border-radius:6px; cursor:pointer;" oninput="document.getElementById('dishCardBorderInput').value = this.value">
+                                <input type="text" name="card_border" id="dishCardBorderInput" class="form-input" placeholder="Default or #hex" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)) document.getElementById('dishCardBorderPicker').value = this.value">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- DYNAMIC CUSTOM EXTRA FIELDS BUILDER -->
-                <div style="background:#FAF7F2; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:16px; margin-top:8px;">
+                <div style="background:#FAF7F2; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:16px; margin-top:12px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                         <span style="font-size:0.85rem; font-weight:700; color:var(--primary-accent);">
                             Custom Extra Fields (Allergens, Spice Level, Chef Notes...)
@@ -1396,6 +1715,26 @@ sort($distinctBadges);
                     <label class="form-label">Cover Photograph (Upload or Enter URL)</label>
                     <input type="file" name="cat_image_file" class="form-input" accept="image/*" style="margin-bottom:8px;">
                     <input type="text" name="cat_image_url" id="catUrlInput" class="form-input" placeholder="Or enter URL (e.g. uploads/flatbread.jpg)">
+                </div>
+
+                <!-- CATEGORY CARD ANIMATION & STYLING -->
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label class="form-label">Category Card Animation</label>
+                        <select name="cat_animation" id="catAnimSelect" class="form-select">
+                            <option value="none">Standard Luxury Static</option>
+                            <option value="gradient_shimmer">✨ Gradient Shimmer (Flowing Gold & Burgundy)</option>
+                            <option value="gold_aura">✨ Golden Aura (Ambient Breathing Glow)</option>
+                            <option value="burgundy_pulse">✨ Burgundy Pulse (Rhythmic Soft Glow)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Custom Background / Border (Optional)</label>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" name="cat_card_bg" id="catCardBgInput" class="form-input" placeholder="BG #hex">
+                            <input type="text" name="cat_border_color" id="catBorderInput" class="form-input" placeholder="Border #hex">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="checkbox-group">
@@ -1777,6 +2116,29 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('dishFeaturedCheck').checked = !!data.featured;
             document.getElementById('dishAvailableCheck').checked = data.available !== false;
 
+            // Chef Special & Paper clip
+            document.getElementById('dishChefSpecialCheck').checked = !!data.is_chef_special;
+            document.getElementById('dishChefSpecialNoteInput').value = data.chef_special_note || '';
+
+            // Order sequence
+            document.getElementById('dishOrderInput').value = data.order || 1;
+
+            // Card Style & Animations
+            const cs = data.card_style || {};
+            document.getElementById('dishCardAnimSelect').value = cs.animation || 'none';
+            document.getElementById('dishCardBgInput').value = cs.bg_color || '';
+            if (cs.bg_color && /^#[0-9A-Fa-f]{6}$/.test(cs.bg_color)) {
+                document.getElementById('dishCardBgPicker').value = cs.bg_color;
+            } else {
+                document.getElementById('dishCardBgPicker').value = '#FAF5EB';
+            }
+            document.getElementById('dishCardBorderInput').value = cs.border_color || '';
+            if (cs.border_color && /^#[0-9A-Fa-f]{6}$/.test(cs.border_color)) {
+                document.getElementById('dishCardBorderPicker').value = cs.border_color;
+            } else {
+                document.getElementById('dishCardBorderPicker').value = '#c99a68';
+            }
+
             if (Array.isArray(data.custom_fields)) {
                 data.custom_fields.forEach(cf => addCfRow(cf.name, cf.value));
             }
@@ -1786,8 +2148,31 @@ document.addEventListener('DOMContentLoaded', () => {
             form.reset();
             document.getElementById('dishVegCheck').checked = true;
             document.getElementById('dishAvailableCheck').checked = true;
+            document.getElementById('dishChefSpecialCheck').checked = false;
+            document.getElementById('dishChefSpecialNoteInput').value = '';
+            document.getElementById('dishOrderInput').value = 1;
+            document.getElementById('dishCardAnimSelect').value = 'none';
+            document.getElementById('dishCardBgInput').value = '';
+            document.getElementById('dishCardBorderInput').value = '';
         }
         modal.classList.add('open');
+    };
+
+    window.openDishModalForCategory = function(catName) {
+        openDishModal(false);
+        const badgeInput = document.getElementById('dishBadgeInput');
+        if (badgeInput) badgeInput.value = catName;
+        const catWrap = document.querySelector(`.category-block-wrap[data-category-name="${catName.toLowerCase()}"]`);
+        if (catWrap) {
+            const rows = catWrap.querySelectorAll('.dish-row');
+            document.getElementById('dishOrderInput').value = rows.length + 1;
+        }
+    };
+
+    window.toggleCategoryWrap = function(wrapId) {
+        const wrap = document.getElementById(wrapId);
+        if (!wrap) return;
+        wrap.classList.toggle('collapsed');
     };
 
     document.querySelectorAll('.edit-dish-btn').forEach(btn => {
@@ -1819,6 +2204,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('catSubtitleInput').value = data.subtitle || '';
             document.getElementById('catUrlInput').value = data.image || '';
             document.getElementById('catActiveCheck').checked = data.active !== false;
+
+            document.getElementById('catAnimSelect').value = data.animation || 'none';
+            document.getElementById('catCardBgInput').value = data.card_bg || '';
+            document.getElementById('catBorderInput').value = data.border_color || '';
         } else {
             titleEl.textContent = 'Create New Category';
             document.getElementById('catFormId').value = '';
@@ -1827,6 +2216,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('catOrderInput').value = (document.querySelectorAll('.category-admin-card').length + 1);
             document.getElementById('catEyebrowInput').value = 'OUR SIGNATURES';
             document.getElementById('catActiveCheck').checked = true;
+
+            document.getElementById('catAnimSelect').value = 'none';
+            document.getElementById('catCardBgInput').value = '';
+            document.getElementById('catBorderInput').value = '';
         }
         modal.classList.add('open');
     };
@@ -1974,30 +2367,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // =========================================================================
-    // SEARCH & FILTER (DISHES)
+    // SEARCH & FILTER (DISHES IN CATEGORY WRAPPERS)
     // =========================================================================
     const searchInput = document.getElementById('dishSearchInput');
     const categoryPills = document.querySelectorAll('#dishFilterPillContainer .pill-btn');
-    const dishRows = document.querySelectorAll('#dishesMainTable .dish-row');
 
     let activeCategory = 'ALL';
     let searchQuery = '';
 
     function filterDishes() {
-        dishRows.forEach(row => {
-            const rName = row.getAttribute('data-name') || '';
-            const rDesc = row.getAttribute('data-desc') || '';
-            const rPrice = row.getAttribute('data-price') || '';
-            const rCat = row.getAttribute('data-category') || '';
+        const wraps = document.querySelectorAll('.category-block-wrap');
+        wraps.forEach(wrap => {
+            const wrapCat = (wrap.getAttribute('data-category-name') || '').toLowerCase();
+            const matchCategory = (activeCategory === 'ALL') || (wrapCat === activeCategory.toLowerCase());
 
-            const matchCat = (activeCategory === 'ALL') || (rCat === activeCategory);
-            const matchSearch = !searchQuery || 
-                rName.includes(searchQuery) || 
-                rDesc.includes(searchQuery) || 
-                rPrice.includes(searchQuery) || 
-                rCat.toLowerCase().includes(searchQuery);
+            let visibleInWrap = 0;
+            const rows = wrap.querySelectorAll('.dish-row');
+            rows.forEach(row => {
+                const rName = (row.getAttribute('data-name') || '').toLowerCase();
+                const rDesc = (row.getAttribute('data-desc') || '').toLowerCase();
+                const rPrice = (row.getAttribute('data-price') || '').toLowerCase();
+                const rCat = (row.getAttribute('data-category') || '').toLowerCase();
 
-            row.style.display = (matchCat && matchSearch) ? '' : 'none';
+                const textMatch = !searchQuery || 
+                    rName.includes(searchQuery) || 
+                    rDesc.includes(searchQuery) || 
+                    rPrice.includes(searchQuery) || 
+                    rCat.includes(searchQuery);
+
+                if (textMatch && matchCategory) {
+                    row.style.display = '';
+                    visibleInWrap++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            if (matchCategory && (visibleInWrap > 0 || !searchQuery)) {
+                wrap.style.display = '';
+                if (searchQuery && visibleInWrap > 0) {
+                    wrap.classList.remove('collapsed'); // Auto-expand when searching
+                }
+            } else {
+                wrap.style.display = 'none';
+            }
         });
     }
 

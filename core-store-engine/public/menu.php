@@ -844,7 +844,7 @@ $sectionKeys = array_keys($orderedSections);
         .dish-split-card {
             background: #FAF5EB;
             border-radius: 22px;
-            overflow: hidden;
+            overflow: visible;
             box-shadow: 0 8px 24px rgba(70, 25, 20, 0.07);
             border: 1px solid rgba(104, 20, 24, 0.08);
             display: flex;
@@ -854,12 +854,477 @@ $sectionKeys = array_keys($orderedSections);
             max-width: 100%;
             min-width: 0;
             box-sizing: border-box;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
         }
 
         .dish-split-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 14px 34px rgba(70, 25, 20, 0.12);
+        }
+
+        /* =====================================================================
+           CHEF'S SPECIAL AUTHENTIC 3D BRASS PAPER CLIP & PARCHMENT TAG
+           ===================================================================== */
+        .chef-paperclip-container {
+            position: absolute;
+            top: -14px;
+            right: 24px;
+            z-index: 25;
+            display: inline-flex;
+            align-items: flex-start;
+            pointer-events: auto;
+            cursor: pointer;
+            filter: drop-shadow(0 4px 8px rgba(40, 15, 10, 0.28));
+            transition: transform 0.25s ease;
+        }
+
+        .chef-paperclip-container:hover {
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .chef-parchment-note {
+            background: linear-gradient(135deg, #FFFDF8 0%, #FAF1DE 100%);
+            border: 1px solid rgba(184, 134, 11, 0.45);
+            border-radius: 4px;
+            padding: 5px 14px 5px 12px;
+            box-shadow: 0 4px 14px rgba(35, 12, 6, 0.16), inset 0 0 12px rgba(212, 175, 55, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+            transform: rotate(-2.5deg);
+            transform-origin: right top;
+            margin-right: -13px;
+            margin-top: 2px;
+            z-index: 26;
+            white-space: nowrap;
+        }
+
+        .parchment-badge-text {
+            font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            color: #581116;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.2;
+        }
+
+        .parchment-badge-star {
+            color: #b8860b;
+            font-size: 0.75rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+        }
+
+        .parchment-badge-sub {
+            font-family: 'Caveat', cursive;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #875723;
+            margin-top: 1px;
+            line-height: 1;
+        }
+
+        .paperclip-realistic-svg {
+            width: 24px;
+            height: 52px;
+            z-index: 28;
+            position: relative;
+            margin-top: -6px;
+            transform: rotate(4deg);
+            flex-shrink: 0;
+            filter: drop-shadow(1px 2px 3px rgba(30, 10, 5, 0.35));
+        }
+
+        /* =====================================================================
+           CARD ANIMATIONS (GRADIENT FLOW, GOLD AURA, PULSE, COLOR SHIFT, TILT)
+           ===================================================================== */
+        @keyframes gradientFlowBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .dish-split-card.card-anim-gradient-shimmer,
+        .section-card.card-anim-gradient-shimmer {
+            position: relative;
+            border-color: transparent !important;
+            background-clip: padding-box;
+        }
+
+        .dish-split-card.card-anim-gradient-shimmer::before {
+            content: "";
+            position: absolute;
+            inset: -2.5px;
+            border-radius: 24px;
+            background: linear-gradient(115deg, #c99a68, #681418, #ffd700, #96252c, #d4af37, #681418);
+            background-size: 300% 300%;
+            animation: gradientFlowBorder 5s ease infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .section-card.card-anim-gradient-shimmer::before {
+            content: "";
+            position: absolute;
+            inset: -2.5px;
+            border-radius: 20px;
+            background: linear-gradient(115deg, #c99a68, #681418, #ffd700, #96252c, #d4af37, #681418);
+            background-size: 300% 300%;
+            animation: gradientFlowBorder 5s ease infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes goldAuraPulse {
+            0%, 100% {
+                box-shadow: 0 8px 24px rgba(70, 25, 20, 0.08), 0 0 16px rgba(201, 154, 104, 0.25);
+                border-color: rgba(201, 154, 104, 0.45);
+            }
+            50% {
+                box-shadow: 0 14px 38px rgba(70, 25, 20, 0.14), 0 0 32px rgba(212, 175, 55, 0.55);
+                border-color: rgba(212, 175, 55, 0.8);
+            }
+        }
+
+        .dish-split-card.card-anim-gold-aura,
+        .section-card.card-anim-gold-aura {
+            animation: goldAuraPulse 3.5s ease-in-out infinite;
+        }
+
+        @keyframes burgundyPulseBreathe {
+            0%, 100% {
+                box-shadow: 0 8px 24px rgba(70, 25, 20, 0.08), 0 0 14px rgba(104, 20, 24, 0.15);
+                border-color: rgba(104, 20, 24, 0.25);
+            }
+            50% {
+                box-shadow: 0 14px 34px rgba(104, 20, 24, 0.25), 0 0 26px rgba(104, 20, 24, 0.4);
+                border-color: rgba(104, 20, 24, 0.6);
+            }
+        }
+
+        .dish-split-card.card-anim-burgundy-pulse,
+        .section-card.card-anim-burgundy-pulse {
+            animation: burgundyPulseBreathe 4s ease-in-out infinite;
+        }
+
+        @keyframes cardBorderColorShift {
+            0% { border-color: #c99a68; }
+            25% { border-color: #681418; }
+            50% { border-color: #aa7c11; }
+            75% { border-color: #96252c; }
+            100% { border-color: #c99a68; }
+        }
+
+        .dish-split-card.card-anim-color-shift {
+            animation: cardBorderColorShift 6s ease-in-out infinite;
+        }
+
+        .dish-split-card.card-anim-floating-tilt {
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+        }
+
+        .dish-split-card.card-anim-floating-tilt:hover {
+            transform: translateY(-6px) scale(1.015);
+            box-shadow: 0 20px 42px rgba(70, 25, 20, 0.18);
+        }
+
+        /* =====================================================================
+           SEARCH BAR & SMART RECOMMENDATIONS UI
+           ===================================================================== */
+        .menu-search-bar-wrapper {
+            margin: 22px auto 0;
+            max-width: 760px;
+            width: 100%;
+            position: relative;
+            z-index: 40;
+        }
+
+        .menu-search-input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border: 1.5px solid rgba(104, 20, 24, 0.18);
+            border-radius: 50px;
+            padding: 8px 18px;
+            box-shadow: 0 6px 20px rgba(70, 25, 20, 0.08);
+            transition: all 0.25s ease;
+        }
+
+        .menu-search-input-box:focus-within {
+            border-color: #681418;
+            box-shadow: 0 8px 28px rgba(104, 20, 24, 0.16);
+            transform: translateY(-1px);
+        }
+
+        .search-box-icon {
+            color: #681418;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        #menuMainSearchInput {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: #2B241E;
+        }
+
+        #menuMainSearchInput::placeholder {
+            color: rgba(43, 36, 30, 0.45);
+        }
+
+        .clear-search-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            line-height: 1;
+            color: #9c9890;
+            cursor: pointer;
+            padding: 0 4px;
+            transition: color 0.2s ease;
+        }
+
+        .clear-search-btn:hover {
+            color: #681418;
+        }
+
+        .search-recommendation-chips {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+            justify-content: center;
+        }
+
+        .recommendation-label {
+            font-size: 0.76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(104, 20, 24, 0.7);
+            margin-right: 4px;
+        }
+
+        .recom-chip {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(104, 20, 24, 0.16);
+            border-radius: 50px;
+            padding: 6px 14px;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #500f12;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.22s ease;
+            box-shadow: 0 2px 6px rgba(70, 25, 20, 0.04);
+        }
+
+        .recom-chip:hover {
+            background: #681418;
+            color: #ffffff;
+            border-color: #681418;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(104, 20, 24, 0.22);
+        }
+
+        .recom-chip.active {
+            background: #681418;
+            color: #ffffff;
+            border-color: #681418;
+            box-shadow: 0 4px 12px rgba(104, 20, 24, 0.25);
+        }
+
+        .recom-chip.chip-chef-special {
+            background: linear-gradient(135deg, #FFFDF8, #FAF1DE);
+            border: 1.5px solid #d4af37;
+            color: #581116;
+            font-weight: 700;
+        }
+
+        .recom-chip.chip-chef-special:hover,
+        .recom-chip.chip-chef-special.active {
+            background: linear-gradient(135deg, #581116, #7d1c21);
+            color: #FFFDF8;
+            border-color: #d4af37;
+        }
+
+        /* Live Results Panel */
+        .search-live-results-panel {
+            background: #ffffff;
+            border: 1.5px solid rgba(104, 20, 24, 0.15);
+            border-radius: 20px;
+            margin-top: 14px;
+            padding: 18px;
+            box-shadow: 0 16px 40px rgba(50, 15, 10, 0.18);
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            max-height: 480px;
+            overflow-y: auto;
+            z-index: 100;
+            animation: fadeInResults 0.2s ease-out;
+        }
+
+        @keyframes fadeInResults {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(104, 20, 24, 0.08);
+        }
+
+        .results-count-title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #681418;
+        }
+
+        .close-results-btn {
+            background: none;
+            border: none;
+            color: #9c9890;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .close-results-btn:hover {
+            color: #681418;
+        }
+
+        .results-scroll-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .results-scroll-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .search-result-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(104, 20, 24, 0.08);
+            background: #FAF7F2;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            position: relative;
+        }
+
+        .search-result-card:hover {
+            background: #ffffff;
+            border-color: #681418;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(70, 25, 20, 0.1);
+        }
+
+        .result-thumb {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .result-meta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .result-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .result-name {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.12rem;
+            font-weight: 600;
+            color: #2B241E;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .result-price {
+            font-weight: 700;
+            color: #681418;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .result-badge-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            font-size: 0.72rem;
+        }
+
+        .result-cat-pill {
+            background: rgba(104, 20, 24, 0.08);
+            color: #681418;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .result-special-pill {
+            background: linear-gradient(135deg, #FFFDF8, #FAF1DE);
+            border: 1px solid #d4af37;
+            color: #581116;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .detail-search-trigger-btn {
+            background: rgba(104, 20, 24, 0.08);
+            border: 1px solid rgba(104, 20, 24, 0.15);
+            border-radius: 50px;
+            padding: 6px 14px;
+            color: #681418;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .detail-search-trigger-btn:hover {
+            background: #681418;
+            color: #ffffff;
         }
 
         /* Left Half: Photography & Vignette Overlays */
@@ -1438,7 +1903,10 @@ $sectionKeys = array_keys($orderedSections);
                         <span class="masthead-brand-name">ORAH HOUSE</span>
                     </div>
 
-                    <div class="utility-spacer" aria-hidden="true"></div>
+                    <button type="button" class="masthead-back-link" style="background:none; border:none; cursor:pointer;" onclick="document.getElementById('menuMainSearchInput')?.focus(); document.getElementById('menuMainSearchInput')?.scrollIntoView({behavior:'smooth', block:'center'});">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <span>Search</span>
+                    </button>
                 </div>
 
                 <div class="masthead-center-content">
@@ -1447,6 +1915,52 @@ $sectionKeys = array_keys($orderedSections);
                     <p class="masthead-tagline">
                         Handcrafted sourdoughs, slow-cooked pastas, and specialty estate roasts. Tap any section to explore.
                     </p>
+
+                    <!-- Interactive Search Bar with Smart Recommendations -->
+                    <div class="menu-search-bar-wrapper">
+                        <div class="menu-search-input-box">
+                            <svg class="search-box-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" id="menuMainSearchInput" placeholder="Search dish name, ingredients, or pairings..." autocomplete="off">
+                            <button type="button" id="clearMenuSearchBtn" class="clear-search-btn" aria-label="Clear search" style="display:none;">&times;</button>
+                        </div>
+
+                        <!-- Recommendations Chips -->
+                        <div class="search-recommendation-chips">
+                            <span class="recommendation-label">Recommendations:</span>
+                            <button type="button" class="recom-chip chip-chef-special" data-recom="chef_special">
+                                <span>📎</span> Chef's Specials
+                            </button>
+                            <button type="button" class="recom-chip" data-recom="featured">
+                                ★ Signatures
+                            </button>
+                            <button type="button" class="recom-chip" data-recom="truffle">
+                                🍄 Truffle Picks
+                            </button>
+                            <button type="button" class="recom-chip" data-recom="sourdough">
+                                🥖 Sourdough Flatbreads
+                            </button>
+                            <button type="button" class="recom-chip" data-recom="veg">
+                                🌱 Pure Veg
+                            </button>
+                            <button type="button" class="recom-chip" data-recom="pasta">
+                                🍝 Artisan Pastas
+                            </button>
+                            <button type="button" class="recom-chip" data-recom="dessert">
+                                🍫 Desserts
+                            </button>
+                        </div>
+
+                        <!-- Live Search Results Dropdown/Drawer -->
+                        <div class="search-live-results-panel" id="searchLiveResultsPanel" style="display:none;">
+                            <div class="results-header">
+                                <div class="results-count-title" id="resultsCountTitle">Recommended Dishes</div>
+                                <button type="button" class="close-results-btn" id="closeResultsPanelBtn">&times; Close</button>
+                            </div>
+                            <div class="results-scroll-grid" id="resultsScrollGrid">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1456,14 +1970,26 @@ $sectionKeys = array_keys($orderedSections);
                         <?php 
                             $meta = $sectionMeta[$sectionName] ?? [
                                 'subtitle' => 'Handcrafted delicacies prepared with fine estate ingredients.',
-                                'image' => 'uploads/artisanal_pizza.jpg'
+                                'image' => 'uploads/artisanal_pizza.jpg',
+                                'animation' => 'none'
                             ];
                             $count = count($dishes);
+                            $catAnim = $meta['animation'] ?? 'none';
+                            $catAnimClass = '';
+                            if ($catAnim === 'gradient_shimmer') $catAnimClass = 'card-anim-gradient-shimmer';
+                            elseif ($catAnim === 'gold_aura') $catAnimClass = 'card-anim-gold-aura';
+                            elseif ($catAnim === 'burgundy_pulse') $catAnimClass = 'card-anim-burgundy-pulse';
+
+                            $catCardBg = $meta['card_bg'] ?? '';
+                            $catBorder = $meta['border_color'] ?? '';
+                            $catCustomStyle = '';
+                            if (!empty($catCardBg)) $catCustomStyle .= "background-color: {$catCardBg} !important; ";
+                            if (!empty($catBorder)) $catCustomStyle .= "border-color: {$catBorder} !important; ";
                         ?>
                         <?php 
                             $displayName = ($sectionName === 'Pasta') ? 'Pastas' : $sectionName;
                         ?>
-                        <article class="section-card" data-section-target="<?= htmlspecialchars($sectionName) ?>" tabindex="0" role="button" aria-label="Explore <?= htmlspecialchars($displayName) ?>">
+                        <article class="section-card <?= $catAnimClass ?>" style="<?= $catCustomStyle ?>" data-section-target="<?= htmlspecialchars($sectionName) ?>" tabindex="0" role="button" aria-label="Explore <?= htmlspecialchars($displayName) ?>">
                             <!-- Full Bleed Background Media with Warm Dark Vignette -->
                             <div class="section-card-bg">
                                 <img src="<?= htmlspecialchars($meta['image']) ?>" alt="<?= htmlspecialchars($displayName) ?>" class="section-card-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&q=80'">
@@ -1516,7 +2042,10 @@ $sectionKeys = array_keys($orderedSections);
                         <span>ORAH HOUSE</span>
                     </div>
 
-                    <div style="width: 80px;" aria-hidden="true"></div>
+                    <button type="button" class="detail-search-trigger-btn" id="detailSearchTriggerBtn" aria-label="Search Dishes & Recommendations">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <span>Search</span>
+                    </button>
                 </div>
             </div>
 
@@ -1536,6 +2065,14 @@ $sectionKeys = array_keys($orderedSections);
                             ];
                             $count = count($dishes);
                             $displayName = ($sKey === 'Pasta') ? 'Pastas' : $sKey;
+
+                            // Sort dishes inside this category by explicit order number
+                            usort($dishes, function($a, $b) {
+                                $ordA = isset($a['order']) && is_numeric($a['order']) ? (int)$a['order'] : 999;
+                                $ordB = isset($b['order']) && is_numeric($b['order']) ? (int)$b['order'] : 999;
+                                if ($ordA === $ordB) return 0;
+                                return ($ordA < $ordB) ? -1 : 1;
+                            });
                         ?>
                         <div class="section-slide-pane" data-section-key="<?= htmlspecialchars($sKey) ?>" data-pane-index="<?= $sIndex ?>">
                             <!-- Top Editorial Section Header matching reference mockup -->
@@ -1575,8 +2112,59 @@ $sectionKeys = array_keys($orderedSections);
                                         $tagline = !empty($dish['tagline']) ? $dish['tagline'] : getDishTagline($dIdx, $dish);
                                         $nameWords = preg_split('/[\s&]+/', strtoupper($dishName));
                                         $customFields = $dish['custom_fields'] ?? [];
+
+                                        $isChefSpecial = !empty($dish['is_chef_special']);
+                                        $chefSpecialNote = $dish['chef_special_note'] ?? '';
+                                        $cardStyle = $dish['card_style'] ?? [];
+                                        $cardAnim = $cardStyle['animation'] ?? 'none';
+                                        $cardBg = $cardStyle['bg_color'] ?? '';
+                                        $cardBorder = $cardStyle['border_color'] ?? '';
+
+                                        $cardAnimClass = '';
+                                        if ($cardAnim === 'gradient_shimmer') $cardAnimClass = 'card-anim-gradient-shimmer';
+                                        elseif ($cardAnim === 'gold_aura') $cardAnimClass = 'card-anim-gold-aura';
+                                        elseif ($cardAnim === 'burgundy_pulse') $cardAnimClass = 'card-anim-burgundy-pulse';
+                                        elseif ($cardAnim === 'color_shift') $cardAnimClass = 'card-anim-color-shift';
+                                        elseif ($cardAnim === 'floating_tilt') $cardAnimClass = 'card-anim-floating-tilt';
+
+                                        $cardInlineStyle = '';
+                                        if (!empty($cardBg)) $cardInlineStyle .= "background-color: {$cardBg} !important; ";
+                                        if (!empty($cardBorder)) $cardInlineStyle .= "border-color: {$cardBorder} !important; ";
                                     ?>
-                                    <article class="dish-split-card" data-dish-id="<?= htmlspecialchars($dish['id'] ?? '') ?>">
+                                    <article class="dish-split-card <?= $cardAnimClass ?>" style="<?= $cardInlineStyle ?>" data-dish-id="<?= htmlspecialchars($dish['id'] ?? '') ?>">
+                                        <?php if ($isChefSpecial): ?>
+                                            <!-- Realistic 3D Brass Paper Clip holding Chef's Special Parchment Tag -->
+                                            <div class="chef-paperclip-container" title="Chef's Special Selection" onclick="event.stopPropagation();">
+                                                <div class="chef-parchment-note">
+                                                    <div class="parchment-badge-text">
+                                                        <span class="parchment-badge-star">✦</span> CHEF'S SPECIAL
+                                                    </div>
+                                                    <?php if (!empty($chefSpecialNote)): ?>
+                                                        <div class="parchment-badge-sub"><?= htmlspecialchars($chefSpecialNote) ?></div>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <svg class="paperclip-realistic-svg" viewBox="0 0 28 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <defs>
+                                                        <linearGradient id="brassGrad_<?= $sIndex ?>_<?= $dIdx ?>" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                            <stop offset="0%" stop-color="#fff8dc"/>
+                                                            <stop offset="25%" stop-color="#d4af37"/>
+                                                            <stop offset="50%" stop-color="#9a6e14"/>
+                                                            <stop offset="75%" stop-color="#ffd966"/>
+                                                            <stop offset="90%" stop-color="#b8860b"/>
+                                                            <stop offset="100%" stop-color="#694d0c"/>
+                                                        </linearGradient>
+                                                        <filter id="brassShadow_<?= $sIndex ?>_<?= $dIdx ?>" x="-40%" y="-20%" width="180%" height="150%">
+                                                            <feDropShadow dx="1.5" dy="3" stdDeviation="1.8" flood-color="rgba(35,12,6,0.52)"/>
+                                                        </filter>
+                                                    </defs>
+                                                    <path d="M 9 28 L 9 46 C 9 53 19 53 19 46 L 19 14 C 19 6 6 6 6 14 L 6 44 C 6 56 22 56 22 44 L 22 18" 
+                                                          stroke="url(#brassGrad_<?= $sIndex ?>_<?= $dIdx ?>)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#brassShadow_<?= $sIndex ?>_<?= $dIdx ?>)"/>
+                                                    <path d="M 8.5 27 L 8.5 45" stroke="rgba(255,255,255,0.7)" stroke-width="0.8" stroke-linecap="round"/>
+                                                    <path d="M 21.5 16 L 21.5 44" stroke="rgba(255,255,255,0.6)" stroke-width="0.8" stroke-linecap="round"/>
+                                                </svg>
+                                            </div>
+                                        <?php endif; ?>
+
                                         <!-- Left Side: Photo with Vignette Overlays -->
                                         <div class="split-card-media">
                                             <img src="<?= htmlspecialchars($dishImg) ?>" alt="<?= htmlspecialchars($dishName) ?>" class="split-card-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&q=80'">
@@ -2090,18 +2678,209 @@ $sectionKeys = array_keys($orderedSections);
                 if (e.target === modalBackdrop) closeModal();
             });
 
-            // Initial Hash Routing
-            const initialHash = window.location.hash.replace('#', '').toLowerCase();
-            if (initialHash) {
-                const matchedKey = sectionKeys.find(key => {
-                    const slug = key.toLowerCase().replace(/[\s&]+/g, '-');
-                    return slug === initialHash || slug.includes(initialHash);
+            // =========================================================================
+            // SEARCH & SMART RECOMMENDATIONS ENGINE
+            // =========================================================================
+            const catalogDishes = <?= json_encode(array_values($catalog), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+            const searchInput = document.getElementById('menuMainSearchInput');
+            const clearSearchBtn = document.getElementById('clearMenuSearchBtn');
+            const resultsPanel = document.getElementById('searchLiveResultsPanel');
+            const resultsGrid = document.getElementById('resultsScrollGrid');
+            const resultsCountTitle = document.getElementById('resultsCountTitle');
+            const closeResultsBtn = document.getElementById('closeResultsPanelBtn');
+            const recomChips = document.querySelectorAll('.recom-chip');
+            const detailSearchBtn = document.getElementById('detailSearchTriggerBtn');
+
+            let activeFilter = null; // e.g. 'chef_special', 'featured', etc.
+
+            function performSearch() {
+                const query = (searchInput?.value || '').trim().toLowerCase();
+                
+                if (!query && !activeFilter) {
+                    if (resultsPanel) resultsPanel.style.display = 'none';
+                    if (clearSearchBtn) clearSearchBtn.style.display = 'none';
+                    return;
+                }
+
+                if (clearSearchBtn) clearSearchBtn.style.display = query ? 'block' : 'none';
+
+                const matches = catalogDishes.filter(dish => {
+                    const name = (dish.name || '').toLowerCase();
+                    const desc = (dish.description || '').toLowerCase();
+                    const badge = (dish.badge || '').toLowerCase();
+                    const tagline = (dish.tagline || '').toLowerCase();
+                    const particular = (dish.particular || '').toLowerCase();
+
+                    // 1. Text Query Filter
+                    let textMatches = true;
+                    if (query) {
+                        textMatches = name.includes(query) || 
+                                      desc.includes(query) || 
+                                      badge.includes(query) || 
+                                      tagline.includes(query) || 
+                                      particular.includes(query);
+                    }
+
+                    // 2. Active Recommendation Filter
+                    let filterMatches = true;
+                    if (activeFilter === 'chef_special') {
+                        filterMatches = !!dish.is_chef_special;
+                    } else if (activeFilter === 'featured') {
+                        filterMatches = !!dish.featured;
+                    } else if (activeFilter === 'truffle') {
+                        filterMatches = name.includes('truffle') || desc.includes('truffle') || particular.includes('truffle');
+                    } else if (activeFilter === 'sourdough') {
+                        filterMatches = name.includes('sourdough') || desc.includes('sourdough') || badge.includes('flat') || desc.includes('flat bread');
+                    } else if (activeFilter === 'veg') {
+                        filterMatches = !!dish.is_veg;
+                    } else if (activeFilter === 'pasta') {
+                        filterMatches = badge === 'pasta' || name.includes('pasta') || name.includes('spaghetti');
+                    } else if (activeFilter === 'dessert') {
+                        filterMatches = badge === 'desserts' || name.includes('chocolate') || desc.includes('sweet') || desc.includes('dessert');
+                    }
+
+                    return textMatches && filterMatches;
                 });
 
-                if (matchedKey) {
-                    openDetailView(matchedKey);
-                }
+                renderSearchResults(matches, query);
             }
+
+            function renderSearchResults(matches, query) {
+                if (!resultsGrid || !resultsPanel) return;
+                resultsGrid.innerHTML = '';
+
+                let titleText = 'Recommended Dishes';
+                if (query && activeFilter) {
+                    titleText = `Found ${matches.length} dishes for "${query}" (${activeFilter.replace('_', ' ')})`;
+                } else if (query) {
+                    titleText = `Found ${matches.length} matching "${query}"`;
+                } else if (activeFilter) {
+                    const labels = {
+                        chef_special: "✦ Chef's Special Picks (With Paper Clip Tag)",
+                        featured: "★ Signature House Creations",
+                        truffle: "🍄 Truffle & Forest Mushroom Delights",
+                        sourdough: "🥖 Hand-Stretched Sourdough Melts",
+                        veg: "🌱 Pure Vegetarian Selections",
+                        pasta: "🍝 House-Made Fresh Artisan Pastas",
+                        dessert: "🍫 Sweet Endings & Molten Confections"
+                    };
+                    titleText = labels[activeFilter] || `Curated Selections (${matches.length})`;
+                }
+
+                if (resultsCountTitle) resultsCountTitle.textContent = `${titleText} (${matches.length})`;
+
+                if (matches.length === 0) {
+                    resultsGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; padding: 32px 16px; text-align: center; color: #8c7365;">
+                            <div style="font-size: 2rem; margin-bottom: 8px;">🍽️</div>
+                            <div style="font-weight: 600; font-size: 1rem; color: #500f12;">No dishes found matching your criteria</div>
+                            <div style="font-size: 0.82rem; margin-top: 4px;">Try another search term or click one of our curated recommendations above.</div>
+                        </div>
+                    `;
+                } else {
+                    matches.forEach(d => {
+                        const card = document.createElement('div');
+                        card.className = 'search-result-card';
+                        
+                        let specialBadge = '';
+                        if (d.is_chef_special) {
+                            specialBadge = '<span class="result-special-pill">📎 Chef\'s Special</span>';
+                        }
+                        const vegDot = d.is_veg ? '<span style="color:#2e7d32;font-size:0.75rem;">● Veg</span>' : '<span style="color:#c62828;font-size:0.75rem;">● Non-Veg</span>';
+
+                        const imgUrl = (d.image && !d.image.startsWith('http')) ? d.image : (d.image || 'assets/placeholder.jpg');
+
+                        card.innerHTML = `
+                            <img src="${imgUrl}" alt="${d.name || ''}" class="result-thumb" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=120&q=80'">
+                            <div class="result-meta">
+                                <div class="result-title-row">
+                                    <span class="result-name">${d.name || 'Dish'}</span>
+                                    <span class="result-price">${d.price || ''}</span>
+                                </div>
+                                <div class="result-badge-row">
+                                    <span class="result-cat-pill">${d.badge || 'General'}</span>
+                                    ${specialBadge}
+                                    ${vegDot}
+                                </div>
+                            </div>
+                        `;
+
+                        card.addEventListener('click', () => {
+                            resultsPanel.style.display = 'none';
+                            
+                            // Open Detailed View for this section
+                            const sectionKey = d.badge;
+                            if (sectionKey) {
+                                openDetailView(sectionKey);
+                                // Also open the Dish Modal for rich inspection
+                                setTimeout(() => {
+                                    openModal({
+                                        name: d.name,
+                                        price: d.price,
+                                        desc: d.description || `${d.name} crafted with fine estate ingredients.`,
+                                        img: d.image || 'uploads/artisanal_pizza.jpg',
+                                        badge: d.badge,
+                                        veg: d.is_veg ? '1' : '0',
+                                        custom: d.custom_fields || []
+                                    });
+                                }, 300);
+                            }
+                        });
+
+                        resultsGrid.appendChild(card);
+                    });
+                }
+
+                resultsPanel.style.display = 'block';
+            }
+
+            searchInput?.addEventListener('input', performSearch);
+
+            clearSearchBtn?.addEventListener('click', () => {
+                if (searchInput) searchInput.value = '';
+                activeFilter = null;
+                recomChips.forEach(c => c.classList.remove('active'));
+                if (resultsPanel) resultsPanel.style.display = 'none';
+                if (clearSearchBtn) clearSearchBtn.style.display = 'none';
+            });
+
+            closeResultsBtn?.addEventListener('click', () => {
+                if (resultsPanel) resultsPanel.style.display = 'none';
+            });
+
+            recomChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const filter = chip.getAttribute('data-recom');
+                    if (activeFilter === filter) {
+                        activeFilter = null;
+                        chip.classList.remove('active');
+                    } else {
+                        recomChips.forEach(c => c.classList.remove('active'));
+                        chip.classList.add('active');
+                        activeFilter = filter;
+                    }
+                    performSearch();
+                });
+            });
+
+            // Detail Header Search Trigger
+            detailSearchBtn?.addEventListener('click', () => {
+                // Switch smoothly back to overview and focus search input
+                overviewView.style.display = 'block';
+                overviewView.style.opacity = '1';
+                detailView.style.display = 'none';
+                detailView.style.opacity = '0';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => {
+                    searchInput?.focus();
+                    searchInput?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Open recommendations automatically
+                    if (!activeFilter && !searchInput.value) {
+                        const chefChip = document.querySelector('.recom-chip.chip-chef-special');
+                        if (chefChip) chefChip.click();
+                    }
+                }, 200);
+            });
 
             updateDockLabels();
         });
