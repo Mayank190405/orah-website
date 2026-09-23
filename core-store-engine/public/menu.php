@@ -740,14 +740,20 @@ $sectionKeys = array_keys($orderedSections);
             overflow: hidden;
             touch-action: pan-y;
             box-sizing: border-box;
+            transition: height 0.42s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .swipe-deck-slider {
             display: flex;
-            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+            align-items: flex-start;
+            transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
             width: 100%;
             margin: 0;
             padding: 0;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
 
         .section-slide-pane {
@@ -759,7 +765,14 @@ $sectionKeys = array_keys($orderedSections);
             padding: 14px 16px 0;
             overflow: hidden;
             opacity: 1;
-            transition: opacity 0.25s ease;
+            transform: translate3d(0, 0, 0);
+            pointer-events: none;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .section-slide-pane.active {
+            pointer-events: auto;
         }
 
         /* Editorial Section Header matching reference mockup */
@@ -1232,6 +1245,7 @@ $sectionKeys = array_keys($orderedSections);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
         .dock-center-wrap {
@@ -1791,6 +1805,8 @@ $sectionKeys = array_keys($orderedSections);
             const totalSections = sectionPanes.length;
             const sectionKeys = sectionPanes.map(p => p.getAttribute('data-section-key'));
             let currentSectionIndex = 0;
+            let isAnimating = false;
+            let startTime = 0;
 
             // Modal elements
             const modalBackdrop = document.getElementById('dishModalBackdrop');
@@ -1809,40 +1825,80 @@ $sectionKeys = array_keys($orderedSections);
                 return (key === 'Pasta') ? 'Pastas' : key;
             }
 
-            // Update dock previous and next labels
+            // Dynamically adjust viewport height to fit active section cleanly
+            function updateViewportHeight(targetIdx = currentSectionIndex) {
+                const pane = sectionPanes[targetIdx];
+                if (pane && viewport) {
+                    const h = pane.offsetHeight;
+                    if (h > 0) {
+                        viewport.style.height = h + 'px';
+                    }
+                }
+            }
+
+            // Update dock previous and next labels with soft cross-fade
             function updateDockLabels() {
                 const prevIdx = (currentSectionIndex - 1 + totalSections) % totalSections;
                 const nextIdx = (currentSectionIndex + 1) % totalSections;
 
-                if (dockPrevLabel) {
-                    dockPrevLabel.textContent = getCleanName(sectionKeys[prevIdx]);
-                }
-                if (dockNextLabel) {
-                    dockNextLabel.textContent = getCleanName(sectionKeys[nextIdx]);
+                if (dockPrevLabel && dockNextLabel) {
+                    dockPrevLabel.style.opacity = '0';
+                    dockNextLabel.style.opacity = '0';
+                    dockPrevLabel.style.transform = 'translateY(2px)';
+                    dockNextLabel.style.transform = 'translateY(2px)';
+
+                    setTimeout(() => {
+                        dockPrevLabel.textContent = getCleanName(sectionKeys[prevIdx]);
+                        dockNextLabel.textContent = getCleanName(sectionKeys[nextIdx]);
+                        dockPrevLabel.style.opacity = '1';
+                        dockNextLabel.style.opacity = '1';
+                        dockPrevLabel.style.transform = 'translateY(0)';
+                        dockNextLabel.style.transform = 'translateY(0)';
+                    }, 140);
                 }
             }
 
-            // Slide to a specific section
-            function goToSection(index, animated = true) {
+            // Slide to a specific section with silky ease-out
+            function goToSection(index, animated = true, allowScroll = false) {
+                if (isAnimating && animated) return;
                 if (index < 0) index = 0;
                 if (index >= totalSections) index = totalSections - 1;
                 currentSectionIndex = index;
 
-                // Update slider transform
-                slider.style.transition = animated ? 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)' : 'none';
-                slider.style.transform = `translateX(-${currentSectionIndex * 100}%)`;
+                if (animated) {
+                    isAnimating = true;
+                    setTimeout(() => { isAnimating = false; }, 430);
+                }
+
+                // Update active state on panes
+                sectionPanes.forEach((pane, idx) => {
+                    if (idx === currentSectionIndex) {
+                        pane.classList.add('active');
+                    } else {
+                        pane.classList.remove('active');
+                    }
+                });
+
+                // Hardware-accelerated 3D transition with Apple-fluid curve
+                slider.style.transition = animated ? 'transform 0.42s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
+                slider.style.transform = `translate3d(-${currentSectionIndex * 100}%, 0, 0)`;
+
+                // Concurrently morph viewport height
+                updateViewportHeight(currentSectionIndex);
 
                 // Update dock labels
                 updateDockLabels();
 
-                // Update URL hash
+                // Update URL hash without scroll jumps
                 const activeKey = sectionKeys[currentSectionIndex];
                 if (activeKey) {
                     history.replaceState(null, '', '#' + encodeURIComponent(activeKey.toLowerCase().replace(/[\s&]+/g, '-')));
                 }
 
-                // Scroll viewport to top on section change
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Only smoothly scroll if user tapped dock while far down the page
+                if (allowScroll && window.scrollY > 250 && animated) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             }
 
             // Show Detailed Menu
@@ -1852,12 +1908,14 @@ $sectionKeys = array_keys($orderedSections);
 
                 overviewView.style.display = 'none';
                 detailView.style.display = 'block';
-                setTimeout(() => {
-                    detailView.style.opacity = '1';
-                }, 10);
+                goToSection(targetIndex, false, false);
+                updateViewportHeight(targetIndex);
 
-                goToSection(targetIndex, false);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                requestAnimationFrame(() => {
+                    detailView.style.opacity = '1';
+                });
+
+                window.scrollTo({ top: 0, behavior: 'instant' });
             }
 
             // Return to Overview (First Page)
@@ -1879,12 +1937,12 @@ $sectionKeys = array_keys($orderedSections);
             // Dock Prev / Next Click Handlers
             dockPrevBtn?.addEventListener('click', () => {
                 const targetIdx = (currentSectionIndex - 1 + totalSections) % totalSections;
-                goToSection(targetIdx, true);
+                goToSection(targetIdx, true, true);
             });
 
             dockNextBtn?.addEventListener('click', () => {
                 const targetIdx = (currentSectionIndex + 1) % totalSections;
-                goToSection(targetIdx, true);
+                goToSection(targetIdx, true, true);
             });
 
             // Clicking any section card on Page 1 opens Page 2
@@ -1895,8 +1953,13 @@ $sectionKeys = array_keys($orderedSections);
                 });
             });
 
+            // Re-calculate height on window resize
+            window.addEventListener('resize', () => {
+                updateViewportHeight(currentSectionIndex);
+            });
+
             // =========================================================================
-            // TOUCH / SWIPE GESTURE ENGINE (SLIDE FEATURE)
+            // TOUCH / SWIPE GESTURE ENGINE (SLIDE FEATURE WITH VELOCITY)
             // =========================================================================
             let startX = 0;
             let startY = 0;
@@ -1906,6 +1969,7 @@ $sectionKeys = array_keys($orderedSections);
             let isHorizontalSwipe = null;
 
             function handleTouchStart(e) {
+                if (isAnimating) return;
                 const touch = e.touches ? e.touches[0] : e;
                 startX = touch.clientX;
                 startY = touch.clientY;
@@ -1913,6 +1977,7 @@ $sectionKeys = array_keys($orderedSections);
                 currentY = startY;
                 isSwiping = true;
                 isHorizontalSwipe = null;
+                startTime = Date.now();
             }
 
             function handleTouchMove(e) {
@@ -1925,44 +1990,52 @@ $sectionKeys = array_keys($orderedSections);
                 const diffY = currentY - startY;
 
                 if (isHorizontalSwipe === null) {
-                    if (Math.abs(diffX) > 10 || Math.abs(diffY) > 10) {
+                    if (Math.abs(diffX) > 8 || Math.abs(diffY) > 8) {
                         isHorizontalSwipe = Math.abs(diffX) > Math.abs(diffY);
                     }
                 }
 
                 if (isHorizontalSwipe) {
                     if (e.cancelable) e.preventDefault();
+                    slider.classList.add('is-dragging');
                     let dragOffset = diffX;
                     if ((currentSectionIndex === 0 && diffX > 0) || (currentSectionIndex === totalSections - 1 && diffX < 0)) {
-                        dragOffset = diffX * 0.3;
+                        dragOffset = diffX * 0.28; // soft rubber band at edges
                     }
                     const basePercent = -currentSectionIndex * 100;
                     const pixelWidth = viewport.offsetWidth || 1;
                     const percentOffset = (dragOffset / pixelWidth) * 100;
 
                     slider.style.transition = 'none';
-                    slider.style.transform = `translateX(${basePercent + percentOffset}%)`;
+                    slider.style.transform = `translate3d(${basePercent + percentOffset}%, 0, 0)`;
                 }
             }
 
             function handleTouchEnd() {
                 if (!isSwiping) return;
                 isSwiping = false;
+                slider.classList.remove('is-dragging');
 
                 if (isHorizontalSwipe) {
                     const diffX = currentX - startX;
-                    const threshold = 45; // Minimum px to trigger slide
+                    const elapsed = Math.max(1, Date.now() - startTime);
+                    const velocity = Math.abs(diffX) / elapsed; // px per millisecond
 
-                    if (diffX < -threshold) {
-                        // Swipe left -> Next
+                    // Quick flick (> 0.20 px/ms) or drag past 40px
+                    const isFlick = velocity > 0.20 && Math.abs(diffX) > 20;
+                    const isPastThreshold = Math.abs(diffX) > 40;
+
+                    if ((isFlick || isPastThreshold) && diffX < 0) {
+                        // Swipe left -> Next section
                         const nextIdx = (currentSectionIndex + 1) % totalSections;
-                        goToSection(nextIdx, true);
-                    } else if (diffX > threshold) {
-                        // Swipe right -> Prev
+                        goToSection(nextIdx, true, false);
+                    } else if ((isFlick || isPastThreshold) && diffX > 0) {
+                        // Swipe right -> Prev section
                         const prevIdx = (currentSectionIndex - 1 + totalSections) % totalSections;
-                        goToSection(prevIdx, true);
+                        goToSection(prevIdx, true, false);
                     } else {
-                        goToSection(currentSectionIndex, true);
+                        // Snap back smoothly
+                        goToSection(currentSectionIndex, true, false);
                     }
                 }
                 isHorizontalSwipe = null;
