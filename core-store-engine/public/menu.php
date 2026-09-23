@@ -249,6 +249,12 @@ $sectionKeys = array_keys($orderedSections);
             --border-light: rgba(104, 20, 24, 0.12);
         }
 
+        html {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+        }
+
         body {
             background-color: var(--cream-bg);
             color: var(--burgundy);
@@ -256,6 +262,8 @@ $sectionKeys = array_keys($orderedSections);
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -656,6 +664,9 @@ $sectionKeys = array_keys($orderedSections);
             display: none;
             opacity: 0;
             transition: opacity 0.3s ease;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
         }
 
         /* Detail Sticky Subheader */
@@ -723,22 +734,30 @@ $sectionKeys = array_keys($orderedSections);
         .swipe-deck-viewport {
             position: relative;
             max-width: 900px;
+            width: 100%;
             margin: 0 auto;
-            padding: 14px 16px 130px;
+            padding: 0 0 130px;
             overflow: hidden;
             touch-action: pan-y;
+            box-sizing: border-box;
         }
 
         .swipe-deck-slider {
             display: flex;
             transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
             width: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         .section-slide-pane {
             flex: 0 0 100%;
             width: 100%;
+            min-width: 100%;
+            max-width: 100%;
             box-sizing: border-box;
+            padding: 14px 16px 0;
+            overflow: hidden;
             opacity: 1;
             transition: opacity 0.25s ease;
         }
@@ -748,13 +767,17 @@ $sectionKeys = array_keys($orderedSections);
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            gap: 16px;
+            gap: 12px;
             margin-bottom: 22px;
-            padding: 8px 4px 4px;
+            padding: 8px 0 4px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .editorial-header-left {
             flex: 1;
+            min-width: 0;
         }
 
         .editorial-eyebrow {
@@ -775,6 +798,7 @@ $sectionKeys = array_keys($orderedSections);
             font-weight: 400;
             margin: 0 0 8px;
             letter-spacing: 0.3px;
+            word-break: break-word;
         }
 
         .editorial-title-underline {
@@ -790,6 +814,7 @@ $sectionKeys = array_keys($orderedSections);
             max-width: 440px;
             line-height: 1.45;
             margin: 0;
+            word-break: break-word;
         }
 
         .editorial-header-right {
@@ -798,6 +823,7 @@ $sectionKeys = array_keys($orderedSections);
             align-items: flex-end;
             gap: 4px;
             flex-shrink: 0;
+            min-width: 0;
         }
 
         .editorial-counter-box {
@@ -828,7 +854,7 @@ $sectionKeys = array_keys($orderedSections);
             position: relative;
             margin-top: 10px;
             font-family: 'Caveat', cursive;
-            font-size: clamp(1.4rem, 3.2vw, 1.85rem);
+            font-size: clamp(1.2rem, 3vw, 1.7rem);
             color: #a67c52;
             white-space: nowrap;
             transform: rotate(-6deg);
@@ -850,6 +876,8 @@ $sectionKeys = array_keys($orderedSections);
             display: flex;
             flex-direction: column;
             gap: 18px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .dish-split-card {
@@ -861,6 +889,10 @@ $sectionKeys = array_keys($orderedSections);
             display: flex;
             flex-direction: row;
             position: relative;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
@@ -871,11 +903,14 @@ $sectionKeys = array_keys($orderedSections);
 
         /* Left Half: Photography & Vignette Overlays */
         .split-card-media {
-            flex: 0 0 47%;
+            flex: 0 0 46%;
+            max-width: 46%;
+            min-width: 0;
             position: relative;
             min-height: 240px;
             overflow: hidden;
             background: #e8ded2;
+            box-sizing: border-box;
         }
 
         .split-card-img {
@@ -953,13 +988,17 @@ $sectionKeys = array_keys($orderedSections);
 
         /* Right Half: Editorial Details */
         .split-card-details {
-            flex: 1 1 53%;
+            flex: 1 1 54%;
+            max-width: 54%;
+            min-width: 0;
             padding: 14px 14px 14px 16px;
             background: #FAF5EB;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         .split-details-header {
@@ -1391,7 +1430,11 @@ $sectionKeys = array_keys($orderedSections);
             }
 
             .swipe-deck-viewport {
-                padding: 10px 10px 120px;
+                padding: 0 0 120px;
+            }
+
+            .section-slide-pane {
+                padding: 10px 12px 0;
             }
 
             .dish-split-card {
