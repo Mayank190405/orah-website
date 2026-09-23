@@ -220,25 +220,14 @@ $sectionKeys = array_keys($orderedSections);
             }
         }
 
-        .masthead-pdf-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--burgundy);
-            color: #FBF6EE;
-            text-decoration: none;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 1.2px;
-            padding: 7px 14px;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(104, 20, 24, 0.15);
-            transition: all 0.2s ease;
+        .utility-spacer {
+            width: 72px;
         }
 
-        .masthead-pdf-link:hover {
-            background: var(--burgundy-dark);
-            transform: translateY(-1px);
+        @media (max-width: 520px) {
+            .utility-spacer {
+                width: 40px;
+            }
         }
 
         /* Editorial Header Center */
@@ -248,44 +237,47 @@ $sectionKeys = array_keys($orderedSections);
             margin: 0 auto;
         }
 
-        .masthead-eyebrow {
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 3.5px;
-            color: var(--gold-accent);
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 6px;
-        }
-
         .masthead-title {
             font-family: 'Dream Avenue', 'Cormorant Garamond', Georgia, serif;
-            font-size: clamp(2.4rem, 5.2vw, 3.6rem);
+            font-size: clamp(2.6rem, 5.8vw, 4rem);
             color: var(--burgundy);
             line-height: 1.05;
             font-weight: 400;
-            margin: 0 0 10px;
+            margin: 0 0 8px;
             letter-spacing: 0.5px;
         }
 
-        .masthead-flourish {
+        /* Golden Star Divider Line matching reference image */
+        .masthead-star-divider {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 14px;
-            max-width: 220px;
-            margin: 0 auto 12px;
+            gap: 16px;
+            max-width: 360px;
+            margin: 8px auto 16px;
         }
 
-        .flourish-line {
+        .star-divider-line {
             flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(104, 20, 24, 0.25), transparent);
+            height: 1.5px;
         }
 
-        .flourish-glyph {
-            color: var(--gold-accent);
-            font-size: 0.75rem;
+        .star-divider-line.left {
+            background: linear-gradient(90deg, transparent 0%, rgba(201, 154, 104, 0.5) 60%, rgba(191, 138, 88, 0.95) 100%);
+        }
+
+        .star-divider-line.right {
+            background: linear-gradient(90deg, rgba(191, 138, 88, 0.95) 0%, rgba(201, 154, 104, 0.5) 40%, transparent 100%);
+        }
+
+        .star-divider-glyph {
+            width: 18px;
+            height: 18px;
+            color: #bfa382;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .masthead-tagline {
@@ -906,54 +898,6 @@ $sectionKeys = array_keys($orderedSections);
             color: #FBF6EE;
         }
 
-        /* Bottom Booklet Download Banner */
-        .pdf-download-strip {
-            background: var(--burgundy);
-            color: #FBF6EE;
-            border-radius: 24px;
-            padding: 44px 32px;
-            margin: 40px auto 80px;
-            max-width: 1240px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            box-shadow: 0 16px 40px rgba(104, 20, 24, 0.22);
-        }
-
-        .pdf-strip-title {
-            font-family: var(--font-heading);
-            font-size: clamp(1.6rem, 3.2vw, 2.2rem);
-            margin-bottom: 6px;
-            font-weight: 400;
-        }
-
-        .pdf-strip-sub {
-            font-size: 0.92rem;
-            opacity: 0.88;
-            max-width: 580px;
-        }
-
-        .pdf-strip-btn {
-            background: #FBF6EE;
-            color: var(--burgundy);
-            text-decoration: none;
-            padding: 12px 26px;
-            border-radius: 28px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            letter-spacing: 1.2px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s ease, background 0.2s ease;
-        }
-
-        .pdf-strip-btn:hover {
-            transform: translateY(-2px);
-            background: #ffffff;
-        }
 
         /* Mobile Viewport Optimizations */
         @media (max-width: 768px) {
@@ -1002,27 +946,6 @@ $sectionKeys = array_keys($orderedSections);
                 font-size: 0.76rem;
             }
 
-            .pdf-download-strip {
-                padding: 28px 20px;
-                margin: 25px auto 50px;
-                border-radius: 18px;
-            }
-
-            .pdf-strip-btn {
-                width: 100%;
-                justify-content: center;
-                box-sizing: border-box;
-            }
-
-            .masthead-back-link {
-                padding: 5px 11px;
-                font-size: 0.70rem;
-            }
-
-            .masthead-pdf-link {
-                padding: 6px 12px;
-                font-size: 0.68rem;
-            }
         }
 
         /* Footer */
@@ -1044,7 +967,7 @@ $sectionKeys = array_keys($orderedSections);
              VIEW 1: MENU SECTIONS OVERVIEW (First Page)
              ========================================================================== -->
         <section id="sectionsOverviewView">
-            <!-- Redesigned Top Masthead (Includes discreet Home + Crest + PDF utility row) -->
+            <!-- Redesigned Top Masthead -->
             <div class="menu-top-masthead">
                 <div class="masthead-utility-row">
                     <a href="index.php" class="masthead-back-link" aria-label="Return to Homepage">
@@ -1057,19 +980,19 @@ $sectionKeys = array_keys($orderedSections);
                         <span class="masthead-brand-name">ORAH HOUSE</span>
                     </div>
 
-                    <a href="Menu.pdf" target="_blank" download="Orah_House_Menu.pdf" class="masthead-pdf-link" title="Download Printable Menu (PDF)">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                        <span>PDF MENU</span>
-                    </a>
+                    <div class="utility-spacer" aria-hidden="true"></div>
                 </div>
 
                 <div class="masthead-center-content">
-                    <span class="masthead-eyebrow">CURATED ARCHITECTURAL MENU</span>
                     <h1 class="masthead-title">The Menu</h1>
-                    <div class="masthead-flourish" aria-hidden="true">
-                        <span class="flourish-line"></span>
-                        <span class="flourish-glyph">✦</span>
-                        <span class="flourish-line"></span>
+                    <div class="masthead-star-divider" aria-hidden="true">
+                        <span class="star-divider-line left"></span>
+                        <div class="star-divider-glyph">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                                <path d="M12 0 C12 7.5 16.5 12 24 12 C16.5 12 12 16.5 12 24 C12 16.5 7.5 12 0 12 C7.5 12 12 7.5 12 0 Z"/>
+                            </svg>
+                        </div>
+                        <span class="star-divider-line right"></span>
                     </div>
                     <p class="masthead-tagline">
                         Handcrafted sourdoughs, slow-cooked pastas, and specialty estate roasts. Tap any section to explore.
@@ -1122,17 +1045,6 @@ $sectionKeys = array_keys($orderedSections);
                     <?php endforeach; ?>
                 </div>
 
-                <!-- Booklet Download Banner -->
-                <div class="pdf-download-strip">
-                    <div class="pdf-strip-info">
-                        <h3 class="pdf-strip-title">The Complete Printed Menu</h3>
-                        <p class="pdf-strip-sub">Download our complete 10-page table menu booklet with full descriptions, coffee tasting guides, and kitchen craft stories.</p>
-                    </div>
-                    <a href="Menu.pdf" target="_blank" download="Orah_House_Menu.pdf" class="pdf-strip-btn">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                        <span>DOWNLOAD MENU (PDF)</span>
-                    </a>
-                </div>
             </div>
         </section>
 
