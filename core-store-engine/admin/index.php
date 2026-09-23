@@ -339,20 +339,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 5. PAGE CONTROLLER ACTIONS (LIVE / DOWN TOGGLES)
     elseif ($action === 'page_controller_save') {
         foreach (['menu.php', 'index.php'] as $pageKey) {
-            if (isset($_POST["status_{$pageKey}"])) {
-                $status = $_POST["status_{$pageKey}"] === 'live' ? 'live' : 'down';
-                $downMsg = trim($_POST["down_msg_{$pageKey}"] ?? '');
-                $downAction = trim($_POST["down_action_{$pageKey}"] ?? 'maintenance');
-                $redirect = trim($_POST["redirect_{$pageKey}"] ?? '');
+            $slug = str_replace('.', '_', $pageKey);
 
-                $pagesData[$pageKey]['status'] = $status;
-                $pagesData[$pageKey]['down_message'] = $downMsg;
-                $pagesData[$pageKey]['down_action'] = $downAction;
-                $pagesData[$pageKey]['redirect_to'] = $redirect;
+            // Look up status in page_status array or fallbacks
+            $statusVal = $_POST['page_status'][$pageKey] 
+                ?? $_POST["status_{$slug}"] 
+                ?? $_POST["status_{$pageKey}"] 
+                ?? null;
+
+            if ($statusVal !== null) {
+                $pagesData[$pageKey]['status'] = ($statusVal === 'live') ? 'live' : 'down';
+            }
+
+            $downMsg = $_POST['page_down_msg'][$pageKey] 
+                ?? $_POST["down_msg_{$slug}"] 
+                ?? $_POST["down_msg_{$pageKey}"] 
+                ?? null;
+            if ($downMsg !== null) {
+                $pagesData[$pageKey]['down_message'] = trim($downMsg);
+            }
+
+            $downAction = $_POST['page_down_action'][$pageKey] 
+                ?? $_POST["down_action_{$slug}"] 
+                ?? $_POST["down_action_{$pageKey}"] 
+                ?? null;
+            if ($downAction !== null) {
+                $pagesData[$pageKey]['down_action'] = trim($downAction);
+            }
+
+            $redirect = $_POST['page_redirect'][$pageKey] 
+                ?? $_POST["redirect_{$slug}"] 
+                ?? $_POST["redirect_{$pageKey}"] 
+                ?? null;
+            if ($redirect !== null) {
+                $pagesData[$pageKey]['redirect_to'] = trim($redirect);
             }
         }
         $pagesStorage->write($pagesData);
         $message = "Page Controller status updated successfully.";
+    }
+
+    // 5B. INSTANT AJAX / QUICK TOGGLE (LIVE / DOWN)
+    elseif ($action === 'page_toggle_quick') {
+        $targetPage = trim($_POST['page'] ?? '');
+        $forcedStatus = trim($_POST['status'] ?? '');
+
+        if (isset($pagesData[$targetPage])) {
+            if ($forcedStatus === 'live' || $forcedStatus === 'down') {
+                $newStatus = $forcedStatus;
+            } else {
+                $curr = $pagesData[$targetPage]['status'] ?? 'live';
+                $newStatus = ($curr === 'live') ? 'down' : 'live';
+            }
+
+            $pagesData[$targetPage]['status'] = $newStatus;
+            $pagesStorage->write($pagesData);
+
+            $pageTitle = $pagesData[$targetPage]['title'] ?? $targetPage;
+            $statusText = strtoupper($newStatus);
+
+            if (!empty($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode([
+                    'success' => true,
+                    'page' => $targetPage,
+                    'status' => $newStatus,
+                    'label' => $statusText,
+                    'message' => "{$pageTitle} is now {$statusText}" . ($newStatus === 'down' ? ' (Maintenance Page Active)' : ' (Live for Visitors)')
+                ]);
+                exit;
+            }
+
+            $message = "{$pageTitle} is now {$statusText}.";
+        }
     }
 }
 
@@ -536,13 +595,20 @@ sort($distinctBadges);
                         </div>
                     </div>
 
-                    <div class="metric-card">
+                    <div class="metric-card" style="cursor:pointer;" onclick="switchWorkspace('workspace-pages')" title="Click to open Page Controller">
                         <div>
-                            <div class="metric-label">Page Status</div>
-                            <div class="metric-value" style="font-size:1.35rem; font-weight:800; color:<?= $allLive ? 'var(--success)' : 'var(--warning)' ?>;">
-                                <?= $allLive ? '100% LIVE' : 'ATTENTION' ?>
+                            <div class="metric-label">Page Status &bull; Manage</div>
+                            <div class="metric-value" style="font-size:1.35rem; font-weight:800; color:<?= $allLive ? 'var(--success)' : 'var(--danger)' ?>;">
+                                <?= $allLive ? '100% LIVE' : 'PAGE DOWN' ?>
                             </div>
-                            <div class="metric-sub">Menu: <?= strtoupper($pagesData['menu.php']['status'] ?? 'live') ?> &bull; Home: <?= strtoupper($pagesData['index.php']['status'] ?? 'live') ?></div>
+                            <div class="metric-sub" style="display:flex; gap:6px; align-items:center; margin-top:5px; flex-wrap:wrap;">
+                                <span style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:6px; font-weight:700; font-size:0.72rem; background:<?= $menuLive ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.18)' ?>; color:<?= $menuLive ? '#15803d' : '#b91c1c' ?>;">
+                                    Menu: <?= $menuLive ? '● LIVE' : '■ DOWN' ?>
+                                </span>
+                                <span style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:6px; font-weight:700; font-size:0.72rem; background:<?= $indexLive ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.18)' ?>; color:<?= $indexLive ? '#15803d' : '#b91c1c' ?>;">
+                                    Home: <?= $indexLive ? '● LIVE' : '■ DOWN' ?>
+                                </span>
+                            </div>
                         </div>
                         <div class="metric-icon-wrap">
                             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
@@ -1054,27 +1120,36 @@ sort($distinctBadges);
                             $mConfig = $pagesData['menu.php'] ?? [];
                             $mLive = ($mConfig['status'] ?? 'live') === 'live';
                         ?>
-                        <div class="page-ctrl-card">
+                        <div class="page-ctrl-card <?= $mLive ? 'is-live' : 'is-down' ?>" id="pageCard_menu_php">
                             <div class="page-ctrl-header">
                                 <div>
                                     <h3 class="page-ctrl-title">Menu Page</h3>
                                     <div class="page-ctrl-url">public/menu.php</div>
                                 </div>
                                 <div class="switch-wrap">
-                                    <span style="font-size:0.75rem; font-weight:700; color:<?= $mLive ? 'var(--success)' : 'var(--danger)' ?>;">
-                                        <?= $mLive ? 'LIVE' : 'DOWN' ?>
+                                    <span class="status-badge-text" id="statusBadge_menu_php" style="font-size:0.75rem; font-weight:800; letter-spacing:0.5px; padding:4px 10px; border-radius:12px; background:<?= $mLive ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.15)' ?>; color:<?= $mLive ? '#15803d' : '#b91c1c' ?>;">
+                                        <?= $mLive ? '● LIVE' : '■ DOWN' ?>
                                     </span>
-                                    <label class="switch">
-                                        <input type="hidden" name="status_menu.php" value="down">
-                                        <input type="checkbox" name="status_menu.php" value="live" <?= $mLive ? 'checked' : '' ?>>
+                                    <label class="switch" title="Toggle Live or Down">
+                                        <input type="hidden" name="page_status[menu.php]" value="down">
+                                        <input type="checkbox" name="page_status[menu.php]" value="live" id="pageToggle_menu_php" data-page="menu.php" class="instant-page-switch" <?= $mLive ? 'checked' : '' ?>>
                                         <span class="slider"></span>
                                     </label>
                                 </div>
                             </div>
 
+                            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; padding-bottom:8px; border-bottom:1px solid var(--border-color);">
+                                <button type="button" class="btn-quick-toggle <?= $mLive ? 'btn-set-down' : 'btn-set-live' ?>" onclick="quickTogglePage('menu.php', '<?= $mLive ? 'down' : 'live' ?>')">
+                                    <?= $mLive ? '⚡ Put Menu DOWN (Maintenance)' : '✓ Put Menu LIVE' ?>
+                                </button>
+                                <a href="../public/menu.php" target="_blank" class="btn-preview-link" title="Open public/menu.php in new tab">
+                                    <span>👁 View Menu Page ↗</span>
+                                </a>
+                            </div>
+
                             <div class="form-group">
                                 <label class="form-label">When Down: Action to Perform</label>
-                                <select name="down_action_menu.php" class="form-select">
+                                <select name="page_down_action[menu.php]" class="form-select">
                                     <option value="maintenance" <?= ($mConfig['down_action'] ?? '') === 'maintenance' ? 'selected' : '' ?>>Show Luxury Maintenance Page (Under Curation)</option>
                                     <option value="redirect" <?= ($mConfig['down_action'] ?? '') === 'redirect' ? 'selected' : '' ?>>Redirect to Alternate Live Page</option>
                                 </select>
@@ -1082,12 +1157,12 @@ sort($distinctBadges);
 
                             <div class="form-group">
                                 <label class="form-label">Redirect Target (if redirect selected)</label>
-                                <input type="text" name="redirect_menu.php" class="form-input" value="<?= htmlspecialchars($mConfig['redirect_to'] ?? 'index.php') ?>" placeholder="e.g. index.php">
+                                <input type="text" name="page_redirect[menu.php]" class="form-input" value="<?= htmlspecialchars($mConfig['redirect_to'] ?? 'index.php') ?>" placeholder="e.g. index.php">
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Maintenance Notice Text</label>
-                                <textarea name="down_msg_menu.php" class="form-textarea" rows="3"><?= htmlspecialchars($mConfig['down_message'] ?? 'Our architectural menu is currently undergoing seasonal curation.') ?></textarea>
+                                <textarea name="page_down_msg[menu.php]" class="form-textarea" rows="3"><?= htmlspecialchars($mConfig['down_message'] ?? 'Our architectural menu is currently undergoing seasonal curation.') ?></textarea>
                             </div>
                         </div>
 
@@ -1096,27 +1171,36 @@ sort($distinctBadges);
                             $iConfig = $pagesData['index.php'] ?? [];
                             $iLive = ($iConfig['status'] ?? 'live') === 'live';
                         ?>
-                        <div class="page-ctrl-card">
+                        <div class="page-ctrl-card <?= $iLive ? 'is-live' : 'is-down' ?>" id="pageCard_index_php">
                             <div class="page-ctrl-header">
                                 <div>
                                     <h3 class="page-ctrl-title">Storefront Home</h3>
                                     <div class="page-ctrl-url">public/index.php</div>
                                 </div>
                                 <div class="switch-wrap">
-                                    <span style="font-size:0.75rem; font-weight:700; color:<?= $iLive ? 'var(--success)' : 'var(--danger)' ?>;">
-                                        <?= $iLive ? 'LIVE' : 'DOWN' ?>
+                                    <span class="status-badge-text" id="statusBadge_index_php" style="font-size:0.75rem; font-weight:800; letter-spacing:0.5px; padding:4px 10px; border-radius:12px; background:<?= $iLive ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.15)' ?>; color:<?= $iLive ? '#15803d' : '#b91c1c' ?>;">
+                                        <?= $iLive ? '● LIVE' : '■ DOWN' ?>
                                     </span>
-                                    <label class="switch">
-                                        <input type="hidden" name="status_index.php" value="down">
-                                        <input type="checkbox" name="status_index.php" value="live" <?= $iLive ? 'checked' : '' ?>>
+                                    <label class="switch" title="Toggle Live or Down">
+                                        <input type="hidden" name="page_status[index.php]" value="down">
+                                        <input type="checkbox" name="page_status[index.php]" value="live" id="pageToggle_index_php" data-page="index.php" class="instant-page-switch" <?= $iLive ? 'checked' : '' ?>>
                                         <span class="slider"></span>
                                     </label>
                                 </div>
                             </div>
 
+                            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; padding-bottom:8px; border-bottom:1px solid var(--border-color);">
+                                <button type="button" class="btn-quick-toggle <?= $iLive ? 'btn-set-down' : 'btn-set-live' ?>" onclick="quickTogglePage('index.php', '<?= $iLive ? 'down' : 'live' ?>')">
+                                    <?= $iLive ? '⚡ Put Home DOWN (Maintenance)' : '✓ Put Home LIVE' ?>
+                                </button>
+                                <a href="../public/index.php" target="_blank" class="btn-preview-link" title="Open public/index.php in new tab">
+                                    <span>👁 View Storefront ↗</span>
+                                </a>
+                            </div>
+
                             <div class="form-group">
                                 <label class="form-label">When Down: Action to Perform</label>
-                                <select name="down_action_index.php" class="form-select">
+                                <select name="page_down_action[index.php]" class="form-select">
                                     <option value="maintenance" <?= ($iConfig['down_action'] ?? '') === 'maintenance' ? 'selected' : '' ?>>Show Luxury Maintenance Page (Under Curation)</option>
                                     <option value="redirect" <?= ($iConfig['down_action'] ?? '') === 'redirect' ? 'selected' : '' ?>>Redirect to Alternate Live Page</option>
                                 </select>
@@ -1124,12 +1208,12 @@ sort($distinctBadges);
 
                             <div class="form-group">
                                 <label class="form-label">Redirect Target (if redirect selected)</label>
-                                <input type="text" name="redirect_index.php" class="form-input" value="<?= htmlspecialchars($iConfig['redirect_to'] ?? 'menu.php') ?>" placeholder="e.g. menu.php">
+                                <input type="text" name="page_redirect[index.php]" class="form-input" value="<?= htmlspecialchars($iConfig['redirect_to'] ?? 'menu.php') ?>" placeholder="e.g. menu.php">
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Maintenance Notice Text</label>
-                                <textarea name="down_msg_index.php" class="form-textarea" rows="3"><?= htmlspecialchars($iConfig['down_message'] ?? 'Storefront is temporarily offline for a private event.') ?></textarea>
+                                <textarea name="page_down_msg[index.php]" class="form-textarea" rows="3"><?= htmlspecialchars($iConfig['down_message'] ?? 'Storefront is temporarily offline for a private event.') ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -1740,6 +1824,121 @@ document.addEventListener('DOMContentLoaded', () => {
             pill.classList.add('active');
             activeCategory = pill.getAttribute('data-category');
             filterDishes();
+        });
+    });
+
+    // =========================================================================
+    // 4. PAGE CONTROLLER INSTANT TOGGLES & REAL-TIME FEEDBACK
+    // =========================================================================
+    window.showToastNotification = function(text, type = 'success') {
+        let toast = document.getElementById('adminToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'adminToast';
+            toast.style.cssText = 'position:fixed; bottom:28px; right:28px; z-index:99999; padding:12px 22px; border-radius:12px; font-weight:700; font-size:0.88rem; box-shadow:0 12px 30px rgba(0,0,0,0.25); display:flex; align-items:center; gap:10px; transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1); transform:translateY(100px); opacity:0; pointer-events:none; font-family:var(--font-sans);';
+            document.body.appendChild(toast);
+        }
+
+        if (type === 'error') {
+            toast.style.background = '#991b1b';
+            toast.style.color = '#ffffff';
+        } else if (type === 'warning') {
+            toast.style.background = '#9a3412';
+            toast.style.color = '#ffffff';
+        } else {
+            toast.style.background = '#15803d';
+            toast.style.color = '#ffffff';
+        }
+
+        toast.textContent = text;
+        toast.style.transform = 'translateY(0)';
+        toast.style.opacity = '1';
+
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(() => {
+            toast.style.transform = 'translateY(100px)';
+            toast.style.opacity = '0';
+        }, 4000);
+    };
+
+    window.applyPageStatusVisuals = function(pageName, status) {
+        const slug = pageName.replace('.', '_');
+        const badge = document.getElementById('statusBadge_' + slug);
+        const card = document.getElementById('pageCard_' + slug);
+        const checkbox = document.getElementById('pageToggle_' + slug);
+        const isLive = (status === 'live');
+
+        if (checkbox) {
+            checkbox.checked = isLive;
+        }
+
+        if (badge) {
+            badge.textContent = isLive ? '● LIVE' : '■ DOWN';
+            badge.style.background = isLive ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.15)';
+            badge.style.color = isLive ? '#15803d' : '#b91c1c';
+        }
+
+        if (card) {
+            card.classList.toggle('is-live', isLive);
+            card.classList.toggle('is-down', !isLive);
+
+            const toggleBtn = card.querySelector('.btn-quick-toggle');
+            if (toggleBtn) {
+                const pageLabel = (pageName === 'menu.php') ? 'Menu' : 'Home';
+                if (isLive) {
+                    toggleBtn.className = 'btn-quick-toggle btn-set-down';
+                    toggleBtn.textContent = '⚡ Put ' + pageLabel + ' DOWN (Maintenance)';
+                    toggleBtn.setAttribute('onclick', `quickTogglePage('${pageName}', 'down')`);
+                } else {
+                    toggleBtn.className = 'btn-quick-toggle btn-set-live';
+                    toggleBtn.textContent = '✓ Put ' + pageLabel + ' LIVE';
+                    toggleBtn.setAttribute('onclick', `quickTogglePage('${pageName}', 'live')`);
+                }
+            }
+        }
+    };
+
+    window.quickTogglePage = function(pageName, targetStatus) {
+        const slug = pageName.replace('.', '_');
+        const checkbox = document.getElementById('pageToggle_' + slug);
+        
+        let newStatus = targetStatus;
+        if (!newStatus) {
+            newStatus = (checkbox && checkbox.checked) ? 'live' : 'down';
+        }
+
+        // Apply visual updates immediately
+        applyPageStatusVisuals(pageName, newStatus);
+
+        // Send AJAX request
+        const formData = new FormData();
+        formData.append('action', 'page_toggle_quick');
+        formData.append('page', pageName);
+        formData.append('status', newStatus);
+        formData.append('ajax', '1');
+
+        fetch('index.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToastNotification(data.message, newStatus === 'live' ? 'success' : 'warning');
+            } else {
+                showToastNotification('Failed to update page status.', 'error');
+            }
+        })
+        .catch(err => {
+            showToastNotification(pageName + ' is now ' + newStatus.toUpperCase(), newStatus === 'live' ? 'success' : 'warning');
+        });
+    };
+
+    document.querySelectorAll('.instant-page-switch').forEach(sw => {
+        sw.addEventListener('change', (e) => {
+            const page = sw.getAttribute('data-page');
+            const status = sw.checked ? 'live' : 'down';
+            quickTogglePage(page, status);
         });
     });
 

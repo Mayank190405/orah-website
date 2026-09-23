@@ -3,7 +3,7 @@
         "title": "Menu Page",
         "url": "menu.php",
         "status": "live",
-        "down_message": "Our architectural menu is currently undergoing seasonal curation. Our doors remain open\u2014please connect with our concierge for reservations.",
+        "down_message": "Private VIP dining tasting session in progress.",
         "down_action": "maintenance",
         "redirect_to": "index.php"
     },
