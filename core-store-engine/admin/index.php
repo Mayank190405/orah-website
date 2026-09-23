@@ -236,23 +236,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 3. POP-UP & FORM STUDIO ACTIONS
     elseif ($action === 'popup_save') {
         $popupId = trim($_POST['popup_id'] ?? '');
+        $popupType = trim($_POST['popup_type'] ?? 'reservation');
         $popupName = trim($_POST['popup_name'] ?? 'Table Reservation');
         $targetPage = trim($_POST['target_page'] ?? 'menu.php');
         $layout = trim($_POST['popup_layout'] ?? 'center_modal');
         $triggerType = trim($_POST['trigger_type'] ?? 'both');
         $delaySec = intval($_POST['trigger_delay_sec'] ?? 6);
-        $floatingBtnText = trim($_POST['floating_btn_text'] ?? '✦ Reserve Table');
-        $badgeText = trim($_POST['badge_text'] ?? 'EXCLUSIVE DINING');
+        $floatingBtnText = trim($_POST['floating_btn_text'] ?? ($popupType === 'offer' ? '🎁 Special Offer' : '✦ Reserve Table'));
+        $badgeText = trim($_POST['badge_text'] ?? ($popupType === 'offer' ? 'EXCLUSIVE OFFER' : 'EXCLUSIVE DINING'));
         $title = trim($_POST['title'] ?? 'Reserve Your Dining Experience');
         $subtitle = trim($_POST['subtitle'] ?? '');
-        $buttonText = trim($_POST['button_text'] ?? 'Confirm Reservation Request');
+        $buttonText = trim($_POST['button_text'] ?? ($popupType === 'offer' ? 'Claim Offer On WhatsApp ↗' : 'Confirm Reservation Request'));
         $active = isset($_POST['popup_active']);
         $imageUrl = trim($_POST['image_url'] ?? '');
+
+        // Offer Specific Fields
+        $discountBadge = trim($_POST['discount_badge'] ?? '');
+        $promoCode = trim($_POST['promo_code'] ?? '');
+        $offerExpiry = trim($_POST['offer_expiry'] ?? '');
+        $offerCtaType = trim($_POST['offer_cta_type'] ?? 'whatsapp');
+        $offerCtaLink = trim($_POST['offer_cta_link'] ?? '');
+        $terms = trim($_POST['terms'] ?? '');
 
         $uploaded = saveUploadedImage('image_file', 'popup');
         if ($uploaded) $imageUrl = $uploaded;
 
-        // Element Visibility Toggles (Option to remove/hide any element)
+        // Element Visibility Toggles (Option to remove/hide ANY element)
         $elements = [
             'show_badge' => isset($_POST['el_badge']),
             'show_title' => isset($_POST['el_title']),
@@ -261,6 +270,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'show_guests' => isset($_POST['el_guests']),
             'show_datetime' => isset($_POST['el_datetime']),
             'show_notes' => isset($_POST['el_notes']),
+            'show_discount_badge' => isset($_POST['el_discount_badge']),
+            'show_promo_code' => isset($_POST['el_promo_code']),
+            'show_expiry' => isset($_POST['el_expiry']),
+            'show_terms' => isset($_POST['el_terms']),
             'show_close' => isset($_POST['el_close'])
         ];
 
@@ -271,6 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $popupItem = [
             'id' => $popupId,
+            'type' => $popupType,
             'name' => $popupName,
             'target_page' => $targetPage,
             'active' => $active,
@@ -282,6 +296,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'title' => $title,
             'subtitle' => $subtitle,
             'button_text' => $buttonText,
+            'discount_badge' => $discountBadge,
+            'promo_code' => $promoCode,
+            'offer_expiry' => $offerExpiry,
+            'offer_cta_type' => $offerCtaType,
+            'offer_cta_link' => $offerCtaLink,
+            'terms' => $terms,
             'image' => $imageUrl ?: 'uploads/mozzarella_flatbread.jpg',
             'elements' => $elements
         ];
@@ -928,12 +948,15 @@ sort($distinctBadges);
                             <?php foreach ($popupsData as $pop): ?>
                                 <?php 
                                     $pId = $pop['id'] ?? '';
+                                    $pType = $pop['type'] ?? 'reservation';
                                     $pName = $pop['name'] ?? 'Untitled Form';
                                     $pTarget = $pop['target_page'] ?? 'menu.php';
                                     $pLayout = $pop['layout'] ?? 'center_modal';
                                     $pTrigger = $pop['trigger_type'] ?? 'both';
                                     $pActive = !empty($pop['active']);
                                     $pTitle = $pop['title'] ?? '';
+                                    $pPromo = $pop['promo_code'] ?? '';
+                                    $pDisc = $pop['discount_badge'] ?? '';
 
                                     $layoutNames = [
                                         'center_modal' => 'Center Floating Modal',
@@ -944,6 +967,16 @@ sort($distinctBadges);
                                 ?>
                                 <tr data-raw='<?= htmlspecialchars(json_encode($pop), ENT_QUOTES, 'UTF-8') ?>'>
                                     <td>
+                                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:3px;">
+                                            <span style="display:inline-block; font-size:0.68rem; font-weight:800; padding:2px 8px; border-radius:10px; text-transform:uppercase; letter-spacing:0.5px; background:<?= $pType === 'offer' ? 'rgba(201,154,104,0.2)' : 'rgba(104,20,24,0.1)' ?>; color:<?= $pType === 'offer' ? '#8c5d26' : '#681418' ?>;">
+                                                <?= $pType === 'offer' ? '🎁 Offer Voucher' : '🍽 Table Reservation' ?>
+                                            </span>
+                                            <?php if ($pType === 'offer' && !empty($pPromo)): ?>
+                                                <span style="font-family:monospace; font-size:0.75rem; font-weight:800; background:#FFF8EB; border:1px dashed #c99a68; color:#681418; padding:1px 6px; border-radius:4px;">
+                                                    <?= htmlspecialchars($pPromo) ?> (<?= htmlspecialchars($pDisc ?: 'Promo') ?>)
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
                                         <div style="font-weight:700; color:var(--text-primary); font-size:0.92rem;"><?= htmlspecialchars($pName) ?></div>
                                         <div style="font-size:0.78rem; color:var(--text-secondary);">&ldquo;<?= htmlspecialchars($pTitle) ?>&rdquo;</div>
                                     </td>
@@ -1396,10 +1429,34 @@ sort($distinctBadges);
             </div>
 
             <div class="modal-body">
+                <!-- POP-UP TYPE SELECTOR (RESERVATION VS OFFER) -->
+                <div class="form-group" style="background:#FAF7F2; border:1px solid var(--border-color); border-radius:14px; padding:14px 16px; margin-bottom:18px;">
+                    <label class="form-label" style="margin-bottom:8px; display:flex; justify-content:space-between;">
+                        <span>Pop-Up Campaign Type *</span>
+                        <span style="font-size:0.75rem; color:#8c7355; font-weight:600;">Choose objective</span>
+                    </label>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                        <label class="type-choice-card selected" id="typeCard_reservation" style="display:flex; align-items:center; gap:10px; padding:12px 14px; border:2px solid #681418; border-radius:10px; background:#fff; cursor:pointer; transition:all 0.2s;">
+                            <input type="radio" name="popup_type" value="reservation" id="typeRadio_reservation" checked onchange="switchPopupType('reservation')">
+                            <div>
+                                <div style="font-weight:700; font-size:0.88rem; color:#681418;">🍽 Table Reservation</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">Guest inquiries & table booking form</div>
+                            </div>
+                        </label>
+                        <label class="type-choice-card" id="typeCard_offer" style="display:flex; align-items:center; gap:10px; padding:12px 14px; border:1px solid var(--border-color); border-radius:10px; background:#fff; cursor:pointer; transition:all 0.2s;">
+                            <input type="radio" name="popup_type" value="offer" id="typeRadio_offer" onchange="switchPopupType('offer')">
+                            <div>
+                                <div style="font-weight:700; font-size:0.88rem; color:#681418;">🎁 Special Offer / Voucher</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">Discounts, coupon code & WhatsApp claim</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
                 <div class="form-row-2">
                     <div class="form-group">
                         <label class="form-label">Form Campaign Name *</label>
-                        <input type="text" name="popup_name" id="popNameInput" class="form-input" placeholder="e.g. Table Reservation & VIP Tasting" required>
+                        <input type="text" name="popup_name" id="popNameInput" class="form-input" placeholder="e.g. Welcome Tasting 15% OFF" required>
                     </div>
 
                     <div class="form-group">
@@ -1476,35 +1533,99 @@ sort($distinctBadges);
                             <span>Cover Image</span>
                         </label>
                         <label class="toggle-label">
-                            <input type="checkbox" name="el_guests" id="elGuestsCheck" checked>
-                            <span>Guests Field</span>
+                            <input type="checkbox" name="el_close" id="elCloseCheck" checked>
+                            <span>Close Button</span>
                         </label>
-                        <label class="toggle-label">
+
+                        <!-- Reservation-specific elements -->
+                        <label class="toggle-label toggle-reservation-only">
+                            <input type="checkbox" name="el_guests" id="elGuestsCheck" checked>
+                            <span>Guests Selector</span>
+                        </label>
+                        <label class="toggle-label toggle-reservation-only">
                             <input type="checkbox" name="el_datetime" id="elDateTimeCheck" checked>
                             <span>Date & Time</span>
                         </label>
-                        <label class="toggle-label">
+                        <label class="toggle-label toggle-reservation-only">
                             <input type="checkbox" name="el_notes" id="elNotesCheck" checked>
                             <span>Special Notes</span>
                         </label>
-                        <label class="toggle-label">
-                            <input type="checkbox" name="el_close" id="elCloseCheck" checked>
-                            <span>Close Button</span>
+
+                        <!-- Offer-specific elements -->
+                        <label class="toggle-label toggle-offer-only" style="display:none;">
+                            <input type="checkbox" name="el_discount_badge" id="elDiscountBadgeCheck" checked>
+                            <span>Discount Callout Pill</span>
+                        </label>
+                        <label class="toggle-label toggle-offer-only" style="display:none;">
+                            <input type="checkbox" name="el_promo_code" id="elPromoCodeCheck" checked>
+                            <span>Promo Code Ticket</span>
+                        </label>
+                        <label class="toggle-label toggle-offer-only" style="display:none;">
+                            <input type="checkbox" name="el_expiry" id="elExpiryCheck" checked>
+                            <span>Validity / Expiry</span>
+                        </label>
+                        <label class="toggle-label toggle-offer-only" style="display:none;">
+                            <input type="checkbox" name="el_terms" id="elTermsCheck" checked>
+                            <span>Terms & Conditions</span>
                         </label>
                     </div>
                 </div>
 
                 <!-- COPY & TEXT CONTENT -->
                 <div class="form-group">
-                    <label class="form-label">3. Form Copy & Content</label>
+                    <label class="form-label">3. Headline & Messaging</label>
                     <div class="form-row-2">
-                        <input type="text" name="badge_text" id="popBadgeTextInput" class="form-input" placeholder="Eyebrow Badge (e.g. EXCLUSIVE DINING)" value="EXCLUSIVE DINING">
-                        <input type="text" name="title" id="popTitleInput" class="form-input" placeholder="Main Heading" value="Reserve Your Dining Experience" required>
+                        <input type="text" name="badge_text" id="popBadgeTextInput" class="form-input" placeholder="Eyebrow Badge (e.g. EXCLUSIVE OFFER)" value="EXCLUSIVE OFFER">
+                        <input type="text" name="title" id="popTitleInput" class="form-input" placeholder="Main Heading" value="Special Tasting Experience" required>
                     </div>
                     <textarea name="subtitle" id="popSubtitleInput" class="form-textarea" rows="2" style="margin-top:8px;" placeholder="Subtitle / invitation message...">Experience our slow-fermented hearth kitchen and architectural ambiance at Orah House.</textarea>
                     <div class="form-row-2" style="margin-top:8px;">
-                        <input type="text" name="button_text" id="popBtnTextInput" class="form-input" placeholder="Submit Button Text" value="Confirm Reservation Request">
-                        <input type="text" name="floating_btn_text" id="popFloatingBtnTextInput" class="form-input" placeholder="Floating Button Text" value="✦ Reserve Table">
+                        <input type="text" name="button_text" id="popBtnTextInput" class="form-input" placeholder="Action Button Text" value="Claim Offer On WhatsApp ↗">
+                        <input type="text" name="floating_btn_text" id="popFloatingBtnTextInput" class="form-input" placeholder="Floating Button Text" value="🎁 Special Offer">
+                    </div>
+                </div>
+
+                <!-- OFFER SPECIFIC FIELDS SECTION (Visible when Offer selected) -->
+                <div id="offerConfigSection" style="display:none; background:#FAF7F0; border:1px solid rgba(201,154,104,0.4); border-radius:12px; padding:16px; margin-bottom:16px;">
+                    <div style="font-weight:800; font-size:0.85rem; color:#681418; margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+                        <span>🎁 Special Offer & Voucher Settings</span>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label">Discount Badge / Tag</label>
+                            <input type="text" name="discount_badge" id="popDiscountBadgeInput" class="form-input" placeholder="e.g. FLAT 15% OFF, BUY 1 GET 1" value="FLAT 15% OFF">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Coupon / Promo Code</label>
+                            <input type="text" name="promo_code" id="popPromoCodeInput" class="form-input" placeholder="e.g. ORAH15, TASTING20" value="ORAH15">
+                        </div>
+                    </div>
+
+                    <div class="form-row-2" style="margin-top:8px;">
+                        <div class="form-group">
+                            <label class="form-label">Offer Action (Call-to-Action)</label>
+                            <select name="offer_cta_type" id="popOfferCtaTypeSelect" class="form-select">
+                                <option value="whatsapp" selected>One-Click Claim on WhatsApp</option>
+                                <option value="copy_code">Click to Copy Code & Open Menu</option>
+                                <option value="lead_capture">Guest Enters Phone to Unlock Code</option>
+                                <option value="link">Custom URL / Page Link</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Validity / Expiry Text</label>
+                            <input type="text" name="offer_expiry" id="popOfferExpiryInput" class="form-input" placeholder="e.g. Valid this week &bull; Dine-in & Takeaway" value="Valid this week only &bull; Dine-in & Takeaway">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top:8px;">
+                        <label class="form-label">Target Link / WhatsApp URL (Optional)</label>
+                        <input type="text" name="offer_cta_link" id="popOfferCtaLinkInput" class="form-input" placeholder="e.g. https://wa.me/919429693199?text=Hello%20Orah... or menu.php" value="https://wa.me/919429693199?text=Hello%20Orah%20House%2C%20I%20would%20like%20to%20redeem%20the%2015%25%20OFF%20offer%20(Code%3A%20ORAH15).">
+                    </div>
+
+                    <div class="form-group" style="margin-top:8px;">
+                        <label class="form-label">Terms & Conditions / Fine Print</label>
+                        <input type="text" name="terms" id="popTermsInput" class="form-input" placeholder="e.g. *Valid for dine-in. Present code during ordering." value="*Valid for dine-in & takeaway. Present code during ordering.">
                     </div>
                 </div>
 
@@ -1733,41 +1854,108 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    window.switchPopupType = function(type) {
+        const isOffer = (type === 'offer');
+
+        const cardRes = document.getElementById('typeCard_reservation');
+        const cardOff = document.getElementById('typeCard_offer');
+        const radioRes = document.getElementById('typeRadio_reservation');
+        const radioOff = document.getElementById('typeRadio_offer');
+
+        if (isOffer) {
+            if (cardRes) { cardRes.style.borderColor = 'var(--border-color)'; cardRes.classList.remove('selected'); }
+            if (cardOff) { cardOff.style.borderColor = '#681418'; cardOff.classList.add('selected'); }
+            if (radioOff) radioOff.checked = true;
+        } else {
+            if (cardRes) { cardRes.style.borderColor = '#681418'; cardRes.classList.add('selected'); }
+            if (cardOff) { cardOff.style.borderColor = 'var(--border-color)'; cardOff.classList.remove('selected'); }
+            if (radioRes) radioRes.checked = true;
+        }
+
+        const offerSection = document.getElementById('offerConfigSection');
+        if (offerSection) {
+            offerSection.style.display = isOffer ? 'block' : 'none';
+        }
+
+        document.querySelectorAll('.toggle-reservation-only').forEach(el => {
+            el.style.display = isOffer ? 'none' : 'flex';
+        });
+        document.querySelectorAll('.toggle-offer-only').forEach(el => {
+            el.style.display = isOffer ? 'flex' : 'none';
+        });
+
+        const formId = document.getElementById('popFormId')?.value;
+        if (!formId) {
+            if (isOffer) {
+                document.getElementById('popNameInput').placeholder = 'e.g. Welcome Tasting 15% OFF';
+                document.getElementById('popFloatingBtnTextInput').value = '🎁 15% OFF Special Offer';
+                document.getElementById('popBadgeTextInput').value = 'EXCLUSIVE OFFER';
+                document.getElementById('popTitleInput').value = 'Savor 15% Off Your First Visit';
+                document.getElementById('popSubtitleInput').value = 'Enjoy hand-stretched sourdough flatbreads and specialty coffees with a welcome discount.';
+                document.getElementById('popBtnTextInput').value = 'Claim Offer on WhatsApp ↗';
+            } else {
+                document.getElementById('popNameInput').placeholder = 'e.g. Table Reservation & VIP Tasting';
+                document.getElementById('popFloatingBtnTextInput').value = '✦ Reserve Table';
+                document.getElementById('popBadgeTextInput').value = 'ORAH HOUSE • EXCLUSIVE TABLE';
+                document.getElementById('popTitleInput').value = 'Reserve Your Dining Experience';
+                document.getElementById('popSubtitleInput').value = 'Immerse yourself in our architectural hearth dining, artisanal sourdough flatbreads, and specialty brews.';
+                document.getElementById('popBtnTextInput').value = 'Confirm Reservation Request';
+            }
+        }
+    };
+
     window.openPopupModal = function(isEdit = false, data = null) {
         const modal = document.getElementById('popupModal');
         const form = document.getElementById('popupForm');
         const titleEl = document.getElementById('popModalTitle');
 
         if (isEdit && data) {
-            titleEl.textContent = 'Edit Pop-Up & Form Layout';
+            const pType = data.type || 'reservation';
+            titleEl.textContent = isEdit ? (pType === 'offer' ? 'Edit Special Offer Pop-Up' : 'Edit Table Reservation Pop-Up') : 'Create Pop-Up Campaign';
             document.getElementById('popFormId').value = data.id || '';
             document.getElementById('popNameInput').value = data.name || '';
             document.getElementById('popTargetPageSelect').value = data.target_page || 'menu.php';
+            switchPopupType(pType);
             selectLayoutChoice(data.layout || 'center_modal');
 
             document.getElementById('popTriggerTypeSelect').value = data.trigger_type || 'both';
             document.getElementById('popDelayInput').value = data.trigger_delay_sec ?? 6;
-            document.getElementById('popFloatingBtnTextInput').value = data.floating_btn_text || '✦ Reserve Table';
-            document.getElementById('popBadgeTextInput').value = data.badge_text || 'EXCLUSIVE DINING';
+            document.getElementById('popFloatingBtnTextInput').value = data.floating_btn_text || (pType === 'offer' ? '🎁 Special Offer' : '✦ Reserve Table');
+            document.getElementById('popBadgeTextInput').value = data.badge_text || (pType === 'offer' ? 'EXCLUSIVE OFFER' : 'EXCLUSIVE DINING');
             document.getElementById('popTitleInput').value = data.title || '';
             document.getElementById('popSubtitleInput').value = data.subtitle || '';
-            document.getElementById('popBtnTextInput').value = data.button_text || 'Confirm Reservation Request';
+            document.getElementById('popBtnTextInput').value = data.button_text || (pType === 'offer' ? 'Claim Offer on WhatsApp ↗' : 'Confirm Reservation Request');
             document.getElementById('popImageUrlInput').value = data.image || '';
             document.getElementById('popActiveCheck').checked = data.active !== false;
+
+            // Offer-specific values
+            document.getElementById('popDiscountBadgeInput').value = data.discount_badge || 'FLAT 15% OFF';
+            document.getElementById('popPromoCodeInput').value = data.promo_code || 'ORAH15';
+            document.getElementById('popOfferExpiryInput').value = data.offer_expiry || 'Valid this week only';
+            document.getElementById('popOfferCtaTypeSelect').value = data.offer_cta_type || 'whatsapp';
+            document.getElementById('popOfferCtaLinkInput').value = data.offer_cta_link || '';
+            document.getElementById('popTermsInput').value = data.terms || '';
 
             const el = data.elements || {};
             document.getElementById('elBadgeCheck').checked = el.show_badge !== false;
             document.getElementById('elTitleCheck').checked = el.show_title !== false;
             document.getElementById('elSubtitleCheck').checked = el.show_subtitle !== false;
             document.getElementById('elImageCheck').checked = el.show_image !== false;
+            document.getElementById('elCloseCheck').checked = el.show_close !== false;
+
             document.getElementById('elGuestsCheck').checked = el.show_guests !== false;
             document.getElementById('elDateTimeCheck').checked = el.show_datetime !== false;
             document.getElementById('elNotesCheck').checked = el.show_notes !== false;
-            document.getElementById('elCloseCheck').checked = el.show_close !== false;
+
+            document.getElementById('elDiscountBadgeCheck').checked = el.show_discount_badge !== false;
+            document.getElementById('elPromoCodeCheck').checked = el.show_promo_code !== false;
+            document.getElementById('elExpiryCheck').checked = el.show_expiry !== false;
+            document.getElementById('elTermsCheck').checked = el.show_terms !== false;
         } else {
-            titleEl.textContent = 'Create Pop-Up Form';
+            titleEl.textContent = 'Create Pop-Up Campaign';
             document.getElementById('popFormId').value = '';
             form.reset();
+            switchPopupType('reservation');
             selectLayoutChoice('center_modal');
             document.getElementById('popActiveCheck').checked = true;
             document.querySelectorAll('.element-toggles-grid input[type="checkbox"]').forEach(cb => cb.checked = true);
