@@ -51,8 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('.store-header');
     const aboutSection = document.querySelector('.about-section');
     const domeTransition = document.querySelector('.hero-dome-transition');
+    const aboutScrollContent = document.querySelector('.about-scroll-content');
     const storyContentElements = document.querySelectorAll(
-        '.about-top-crest, .about-header > *, .story-card-inner > *, .about-window-frame, .floating-about-badge, .floating-about-card, .pillar-card, .about-values-strip'
+        '.about-top-crest, .about-header > *, .story-card-inner > *, .about-visual-frame, .frame-arch-image, .about-hero-img, .floating-about-badge, .floating-about-card, .pillar-card, .about-values-strip'
     );
 
     function updateHeaderState() {
@@ -96,29 +97,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Dome Occlusion: Prevent scrolling story text from ever showing behind or above the dome
-            if (domeTransition && storyContentElements.length) {
+            // Dome Occlusion: Dynamically clip entire scrolling content at the bottom of the sticky dome
+            // so NO image, photograph, text, card, or element can EVER leak above the arch dome!
+            if (domeTransition && aboutScrollContent) {
                 const domeRect = domeTransition.getBoundingClientRect();
-                const cutoff = domeRect.bottom;
+                const contentRect = aboutScrollContent.getBoundingClientRect();
+                
+                // Clip line is 15px inside the solid burgundy dome
+                const clipLine = domeRect.bottom - 15;
+                const topCutoff = Math.max(0, Math.round(clipLine - contentRect.top));
 
-                storyContentElements.forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top >= cutoff) {
-                        // Entirely below the dome - normal crisp display
-                        if (el.style.opacity !== '') el.style.opacity = '';
-                        if (el.style.visibility !== '') el.style.visibility = '';
-                    } else if (rect.bottom <= cutoff) {
-                        // Entirely behind/above the dome - completely hidden so it never leaks behind or above
-                        el.style.opacity = '0';
-                        el.style.visibility = 'hidden';
-                    } else {
-                        // Passing under the bottom edge of the dome
-                        const visibleHeight = Math.max(0, rect.bottom - cutoff);
-                        const progress = Math.min(1, visibleHeight / Math.min(rect.height || 40, 50));
-                        el.style.opacity = (progress * progress).toFixed(2);
-                        el.style.visibility = 'visible';
-                    }
-                });
+                if (topCutoff > 0) {
+                    aboutScrollContent.style.clipPath = `inset(${topCutoff}px -60px 0px -60px)`;
+                    aboutScrollContent.style.webkitClipPath = `inset(${topCutoff}px -60px 0px -60px)`;
+                } else {
+                    aboutScrollContent.style.clipPath = '';
+                    aboutScrollContent.style.webkitClipPath = '';
+                }
             }
         }
     }
@@ -126,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (header) {
         window.addEventListener('scroll', updateHeaderState, { passive: true });
         window.addEventListener('resize', updateHeaderState, { passive: true });
+        window.addEventListener('load', updateHeaderState);
         updateHeaderState();
     }
     
@@ -134,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
         const heroArch = document.querySelector('.hero-arch-wrapper');
-        const heroStamp = document.querySelector('.hero-stamp-badge');
         const heroTopLeft = document.querySelector('.corner-top-left');
         const heroTopRight = document.querySelector('.corner-top-right');
         const heroBottomLeft = document.querySelector('.corner-bottom-left');
@@ -156,8 +151,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrollY = window.scrollY || window.pageYOffset;
             const vh = window.innerHeight;
 
-            // --- A. Hero Section: Stays static in background without moving ---
-            // (Curtain overlay parallax is created by the Burgundy About section scrolling over it)
+            // --- A. Hero Section: Graceful fade-out on scroll to prevent any element clipping or showing behind dome ---
+            if (heroArch) {
+                const heroFade = Math.max(0, Math.min(1, 1 - (scrollY / 240)));
+                heroArch.style.opacity = heroFade.toFixed(3);
+                heroArch.style.visibility = heroFade <= 0.01 ? 'hidden' : 'visible';
+                if (heroBottomLeft) {
+                    heroBottomLeft.style.opacity = heroFade.toFixed(3);
+                    heroBottomLeft.style.visibility = heroFade <= 0.01 ? 'hidden' : 'visible';
+                }
+                if (heroBottomRight) {
+                    heroBottomRight.style.opacity = heroFade.toFixed(3);
+                    heroBottomRight.style.visibility = heroFade <= 0.01 ? 'hidden' : 'visible';
+                }
+            }
 
             // --- B. About Us Section Parallax ---
             if (aboutSection) {

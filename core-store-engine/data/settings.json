@@ -10,7 +10,7 @@
     "layout": "logo_left_menu_right"
   },
   "menu": [
-    { "label": "Menu", "url": "#menu", "order": 1 },
+    { "label": "Menu", "url": "menu.php", "order": 1 },
     { "label": "Our Story", "url": "#story", "order": 2 },
     { "label": "Experiences", "url": "#experiences", "order": 3 }
   ],

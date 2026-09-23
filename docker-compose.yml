@@ -1,13 +1,13 @@
 services:
   web:
     build:
-      context: .
+      context: ./core-store-engine
       dockerfile: Dockerfile
     image: orah-website:latest
     container_name: orah_website
     ports:
       - "9090:8000"
     volumes:
-      - .:/app
+      - ./core-store-engine:/app
     working_dir: /app
     command: php -S 0.0.0.0:8000 -t public

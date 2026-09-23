@@ -123,9 +123,9 @@ $hero = $settings['hero'] ?? null;
                 <path d="M 40, 960 L 40, 360 C 40, 85 640, 85 640, 360 L 640, 960" class="arch-line" />
                 
                 <!-- Mid needle below button -->
-                <line x1="340" y1="630" x2="340" y2="700" class="arch-line" />
+                <line x1="340" y1="620" x2="340" y2="710" class="arch-line" />
                 
-                <!-- Outward Sweeping Lower Arcs -->
+                <!-- Outward Sweeping Lower Arcs meeting at bottom apex -->
                 <path d="M 340, 960 C 270, 830 100, 770 -200, 790" class="arch-line" />
                 <path d="M 340, 960 C 410, 830 580, 770 880, 790" class="arch-line" />
                 <path d="M -160, 850 C 80, 850 250, 900 340, 960 C 430, 900 600, 850 840, 850" class="arch-line" />
@@ -166,20 +166,20 @@ $hero = $settings['hero'] ?? null;
                     <?php endif; ?>
                     
                     <?php if (!empty($hero['button_text'])): ?>
-                        <a href="#catalog" class="hero-btn">
+                        <a href="menu.php" class="hero-btn">
                             <span><?= htmlspecialchars($hero['button_text']) ?></span>
                         </a>
                     <?php endif; ?>
                 </div>
             </div>
 
-            <!-- Circular Rotating Stamp Badge -->
+            <!-- Circular Rotating Stamp Badge on Lower Right Arc -->
             <div class="hero-stamp-badge" aria-hidden="true">
                 <svg class="stamp-svg" viewBox="0 0 160 160">
                     <path id="stampCirclePath" d="M 80, 20 a 60,60 0 1,1 0,120 a 60,60 0 1,1 0,-120" fill="none" />
                     <text class="stamp-text">
                         <textPath href="#stampCirclePath" startOffset="0%" textLength="376.99" lengthAdjust="spacing">
-                            COFFEE &nbsp;•&nbsp; PEOPLE &nbsp;•&nbsp; COFFEE &nbsp;•&nbsp; PEOPLE &nbsp;•&nbsp;
+                            • COFFEE • PEOPLE • COFFEE • PEOPLE •
                         </textPath>
                     </text>
                 </svg>
@@ -233,6 +233,12 @@ $hero = $settings['hero'] ?? null;
                         <polyline points="4,48 12,56 20,48" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
+                <div class="dome-brand-tagline">
+                    <span class="tagline-line"></span>
+                    <span class="tagline-brand">ORAH HOUSE</span>
+                    <span class="tagline-line"></span>
+                </div>
+                <span class="dome-city-tag">NASHIK</span>
             </a>
 
             <!-- Faint Botanical Line Art on Bottom Right -->
@@ -243,11 +249,13 @@ $hero = $settings['hero'] ?? null;
             </svg>
         </div>
 
-        <!-- Invisible Spacer Buffer to prevent overlap with sticky arch dome -->
-        <div class="about-dome-spacer" aria-hidden="true"></div>
+        <!-- Scrolling Content Wrapper (Dynamically clipped at dome bottom so no element leaks above the arch) -->
+        <div class="about-scroll-content">
+            <!-- Invisible Spacer Buffer to prevent overlap with sticky arch dome -->
+            <div class="about-dome-spacer" aria-hidden="true"></div>
 
-        <!-- Top Decorative Architectural Line & Crest -->
-        <div class="about-top-crest" id="aboutContent">
+            <!-- Top Decorative Architectural Line & Crest -->
+            <div class="about-top-crest" id="aboutContent">
             <span class="crest-line"></span>
             <div class="crest-badge">
                 <img src="assets/images/swans_only.png" alt="Orah Emblem" class="crest-swans">
@@ -382,22 +390,35 @@ $hero = $settings['hero'] ?? null;
                     <span class="cta-banner-eyebrow">TASTE THE PASSION</span>
                     <h3 class="cta-banner-title">READY TO EXPERIENCE ORAH?</h3>
                     <p class="cta-banner-desc">Explore our seasonal selection of artisanal coffees, savory delicacies, and sweet creations.</p>
-                    <a href="#catalog" class="about-explore-btn">
+                    <a href="menu.php" class="about-explore-btn">
                         <span>EXPLORE FULL MENU</span>
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
                     </a>
                 </div>
             </div>
         </div>
+        </div>
     </section>
 
-    <div class="container" id="catalog">
+    <!-- Curated Storefront Highlights Preview -->
+    <section class="container" id="menu" style="padding-top: 60px; padding-bottom: 80px;">
+        <div style="text-align: center; margin-bottom: 45px;">
+            <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 3.5px; color: var(--secondary-accent); text-transform: uppercase;">SEASONAL TASTINGS</span>
+            <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 2.8rem); color: var(--primary-accent); margin-top: 8px; font-weight: 400;">Artisanal Highlights</h2>
+        </div>
+
         <div class="store-catalog-grid">
-            <?php foreach ($catalog as $index => $product): ?>
+            <?php foreach (array_slice($catalog, 0, 6) as $index => $product): ?>
                 <?= $renderer->render($product, $index) ?>
             <?php endforeach; ?>
         </div>
-    </div>
+
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="menu.php" class="about-explore-btn" style="display: inline-flex; margin: 0 auto;">
+                <span>VIEW COMPLETE MENU (ALL <?= count($catalog) ?> DISHES) &rarr;</span>
+            </a>
+        </div>
+    </section>
 
     <!-- Luxury Burgundy Architectural Footer -->
     <footer class="store-footer" id="footer">
