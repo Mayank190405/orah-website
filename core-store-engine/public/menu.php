@@ -243,41 +243,8 @@ $sectionKeys = array_keys($orderedSections);
             color: var(--burgundy);
             line-height: 1.05;
             font-weight: 400;
-            margin: 0 0 8px;
+            margin: 0 0 12px;
             letter-spacing: 0.5px;
-        }
-
-        /* Golden Star Divider Line matching reference image */
-        .masthead-star-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            max-width: 360px;
-            margin: 8px auto 16px;
-        }
-
-        .star-divider-line {
-            flex: 1;
-            height: 1.5px;
-        }
-
-        .star-divider-line.left {
-            background: linear-gradient(90deg, transparent 0%, rgba(201, 154, 104, 0.5) 60%, rgba(191, 138, 88, 0.95) 100%);
-        }
-
-        .star-divider-line.right {
-            background: linear-gradient(90deg, rgba(191, 138, 88, 0.95) 0%, rgba(201, 154, 104, 0.5) 40%, transparent 100%);
-        }
-
-        .star-divider-glyph {
-            width: 18px;
-            height: 18px;
-            color: #bfa382;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .masthead-tagline {
@@ -948,15 +915,7 @@ $sectionKeys = array_keys($orderedSections);
 
         }
 
-        /* Footer */
-        .menu-footer {
-            background: #ffffff;
-            border-top: 1px solid var(--border-light);
-            padding: 35px 20px;
-            text-align: center;
-            color: rgba(104, 20, 24, 0.7);
-            font-size: 0.82rem;
-        }
+
     </style>
 </head>
 <body>
@@ -985,15 +944,7 @@ $sectionKeys = array_keys($orderedSections);
 
                 <div class="masthead-center-content">
                     <h1 class="masthead-title">The Menu</h1>
-                    <div class="masthead-star-divider" aria-hidden="true">
-                        <span class="star-divider-line left"></span>
-                        <div class="star-divider-glyph">
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                <path d="M12 0 C12 7.5 16.5 12 24 12 C16.5 12 12 16.5 12 24 C12 16.5 7.5 12 0 12 C7.5 12 12 7.5 12 0 Z"/>
-                            </svg>
-                        </div>
-                        <span class="star-divider-line right"></span>
-                    </div>
+
                     <p class="masthead-tagline">
                         Handcrafted sourdoughs, slow-cooked pastas, and specialty estate roasts. Tap any section to explore.
                     </p>
@@ -1156,10 +1107,7 @@ $sectionKeys = array_keys($orderedSections);
 
     </div>
 
-    <!-- Footer -->
-    <footer class="menu-footer">
-        <p>&copy; <?= date('Y') ?> Orah House &bull; Anandwalli, Nashik, Maharashtra 422013 &bull; All Rights Reserved</p>
-    </footer>
+
 
     <!-- Interactive Navigation & Touch Swipe Engine -->
     <script>
