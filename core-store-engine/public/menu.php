@@ -15,82 +15,26 @@ $catalog = $catalogStorage->read();
 
 $brand = $settings['brand'] ?? ['text' => 'Orah House'];
 
-// Group catalog items by section badge
-$sections = [];
-$sectionMeta = [
-    'Flat Breads' => [
-        'eyebrow' => 'OUR SIGNATURES',
-        'scriptQuote' => 'More than just Bread',
-        'subtitle' => 'Hand-stretched sourdough flatbreads baked with artisanal melts & toppings.',
-        'image' => 'uploads/mozzarella_flatbread.jpg'
-    ],
-    'Pizzas' => [
-        'eyebrow' => 'WOODFIRED ARTISAN',
-        'scriptQuote' => 'Blistered & Melted',
-        'subtitle' => 'Slow-fermented Neapolitan style with San Marzano tomatoes & fresh basil.',
-        'image' => 'uploads/artisanal_pizza.jpg'
-    ],
-    'Pasta' => [
-        'eyebrow' => 'HANDMADE DAILY',
-        'scriptQuote' => 'Slow-cooked Tradition',
-        'subtitle' => 'House-made pastas tossed in rich reduction sauces with fine estate ingredients.',
-        'image' => 'uploads/pastas_showcase.jpg'
-    ],
-    'Desserts' => [
-        'eyebrow' => 'SWEET ENDINGS',
-        'scriptQuote' => 'Pure Indulgence',
-        'subtitle' => 'Artisanal confections, molten chocolate tarts, and delicate pastry craft.',
-        'image' => 'uploads/desserts_showcase.jpg'
-    ],
-    'Appetizers' => [
-        'eyebrow' => 'CHEF’S SMALL PLATES',
-        'scriptQuote' => 'Crisp & Savory',
-        'subtitle' => 'Char-grilled skewers, molten cheese bites, and savory small plates.',
-        'image' => 'uploads/paneer_skewers.jpg'
-    ],
-    'Burgers' => [
-        'eyebrow' => 'GOURMET BRIOCHE',
-        'scriptQuote' => 'Juicy & Stacked',
-        'subtitle' => 'Artisanal patties, slow-cooked mushroom sauce, and toasted sesame brioche.',
-        'image' => 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=800&q=80'
-    ],
-    'Open Toast & Bruschetta' => [
-        'eyebrow' => 'ARTISAN CROSTINI',
-        'scriptQuote' => 'Crunch in Every Bite',
-        'subtitle' => 'Golden toasted brioche, avocado salsa, and classic Italian crostinis.',
-        'image' => 'https://images.unsplash.com/photo-1506280754576-f6fa8a873550?w=800&q=80'
-    ],
-    'Sandwiches' => [
-        'eyebrow' => 'PRESSED LOAVES',
-        'scriptQuote' => 'Warm & Golden',
-        'subtitle' => 'Multi-grain artisan loaves pressed with gourmet tandoor & BBQ fillings.',
-        'image' => 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&q=80'
-    ],
-    'Bowls & Salads' => [
-        'eyebrow' => 'HARVEST GREENS',
-        'scriptQuote' => 'Fresh & Nourishing',
-        'subtitle' => 'Nourishing harvest grains, wild greens, and vibrant house vinaigrettes.',
-        'image' => 'uploads/exotic_rice_bowl.jpg'
-    ],
-    'Salads' => [
-        'eyebrow' => 'GARDEN FRESH',
-        'scriptQuote' => 'Crisp & Vibrant',
-        'subtitle' => 'Fresh garden greens, pineapple crunch, and house-whipped dressings.',
-        'image' => 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=80'
-    ],
-    'Siders' => [
-        'eyebrow' => 'CRUNCH & DIPS',
-        'scriptQuote' => 'Golden Bites',
-        'subtitle' => 'Crispy golden fries, rustic roasted wedges, and warm dipping nachos.',
-        'image' => 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=800&q=80'
-    ],
-    'Coffee & Beverages' => [
-        'eyebrow' => 'SPECIALTY ROASTS',
-        'scriptQuote' => 'The Perfect Brew',
-        'subtitle' => 'V60 single origin pour-overs, textured Spanish lattes, and cold steeps.',
-        'image' => 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80'
-    ]
-];
+// Load Categories from data/categories.json (Editable via Admin Panel)
+$catStorage = new JsonStorage(__DIR__ . '/../data/categories.json');
+$categoriesList = $catStorage->read() ?: [];
+
+// Sort categories by custom sequence order
+usort($categoriesList, function($a, $b) {
+    return ($a['order'] ?? 99) <=> ($b['order'] ?? 99);
+});
+
+// Build section metadata map from categories.json
+$sectionMeta = [];
+foreach ($categoriesList as $cat) {
+    if (!($cat['active'] ?? true)) continue;
+    $sectionMeta[$cat['name']] = [
+        'eyebrow' => $cat['eyebrow'] ?? 'OUR SIGNATURES',
+        'scriptQuote' => $cat['scriptQuote'] ?? ('More than just ' . $cat['name']),
+        'subtitle' => $cat['subtitle'] ?? '',
+        'image' => $cat['image'] ?? 'assets/placeholder.jpg'
+    ];
+}
 
 // Helper to provide ingredient highlights with icons matching reference mockup
 function getDishHighlights($dish) {
@@ -169,8 +113,11 @@ function getDishHighlights($dish) {
     ];
 }
 
-// Helper to provide evocative handwritten script taglines
+// Fallback helper for evocative handwritten script taglines
 function getDishTagline($index, $dish) {
+    if (!empty($dish['tagline'])) {
+        return $dish['tagline'];
+    }
     $pool = [
         'Crispy edges, Endless flavour',
         'Earthy Indulgence',
@@ -184,6 +131,8 @@ function getDishTagline($index, $dish) {
     return $pool[$index % count($pool)];
 }
 
+// Group catalog items by section badge
+$sections = [];
 foreach ($catalog as $dish) {
     if (!($dish['available'] ?? true)) continue;
     $badge = $dish['badge'] ?? 'General';
@@ -193,29 +142,16 @@ foreach ($catalog as $dish) {
     $sections[$badge][] = $dish;
 }
 
-// Preferred visual order for sections (Matches reference showcase)
-$preferredOrder = [
-    'Flat Breads',
-    'Pizzas',
-    'Pasta',
-    'Desserts',
-    'Appetizers',
-    'Burgers',
-    'Open Toast & Bruschetta',
-    'Sandwiches',
-    'Bowls & Salads',
-    'Salads',
-    'Siders',
-    'Coffee & Beverages'
-];
-
+// Order sections dynamically according to categories.json sequence
 $orderedSections = [];
-foreach ($preferredOrder as $orderKey) {
-    if (isset($sections[$orderKey])) {
-        $orderedSections[$orderKey] = $sections[$orderKey];
+foreach ($categoriesList as $cat) {
+    if (!($cat['active'] ?? true)) continue;
+    $catName = $cat['name'];
+    if (isset($sections[$catName])) {
+        $orderedSections[$catName] = $sections[$catName];
     }
 }
-// Add any remaining categories
+// Add any remaining categories present in dishes
 foreach ($sections as $k => $v) {
     if (!isset($orderedSections[$k])) {
         $orderedSections[$k] = $v;
@@ -1624,10 +1560,9 @@ $sectionKeys = array_keys($orderedSections);
                                         $isVeg = !empty($dish['is_veg']);
                                         $indexNum = str_pad($dIdx + 1, 2, '0', STR_PAD_LEFT);
                                         $highlights = getDishHighlights($dish);
-                                        $tagline = getDishTagline($dIdx, $dish);
+                                        $tagline = !empty($dish['tagline']) ? $dish['tagline'] : getDishTagline($dIdx, $dish);
                                         $nameWords = preg_split('/[\s&]+/', strtoupper($dishName));
-                                        $waText = "Hello Orah House, I would like to order: " . $dishName . " (" . $dishPrice . ")";
-                                        $waUrl = "https://wa.me/?text=" . urlencode($waText);
+                                        $customFields = $dish['custom_fields'] ?? [];
                                     ?>
                                     <article class="dish-split-card" data-dish-id="<?= htmlspecialchars($dish['id'] ?? '') ?>">
                                         <!-- Left Side: Photo with Vignette Overlays -->
@@ -1692,6 +1627,18 @@ $sectionKeys = array_keys($orderedSections);
                                                     <span class="diet-dot <?= $isVeg ? 'veg' : 'non-veg' ?>">●</span>
                                                     <span><?= $isVeg ? 'VEGETARIAN' : 'NON-VEG' ?></span>
                                                 </div>
+
+                                                <?php if (!empty($customFields)): ?>
+                                                    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;">
+                                                        <?php foreach ($customFields as $cf): ?>
+                                                            <?php if (!empty($cf['name']) && !empty($cf['value'])): ?>
+                                                                <span style="font-size:0.68rem; background:rgba(104,20,24,0.06); color:#681418; padding:3px 8px; border-radius:12px; font-weight:700; border:1px solid rgba(104,20,24,0.1);">
+                                                                    <?= htmlspecialchars($cf['name']) ?>: <?= htmlspecialchars($cf['value']) ?>
+                                                                </span>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
 
                                             <!-- Bottom Action Button -->
@@ -1703,7 +1650,7 @@ $sectionKeys = array_keys($orderedSections);
                                                         data-img="<?= htmlspecialchars($dishImg) ?>"
                                                         data-badge="<?= htmlspecialchars($displayName) ?>"
                                                         data-veg="<?= $isVeg ? '1' : '0' ?>"
-                                                        data-wa="<?= htmlspecialchars($waUrl) ?>">
+                                                        data-custom='<?= htmlspecialchars(json_encode($customFields), ENT_QUOTES, 'UTF-8') ?>'>
                                                     <span>View Dish</span>
                                                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                                                 </button>
@@ -1776,12 +1723,7 @@ $sectionKeys = array_keys($orderedSections);
                     <div class="dish-modal-price" id="modalDishPrice"></div>
                 </div>
                 <p class="dish-modal-desc" id="modalDishDesc"></p>
-                <a href="#" target="_blank" rel="noopener" class="dish-modal-wa-btn" id="modalDishWaBtn">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/>
-                    </svg>
-                    <span>Order on WhatsApp</span>
-                </a>
+                <div id="modalCustomFieldsContainer" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;"></div>
             </div>
         </div>
     </div>
@@ -1817,7 +1759,7 @@ $sectionKeys = array_keys($orderedSections);
             const modalPrice = document.getElementById('modalDishPrice');
             const modalDesc = document.getElementById('modalDishDesc');
             const modalDiet = document.getElementById('modalDishDiet');
-            const modalWaBtn = document.getElementById('modalDishWaBtn');
+            const modalCfContainer = document.getElementById('modalCustomFieldsContainer');
 
             // Get display name for labels
             function getCleanName(key) {
@@ -2082,7 +2024,21 @@ $sectionKeys = array_keys($orderedSections);
                 modalDesc.textContent = data.desc;
                 modalDiet.textContent = (data.veg === '1') ? '● VEGETARIAN' : '● NON-VEG';
                 modalDiet.style.color = (data.veg === '1') ? '#2e7d32' : '#c62828';
-                modalWaBtn.href = data.wa;
+
+                // Populate Dynamic Custom Extra Fields
+                if (modalCfContainer) {
+                    modalCfContainer.innerHTML = '';
+                    if (Array.isArray(data.custom)) {
+                        data.custom.forEach(cf => {
+                            if (cf.name && cf.value) {
+                                const pill = document.createElement('span');
+                                pill.style.cssText = 'font-size:0.75rem; background:#FAF5EB; color:#681418; padding:5px 12px; border-radius:14px; font-weight:700; border:1px solid rgba(104,20,24,0.14);';
+                                pill.textContent = `${cf.name}: ${cf.value}`;
+                                modalCfContainer.appendChild(pill);
+                            }
+                        });
+                    }
+                }
 
                 modalBackdrop.classList.add('active');
                 modalBackdrop.setAttribute('aria-hidden', 'false');
@@ -2099,6 +2055,12 @@ $sectionKeys = array_keys($orderedSections);
             document.querySelectorAll('.split-view-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
+                    let custom = [];
+                    try {
+                        const raw = btn.getAttribute('data-custom');
+                        if (raw) custom = JSON.parse(raw);
+                    } catch(err) {}
+
                     openModal({
                         name: btn.getAttribute('data-name'),
                         price: btn.getAttribute('data-price'),
@@ -2106,7 +2068,7 @@ $sectionKeys = array_keys($orderedSections);
                         img: btn.getAttribute('data-img'),
                         badge: btn.getAttribute('data-badge'),
                         veg: btn.getAttribute('data-veg'),
-                        wa: btn.getAttribute('data-wa')
+                        custom: custom
                     });
                 });
             });

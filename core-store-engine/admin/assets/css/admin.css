@@ -687,3 +687,272 @@ body {
         font-size: 0.78rem;
     }
 }
+
+/* =========================================================================
+   ADMIN NAVIGATION TABS & CATEGORY MANAGEMENT
+   ========================================================================= */
+.admin-tabs-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.admin-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: -2px;
+}
+
+.admin-tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.admin-tab-btn:hover {
+    color: var(--primary-accent);
+}
+
+.admin-tab-btn.active {
+    color: var(--primary-accent);
+    border-bottom-color: var(--primary-accent);
+}
+
+.tab-badge {
+    background: var(--badge-bg);
+    color: var(--primary-accent);
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 800;
+}
+
+.admin-tab-btn.active .tab-badge {
+    background: var(--primary-accent);
+    color: #ffffff;
+}
+
+.admin-tab-panel {
+    display: none;
+}
+
+.admin-tab-panel.active {
+    display: block;
+}
+
+/* Category Grid & Cards */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 18px;
+}
+
+.category-admin-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-subtle);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-admin-card:hover {
+    box-shadow: var(--shadow-elevated);
+    transform: translateY(-2px);
+}
+
+.category-card-cover {
+    position: relative;
+    height: 140px;
+    width: 100%;
+    background: #1a0a0c;
+    overflow: hidden;
+}
+
+.category-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+}
+
+.category-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(104,20,24,0.7) 100%);
+}
+
+.category-card-eyebrow-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(104, 20, 24, 0.9);
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+}
+
+.category-card-order-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    font-size: 0.70rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.category-card-body {
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.category-card-title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    color: var(--primary-accent);
+    margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category-card-script {
+    font-family: 'Caveat', cursive, Georgia;
+    font-size: 1.15rem;
+    color: #a67c52;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.category-card-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.category-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Custom Extra Fields Dynamic Builder */
+.custom-fields-section {
+    margin-top: 18px;
+    background: #FAF7F2;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+}
+
+.custom-fields-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.custom-fields-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--primary-accent);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-add-cf {
+    background: transparent;
+    border: 1px dashed var(--primary-accent);
+    color: var(--primary-accent);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-add-cf:hover {
+    background: rgba(104, 20, 24, 0.08);
+}
+
+.custom-fields-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.custom-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 36px;
+    gap: 8px;
+    align-items: center;
+}
+
+.custom-field-row input {
+    font-size: 0.82rem;
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: #ffffff;
+}
+
+.btn-del-cf {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: none;
+    border-radius: 6px;
+    height: 34px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+}
+
+.btn-del-cf:hover {
+    background: #fecaca;
+}
+

@@ -1,0 +1,122 @@
+[
+    {
+        "id": "cat_flat_breads",
+        "name": "Flat Breads",
+        "eyebrow": "OUR SIGNATURES",
+        "scriptQuote": "hello",
+        "subtitle": "Hand-stretched sourdough flatbreads baked with artisanal melts & toppings.",
+        "image": "uploads/mozzarella_flatbread.jpg",
+        "order": 1,
+        "active": true
+    },
+    {
+        "id": "cat_pizzas",
+        "name": "Pizzas",
+        "eyebrow": "WOODFIRED ARTISAN",
+        "scriptQuote": "Blistered & Melted",
+        "subtitle": "Slow-fermented Neapolitan style with San Marzano tomatoes & fresh basil.",
+        "image": "uploads/artisanal_pizza.jpg",
+        "order": 2,
+        "active": true
+    },
+    {
+        "id": "cat_pasta",
+        "name": "Pasta",
+        "eyebrow": "HANDMADE DAILY",
+        "scriptQuote": "Slow-cooked Tradition",
+        "subtitle": "House-made pastas tossed in rich reduction sauces with fine estate ingredients.",
+        "image": "uploads/pastas_showcase.jpg",
+        "order": 3,
+        "active": true
+    },
+    {
+        "id": "cat_desserts",
+        "name": "Desserts",
+        "eyebrow": "SWEET ENDINGS",
+        "scriptQuote": "Pure Indulgence",
+        "subtitle": "Artisanal confections, molten chocolate tarts, and delicate pastry craft.",
+        "image": "uploads/desserts_showcase.jpg",
+        "order": 4,
+        "active": true
+    },
+    {
+        "id": "cat_appetizers",
+        "name": "Appetizers",
+        "eyebrow": "CHEF\u2019S SMALL PLATES",
+        "scriptQuote": "Crisp & Savory",
+        "subtitle": "Char-grilled skewers, molten cheese bites, and savory small plates.",
+        "image": "uploads/paneer_skewers.jpg",
+        "order": 5,
+        "active": true
+    },
+    {
+        "id": "cat_burgers",
+        "name": "Burgers",
+        "eyebrow": "GOURMET BRIOCHE",
+        "scriptQuote": "Juicy & Stacked",
+        "subtitle": "Artisanal patties, slow-cooked mushroom sauce, and toasted sesame brioche.",
+        "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=800&q=80",
+        "order": 6,
+        "active": true
+    },
+    {
+        "id": "cat_open_toast",
+        "name": "Open Toast & Bruschetta",
+        "eyebrow": "ARTISAN CROSTINI",
+        "scriptQuote": "Crunch in Every Bite",
+        "subtitle": "Golden toasted brioche, avocado salsa, and classic Italian crostinis.",
+        "image": "https://images.unsplash.com/photo-1506280754576-f6fa8a873550?w=800&q=80",
+        "order": 7,
+        "active": true
+    },
+    {
+        "id": "cat_sandwiches",
+        "name": "Sandwiches",
+        "eyebrow": "PRESSED LOAVES",
+        "scriptQuote": "Warm & Golden",
+        "subtitle": "Multi-grain artisan loaves pressed with gourmet tandoor & BBQ fillings.",
+        "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&q=80",
+        "order": 8,
+        "active": true
+    },
+    {
+        "id": "cat_bowls_salads",
+        "name": "Bowls & Salads",
+        "eyebrow": "HARVEST GREENS",
+        "scriptQuote": "Fresh & Nourishing",
+        "subtitle": "Nourishing harvest grains, wild greens, and vibrant house vinaigrettes.",
+        "image": "uploads/exotic_rice_bowl.jpg",
+        "order": 9,
+        "active": true
+    },
+    {
+        "id": "cat_salads",
+        "name": "Salads",
+        "eyebrow": "GARDEN FRESH",
+        "scriptQuote": "Crisp & Vibrant",
+        "subtitle": "Fresh garden greens, pineapple crunch, and house-whipped dressings.",
+        "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=80",
+        "order": 10,
+        "active": true
+    },
+    {
+        "id": "cat_siders",
+        "name": "Siders",
+        "eyebrow": "CRUNCH & DIPS",
+        "scriptQuote": "Golden Bites",
+        "subtitle": "Crispy golden fries, rustic roasted wedges, and warm dipping nachos.",
+        "image": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=800&q=80",
+        "order": 11,
+        "active": true
+    },
+    {
+        "id": "cat_coffee_beverages",
+        "name": "Coffee & Beverages",
+        "eyebrow": "SPECIALTY ROASTS",
+        "scriptQuote": "The Perfect Brew",
+        "subtitle": "V60 single origin pour-overs, textured Spanish lattes, and cold steeps.",
+        "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80",
+        "order": 12,
+        "active": true
+    }
+]
