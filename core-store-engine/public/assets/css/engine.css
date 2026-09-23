@@ -1563,34 +1563,42 @@ body.coffee-menu-open .overlay-footer {
     opacity: 0.6;
 }
 
+/* ==========================================================================
+   Comprehensive Responsive System (Tablets, Mobiles & Compact Screens)
+   ========================================================================== */
+
+/* 1. Tablet Viewports (max-width: 1024px) */
 @media (max-width: 1024px) {
     .header-container {
-        padding: 0 28px;
+        padding: 0 24px;
     }
     
     .nav-menu ul {
-        gap: 22px;
+        gap: 20px;
     }
 
     .nav-menu a {
-        font-size: 0.86rem;
+        font-size: 0.84rem;
     }
 
     .header-actions {
-        gap: 14px;
+        gap: 12px;
     }
 
-    /* Hero Section Responsive Layout - Tablet */
     .hero-section {
-        height: 100vh;
-        height: 100dvh;
-        max-height: 100vh;
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         overflow: hidden;
         padding-top: clamp(75px, 10vh, 95px);
+        padding-bottom: clamp(75px, 10.5vh, 115px);
     }
 
     .hero-arch-wrapper {
-        max-width: 90%;
+        max-width: 92%;
         margin: 0 auto;
         flex: 1 1 auto;
         min-height: 0;
@@ -1600,128 +1608,91 @@ body.coffee-menu-open .overlay-footer {
     .corner-top-right { right: 24px; top: clamp(80px, 10.8vh, 102px); }
     .corner-bottom-left {
         left: 24px;
-        bottom: calc(clamp(155px, 20vh, 195px) + clamp(10px, 1.5vh, 18px));
+        bottom: calc(clamp(140px, 18vh, 175px) + clamp(10px, 1.5vh, 18px));
     }
     .corner-bottom-right {
         right: 24px;
-        bottom: calc(clamp(155px, 20vh, 195px) + clamp(10px, 1.5vh, 18px));
+        bottom: calc(clamp(140px, 18vh, 175px) + clamp(10px, 1.5vh, 18px));
     }
 
     .hero-step-indicator {
-        left: 25px;
+        left: 20px;
     }
 
     .hero-side-editorial {
-        right: 25px;
+        right: 20px;
     }
 
     .hero-stamp-badge {
-        right: clamp(14px, 3.5vw, 35px);
-        bottom: clamp(14px, 3vh, 35px);
-        width: clamp(105px, 13.5vh, 130px);
-        height: clamp(105px, 13.5vh, 130px);
+        right: clamp(16px, 3.5vw, 35px);
+        bottom: clamp(14px, 3vh, 32px);
+        width: clamp(100px, 13vh, 125px);
+        height: clamp(100px, 13vh, 125px);
+        z-index: 15;
     }
 
     .hero-title {
-        font-size: clamp(2.2rem, 5.2vh, 4rem);
+        font-size: clamp(2.2rem, 5.2vh, 3.8rem);
     }
 
     .hero-description {
-        font-size: clamp(1.1rem, 2.4vh, 1.8rem);
+        font-size: clamp(1.05rem, 2.3vh, 1.6rem);
     }
 
     .hero-dome-transition {
-        height: clamp(155px, 20vh, 195px);
-        border-radius: 50% 50% 0 0 / clamp(55px, 8vw, 85px) clamp(55px, 8vw, 85px) 0 0;
-        padding-top: clamp(55px, 7.5vh, 75px);
+        height: clamp(140px, 18vh, 175px);
+        border-radius: 50% 50% 0 0 / clamp(55px, 7.5vw, 85px) clamp(55px, 7.5vw, 85px) 0 0;
+        padding-top: clamp(60px, 8vh, 80px);
         justify-content: flex-start;
     }
 
     .about-section {
-        margin-top: calc(-1 * clamp(155px, 20vh, 195px));
-        border-radius: 50% 50% 0 0 / clamp(55px, 8vw, 85px) clamp(55px, 8vw, 85px) 0 0;
+        margin-top: calc(-1 * clamp(75px, 10.5vh, 115px));
+        border-radius: 50% 50% 0 0 / clamp(55px, 7.5vw, 85px) clamp(55px, 7.5vw, 85px) 0 0;
     }
 
     .dome-scroll-indicator .scroll-word {
-        font-size: clamp(0.70rem, 1.1vh, 0.82rem);
-        letter-spacing: 4px;
+        font-size: clamp(0.68rem, 1vh, 0.78rem);
+        letter-spacing: 3.5px;
     }
 
-    .giant-type-bg {
-        width: 200%;
-        height: 200%;
-        gap: 24px;
-        opacity: 0.06;
-    }
-
-    .giant-word {
-        font-size: 3rem;
-    }
-
-    .scroll-down-indicator {
-        position: absolute;
-        bottom: 24px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-        color: var(--bg-color);
-        font-family: var(--font-body);
-        font-size: 0.65rem;
-        letter-spacing: 2px;
-        font-weight: 600;
-        animation: scrollBounce 2s infinite;
-    }
-
-    .scroll-down-indicator svg {
-        width: 18px;
-        height: 18px;
-        margin-top: 2px;
-    }
-
-    /* About Parallax Section - Tablet */
     .about-editorial-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
     }
+    
     .about-pillars-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
-    }
-    .floating-about-card {
-        bottom: -10px;
-        left: 0;
     }
 }
 
-/* Mobile Devices (Phones up to 640px) */
-@media (max-width: 640px) {
+/* 2. Mobile & Tablet Portrait Viewports (max-width: 768px) */
+@media (max-width: 768px) {
     .store-header {
-        padding: 10px 0;
+        padding: 8px 0;
     }
 
     .header-container {
-        padding: 0 18px;
+        padding: 0 16px;
     }
 
-    .brand-logo img {
-        max-height: 52px;
+    .brand-logo .header-logo-img {
+        max-height: 44px;
     }
 
     .brand-title {
-        font-size: 1.6rem;
+        font-size: 1.45rem;
     }
 
     .header-actions {
         gap: 10px;
     }
 
-    .header-actions .visit-btn {
-        padding: 7px 14px;
-        font-size: 0.75rem;
-        letter-spacing: 0.5px;
+    .header-visit-btn {
+        padding: 6px 14px;
+        font-size: 0.72rem;
+        letter-spacing: 0.8px;
     }
 
     .nav-menu {
@@ -1730,121 +1701,249 @@ body.coffee-menu-open .overlay-footer {
 
     .header-divider,
     .header-actions .social-icons {
-        display: none; /* Keep mobile header clean and uncluttered */
+        display: none;
     }
 
     .coffee-menu-toggle {
         width: 38px;
         height: 38px;
-        margin-left: 2px;
     }
 
+    /* Hero Section on Mobile */
     .hero-section {
-        height: 100vh;
-        height: 100dvh;
-        max-height: 100vh;
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         overflow: hidden;
-        padding-top: clamp(68px, 9.5vh, 85px);
+        padding-top: clamp(65px, 9vh, 80px);
+        padding-bottom: clamp(65px, 9vh, 85px);
     }
 
     .hero-arch-wrapper {
-        max-width: 95%;
+        max-width: 100%;
+        width: 100%;
         margin: 0 auto;
         flex: 1 1 auto;
         min-height: 0;
     }
 
     .hero-corner-callout {
-        font-size: 0.50rem;
-        letter-spacing: 1.6px;
-        line-height: 1.35;
+        font-size: 0.48rem;
+        letter-spacing: 1.5px;
+        line-height: 1.3;
     }
 
-    .corner-top-left { left: 16px; top: clamp(72px, 10vh, 88px); }
-    .corner-top-right { right: 16px; top: clamp(72px, 10vh, 88px); }
+    .corner-top-left { left: 14px; top: clamp(68px, 9.5vh, 82px); }
+    .corner-top-right { right: 14px; top: clamp(68px, 9.5vh, 82px); }
     .corner-bottom-left, .corner-bottom-right { display: none; }
     .hero-step-indicator, .hero-side-editorial { display: none; }
 
     .hero-top-badge {
-        margin-top: clamp(4px, 1vh, 10px);
-        margin-bottom: clamp(2px, 0.8vh, 6px);
+        margin-top: clamp(4px, 1vh, 8px);
+        margin-bottom: clamp(2px, 0.6vh, 5px);
+        font-size: 0.52rem;
+        letter-spacing: 2px;
     }
 
     .hero-container {
-        padding: 0 12px;
+        padding: 0 16px;
         margin: 0 auto;
     }
 
     .hero-title {
-        font-size: clamp(2rem, 5vh, 3.2rem);
-        line-height: 0.92;
-        margin-bottom: clamp(3px, 0.8vh, 8px);
+        font-size: clamp(2rem, 7vw, 3rem);
+        line-height: 0.95;
+        margin-bottom: clamp(6px, 1vh, 10px);
     }
 
     .hero-description {
-        font-size: clamp(0.95rem, 2.2vh, 1.4rem);
-        line-height: 1.15;
-        margin-bottom: clamp(6px, 1.4vh, 14px);
-        padding: 0;
+        font-size: clamp(0.92rem, 3.2vw, 1.25rem);
+        line-height: 1.25;
+        margin-bottom: clamp(10px, 1.6vh, 16px);
+        padding: 0 6px;
     }
 
     .hero-btn {
-        padding: clamp(6px, 1vh, 9px) 22px;
-        font-size: 0.66rem;
+        padding: 9px 24px;
+        font-size: 0.68rem;
         letter-spacing: 1.2px;
-        margin-bottom: clamp(6px, 1.2vh, 12px);
+        margin-bottom: clamp(8px, 1.2vh, 14px);
     }
 
     .hero-stamp-badge {
         position: absolute;
         right: 12px;
-        bottom: clamp(10px, 2vh, 24px);
+        bottom: clamp(12px, 2vh, 22px);
         margin: 0;
-        width: clamp(80px, 11vh, 105px);
-        height: clamp(80px, 11vh, 105px);
+        width: clamp(75px, 10vh, 90px);
+        height: clamp(75px, 10vh, 90px);
+        z-index: 15;
     }
 
+    /* Calibrated Arch Dome on Mobile */
     .hero-dome-transition {
-        height: clamp(145px, 20vh, 185px);
-        border-radius: 50% 50% 0 0 / clamp(45px, 9vw, 75px) clamp(45px, 9vw, 75px) 0 0;
-        padding-top: clamp(65px, 8.5vh, 85px);
+        height: clamp(115px, 15vh, 145px);
+        border-radius: 50% 50% 0 0 / clamp(36px, 8vw, 60px) clamp(36px, 8vw, 60px) 0 0;
+        padding-top: clamp(48px, 6.5vh, 65px);
         justify-content: flex-start;
     }
 
     .dome-curve-text {
-        font-size: clamp(28px, 7.5vw, 38px);
+        font-size: clamp(16px, 4.5vw, 22px);
         font-weight: 500;
-        letter-spacing: clamp(3px, 0.8vw, 5px);
+        letter-spacing: clamp(2px, 0.5vw, 4px);
     }
 
     .dome-scroll-indicator {
         margin-top: 0;
         margin-bottom: auto;
-        gap: 6px;
-    }
-
-    .dome-scroll-indicator .scroll-word {
-        font-size: 0.70rem;
-        letter-spacing: 3.5px;
-    }
-
-    .dome-scroll-indicator .scroll-arrow-line svg {
-        width: 11px;
-        height: 26px;
-        stroke-width: 1.6;
-    }
-
-    .giant-word {
-        font-size: 2.2rem;
-    }
-
-    .scroll-down-indicator {
-        bottom: 16px;
         gap: 4px;
     }
 
-    .scroll-down-indicator span {
-        font-size: 0.6rem;
+    .dome-scroll-indicator .scroll-word {
+        font-size: 0.65rem;
+        letter-spacing: 3px;
+    }
+
+    .dome-scroll-indicator .scroll-arrow-line svg {
+        width: 10px;
+        height: 22px;
+        stroke-width: 1.5;
+    }
+
+    .dome-brand-tagline {
+        font-size: 0.62rem;
+        letter-spacing: 2px;
+    }
+
+    .dome-city-tag {
+        font-size: 0.55rem;
+        letter-spacing: 2.5px;
+    }
+
+    /* About Us Section on Mobile */
+    .about-section {
+        border-radius: 50% 50% 0 0 / clamp(36px, 8vw, 60px) clamp(36px, 8vw, 60px) 0 0;
+        margin-top: calc(-1 * clamp(55px, 7.5vh, 75px));
+        padding: 0 0 55px 0;
+    }
+
+    .about-container {
+        padding: 0 16px;
+    }
+
+    .about-header {
+        margin-bottom: 28px;
+    }
+
+    .about-main-title {
+        font-size: clamp(1.65rem, 5.8vw, 2.3rem);
+        line-height: 1.15;
+        margin-bottom: 12px;
+    }
+
+    .about-subtitle {
+        font-size: 0.88rem;
+        line-height: 1.55;
+    }
+
+    .story-card-inner {
+        padding: 24px 18px;
+        border-radius: 18px;
+    }
+
+    .story-heading {
+        font-size: 1.45rem;
+        line-height: 1.25;
+        margin-bottom: 14px;
+    }
+
+    .about-quote {
+        padding: 14px 16px;
+        font-size: 0.92rem;
+        margin: 20px 0;
+    }
+
+    .about-signature-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding-top: 18px;
+    }
+
+    .signature-divider {
+        display: none;
+    }
+
+    .signature-item .sig-number {
+        font-size: 1.6rem;
+    }
+
+    .signature-item .sig-label {
+        font-size: 0.72rem;
+    }
+
+    .frame-arch-image {
+        height: 300px;
+        border-radius: 130px 130px 18px 18px;
+    }
+
+    .about-hero-img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .floating-about-card {
+        position: static;
+        max-width: 100%;
+        margin-top: 14px;
+        border-radius: 14px;
+        padding: 14px 16px;
+    }
+
+    .floating-about-badge {
+        right: 12px;
+        top: 14px;
+        padding: 6px 12px;
+    }
+
+    .about-pillars-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .pillar-card {
+        padding: 22px 18px;
+        border-radius: 16px;
+    }
+
+    .about-cta-banner {
+        padding: 32px 20px;
+        border-radius: 18px;
+        text-align: center;
+        margin-top: 36px;
+    }
+
+    .cta-banner-title {
+        font-size: clamp(1.4rem, 4.8vw, 1.95rem);
+    }
+
+    .about-explore-btn {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    /* Seasonal Tastings Section on Mobile */
+    .container#menu,
+    #menu.container {
+        padding-top: 40px !important;
+        padding-bottom: 60px !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
     }
 
     .store-catalog-grid {
@@ -1852,78 +1951,78 @@ body.coffee-menu-open .overlay-footer {
         gap: 20px;
     }
 
+    /* Fullscreen Coffee Navigation Overlay on Mobile */
+    .coffee-bar-overlay {
+        padding: 24px 18px 24px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .overlay-nav-menu ul {
+        gap: 14px;
+    }
+
     .overlay-nav-menu a {
-        font-size: 2.2rem;
+        font-size: clamp(1.6rem, 5.2vw, 2.2rem);
+        letter-spacing: 1.5px;
     }
 
     .reserve-cta {
-        padding: 12px 24px;
-        font-size: 0.95rem !important;
+        padding: 11px 22px;
+        font-size: 0.88rem !important;
+        letter-spacing: 1.2px;
     }
 
     .overlay-header {
-        top: 20px;
-        right: 20px;
+        position: relative;
+        margin-bottom: 20px;
     }
 
-    /* About Section - Mobile */
-    .about-section {
-        border-radius: 50% 50% 0 0 / clamp(45px, 9vw, 75px) clamp(45px, 9vw, 75px) 0 0;
-        margin-top: calc(-1 * clamp(145px, 20vh, 185px));
-        padding: 0 0 65px 0;
-    }
-    .about-signature-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 14px;
-    }
-    .signature-divider {
-        width: 100%;
-        height: 1px;
-    }
-    .frame-arch-image {
-        border-radius: 160px 160px 20px 20px;
-    }
-    .floating-about-card {
-        position: static;
-        max-width: 100%;
-        margin-top: 16px;
-    }
-    .floating-about-badge {
-        right: 12px;
-        top: 16px;
+    .overlay-footer {
+        margin-top: 24px;
     }
 }
 
-/* Extra small mobile screens (<= 380px) */
-@media (max-width: 380px) {
+/* 3. Extra Small Smartphone Viewports (max-width: 420px) */
+@media (max-width: 420px) {
     .header-container {
         padding: 0 12px;
     }
 
-    .header-actions .action-icon {
-        display: none;
+    .header-visit-btn {
+        padding: 5px 11px;
+        font-size: 0.68rem;
     }
 
-    .hero-section {
-        height: calc(100vh - 60px);
-        height: calc(100svh - 60px);
-        height: calc(100dvh - 60px);
-        min-height: calc(100vh - 60px);
-        min-height: calc(100svh - 60px);
-        min-height: calc(100dvh - 60px);
+    .brand-logo .header-logo-img {
+        max-height: 38px;
     }
 
     .hero-container {
-        padding: 16px 12px 10px;
+        padding: 0 10px;
     }
 
     .hero-title {
-        font-size: 2.1rem;
+        font-size: 2.05rem;
     }
 
-    .hero-transition-bg {
-        height: clamp(110px, 16vh, 140px);
+    .hero-description {
+        font-size: 0.88rem;
+    }
+
+    .hero-btn {
+        padding: 8px 20px;
+        font-size: 0.65rem;
+    }
+
+    .about-signature-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .frame-arch-image {
+        height: 250px;
+        border-radius: 110px 110px 16px 16px;
     }
 }
 

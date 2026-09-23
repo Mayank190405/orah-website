@@ -551,7 +551,7 @@ $hero = $settings['hero'] ?? null;
         <nav class="overlay-nav-menu">
             <ul>
                 <li style="--anim-delay: 0.06s"><a href="#home">Home</a></li>
-                <li style="--anim-delay: 0.12s"><a href="#menu">Menu</a></li>
+                <li style="--anim-delay: 0.12s"><a href="menu.php">Menu</a></li>
                 <li style="--anim-delay: 0.18s"><a href="#story">Our Story</a></li>
                 <li style="--anim-delay: 0.24s"><a href="#experiences">Experiences</a></li>
                 <li style="--anim-delay: 0.30s"><a href="#gallery">Gallery</a></li>
