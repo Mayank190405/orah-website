@@ -1737,7 +1737,7 @@ if (!empty($urlSlug)) {
             bottom: 22px;
             left: 50%;
             transform: translateX(-50%) translateY(140px);
-            z-index: 140;
+            z-index: 9995;
             opacity: 0;
             pointer-events: none;
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1758,14 +1758,14 @@ if (!empty($urlSlug)) {
         .dine-in-slip-pill {
             width: 100%;
             background: linear-gradient(135deg, #1C0A0D 0%, #3B0D12 100%);
-            border: 1.5px solid rgba(212, 175, 55, 0.5);
+            border: 1.5px solid rgba(212, 175, 55, 0.55);
             border-radius: 36px;
             padding: 10px 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.42), 0 0 20px rgba(104, 20, 24, 0.3);
+            box-shadow: 0 14px 38px rgba(0, 0, 0, 0.48), 0 0 25px rgba(104, 20, 24, 0.35);
             cursor: pointer;
             color: #FAF5EB;
             font-family: var(--font-sans);
@@ -1774,8 +1774,8 @@ if (!empty($urlSlug)) {
 
         .dine-in-slip-pill:hover {
             transform: translateY(-2px);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.48), 0 0 25px rgba(212, 175, 55, 0.4);
-            border-color: rgba(212, 175, 55, 0.85);
+            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.52), 0 0 28px rgba(212, 175, 55, 0.45);
+            border-color: rgba(212, 175, 55, 0.9);
         }
 
         .slip-pill-left {
@@ -1798,6 +1798,12 @@ if (!empty($urlSlug)) {
             flex-shrink: 0;
         }
 
+        .slip-pill-text-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
         .slip-pill-title {
             font-size: 0.88rem;
             font-weight: 800;
@@ -1807,7 +1813,7 @@ if (!empty($urlSlug)) {
 
         .slip-pill-sub {
             font-size: 0.74rem;
-            color: rgba(250, 245, 235, 0.8);
+            color: rgba(250, 245, 235, 0.82);
             font-weight: 600;
         }
 
@@ -1819,7 +1825,7 @@ if (!empty($urlSlug)) {
             color: #1A0D0E;
             font-weight: 800;
             font-size: 0.76rem;
-            padding: 6px 14px;
+            padding: 7px 15px;
             border-radius: 20px;
             letter-spacing: 0.4px;
             flex-shrink: 0;
@@ -1832,10 +1838,10 @@ if (!empty($urlSlug)) {
         .slip-modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(26, 10, 12, 0.75);
+            background: rgba(26, 10, 12, 0.78);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            z-index: 9999;
+            z-index: 10000;
             display: flex;
             align-items: flex-end;
             justify-content: center;
@@ -1844,9 +1850,10 @@ if (!empty($urlSlug)) {
             transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .slip-modal-backdrop.open {
-            opacity: 1;
-            pointer-events: auto;
+        .slip-modal-backdrop.open,
+        .slip-modal-backdrop.active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
         }
 
         .slip-modal-dialog {
@@ -1855,18 +1862,19 @@ if (!empty($urlSlug)) {
             max-width: 580px;
             max-height: 88vh;
             border-radius: 26px 26px 0 0;
-            box-shadow: 0 -15px 45px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 -15px 45px rgba(0, 0, 0, 0.38);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             transform: translateY(100%);
             transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid rgba(104, 20, 24, 0.12);
+            border: 1px solid rgba(104, 20, 24, 0.14);
             border-bottom: none;
         }
 
-        .slip-modal-backdrop.open .slip-modal-dialog {
-            transform: translateY(0);
+        .slip-modal-backdrop.open .slip-modal-dialog,
+        .slip-modal-backdrop.active .slip-modal-dialog {
+            transform: translateY(0) !important;
         }
 
         @media (min-width: 640px) {
@@ -1877,11 +1885,12 @@ if (!empty($urlSlug)) {
             .slip-modal-dialog {
                 border-radius: 24px;
                 max-height: 85vh;
-                border-bottom: 1px solid rgba(104, 20, 24, 0.12);
+                border-bottom: 1px solid rgba(104, 20, 24, 0.14);
                 transform: translateY(30px) scale(0.97);
             }
-            .slip-modal-backdrop.open .slip-modal-dialog {
-                transform: translateY(0) scale(1);
+            .slip-modal-backdrop.open .slip-modal-dialog,
+            .slip-modal-backdrop.active .slip-modal-dialog {
+                transform: translateY(0) scale(1) !important;
             }
         }
 
@@ -1898,14 +1907,8 @@ if (!empty($urlSlug)) {
 
         .slip-header-brand {
             display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .slip-brand-logo {
-            height: 32px;
-            width: auto;
-            object-fit: contain;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .slip-header-eyebrow {
@@ -1930,22 +1933,26 @@ if (!empty($urlSlug)) {
             gap: 8px;
         }
 
-        .btn-waiter-mode-toggle {
+        .btn-waiter-mode-toggle,
+        .waiter-mode-toggle-btn {
             display: inline-flex;
             align-items: center;
             gap: 5px;
             background: #FAF5EB;
             border: 1px solid rgba(104, 20, 24, 0.2);
             color: var(--burgundy);
-            padding: 5px 11px;
+            padding: 6px 12px;
             border-radius: 16px;
-            font-size: 0.74rem;
+            font-size: 0.76rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .btn-waiter-mode-toggle:hover, .btn-waiter-mode-toggle.active {
+        .btn-waiter-mode-toggle:hover,
+        .btn-waiter-mode-toggle.active,
+        .waiter-mode-toggle-btn:hover,
+        .waiter-mode-toggle-btn.active {
             background: var(--burgundy);
             color: #ffffff;
             border-color: var(--burgundy);
@@ -1968,20 +1975,43 @@ if (!empty($urlSlug)) {
             background: rgba(104, 20, 24, 0.06);
         }
 
-        .slip-waiter-banner {
-            background: #fff8e7;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 8px 18px;
+        /* 3-Hour Auto-Expiry Notice Banner */
+        .slip-expiry-banner {
+            background: #FFF8E7;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 10px 18px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.74rem;
-            color: #694d0c;
-            font-weight: 600;
+            gap: 10px;
+            font-size: 0.78rem;
+            color: #694D0C;
             flex-shrink: 0;
         }
 
-        .slip-table-row {
+        .slip-expiry-icon {
+            font-size: 1.15rem;
+            flex-shrink: 0;
+        }
+
+        .slip-expiry-text {
+            flex: 1;
+            line-height: 1.35;
+        }
+
+        .slip-expiry-timer {
+            display: inline-block;
+            margin-left: 6px;
+            background: #681418;
+            color: #ffffff;
+            font-size: 0.70rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .slip-table-row,
+        .slip-table-meta-bar {
             padding: 10px 18px;
             background: rgba(255, 255, 255, 0.7);
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -1992,7 +2022,8 @@ if (!empty($urlSlug)) {
             flex-shrink: 0;
         }
 
-        .table-input-wrap {
+        .table-input-wrap,
+        .slip-table-input-wrap {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -2001,9 +2032,10 @@ if (!empty($urlSlug)) {
             color: #5a5046;
         }
 
-        .table-input-wrap input {
-            width: 110px;
-            padding: 4px 8px;
+        .table-input-wrap input,
+        .slip-table-input-wrap input {
+            width: 120px;
+            padding: 5px 9px;
             border-radius: 6px;
             border: 1px solid rgba(104, 20, 24, 0.2);
             font-size: 0.82rem;
@@ -2012,7 +2044,8 @@ if (!empty($urlSlug)) {
             background: #ffffff;
         }
 
-        .slip-item-summary-pill {
+        .slip-item-summary-pill,
+        .slip-count-badge {
             font-size: 0.74rem;
             font-weight: 800;
             color: var(--burgundy);
@@ -2021,7 +2054,8 @@ if (!empty($urlSlug)) {
             border-radius: 12px;
         }
 
-        .slip-items-scroll-area {
+        .slip-items-scroll-area,
+        .slip-items-container {
             flex: 1 1 auto;
             overflow-y: auto;
             padding: 12px 18px;
@@ -2031,8 +2065,9 @@ if (!empty($urlSlug)) {
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Individual Dish Card in Slip */
-        .slip-dish-card {
+        /* Individual Dish Card in Slip (NO PRICING) */
+        .slip-dish-card,
+        .slip-item-row {
             background: #ffffff;
             border: 1px solid rgba(104, 20, 24, 0.1);
             border-radius: 14px;
@@ -2044,13 +2079,16 @@ if (!empty($urlSlug)) {
             transition: all 0.2s ease;
         }
 
-        .slip-dish-main-row {
+        .slip-dish-main-row,
+        .slip-item-main {
             display: flex;
             align-items: center;
             gap: 12px;
+            justify-content: space-between;
         }
 
-        .slip-dish-thumb {
+        .slip-dish-thumb,
+        .slip-item-thumb {
             width: 52px;
             height: 52px;
             border-radius: 10px;
@@ -2059,24 +2097,27 @@ if (!empty($urlSlug)) {
             border: 1px solid rgba(0, 0, 0, 0.06);
         }
 
-        .slip-dish-info {
+        .slip-dish-info,
+        .slip-item-info {
             flex: 1 1 auto;
             min-width: 0;
         }
 
-        .slip-dish-name {
+        .slip-dish-name,
+        .slip-item-title {
             font-family: var(--font-heading);
             font-size: 1.05rem;
             font-weight: 700;
             color: var(--primary-accent);
-            line-height: 1.2;
-            margin-bottom: 2px;
+            line-height: 1.25;
+            margin: 0 0 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .slip-dish-meta {
+        .slip-dish-meta,
+        .slip-item-meta-top {
             display: flex;
             align-items: center;
             gap: 6px;
@@ -2085,13 +2126,17 @@ if (!empty($urlSlug)) {
             font-weight: 600;
         }
 
-        .slip-dish-unit-price {
-            font-size: 0.78rem;
+        .slip-item-cat {
+            font-size: 0.68rem;
+            background: rgba(104, 20, 24, 0.06);
             color: #681418;
+            padding: 2px 7px;
+            border-radius: 10px;
             font-weight: 700;
         }
 
-        .slip-dish-controls {
+        .slip-dish-controls,
+        .slip-item-right-col {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -2101,116 +2146,134 @@ if (!empty($urlSlug)) {
         .slip-qty-stepper {
             display: inline-flex;
             align-items: center;
-            border: 1px solid rgba(104, 20, 24, 0.2);
+            border: 1px solid rgba(104, 20, 24, 0.25);
             border-radius: 18px;
             overflow: hidden;
             background: #FAF5EB;
         }
 
-        .slip-stepper-btn {
+        .slip-stepper-btn,
+        .slip-qty-btn {
             background: none;
             border: none;
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.92rem;
+            font-size: 0.96rem;
             font-weight: 700;
             color: var(--burgundy);
             cursor: pointer;
             transition: background 0.15s ease;
         }
 
-        .slip-stepper-btn:hover {
+        .slip-stepper-btn:hover,
+        .slip-qty-btn:hover {
             background: rgba(104, 20, 24, 0.12);
         }
 
-        .slip-stepper-val {
-            min-width: 22px;
+        .slip-stepper-val,
+        .slip-qty-val {
+            min-width: 24px;
             text-align: center;
-            font-size: 0.82rem;
+            font-size: 0.86rem;
             font-weight: 800;
             color: #1A0D0E;
         }
 
-        .slip-item-subtotal {
-            font-size: 0.88rem;
-            font-weight: 800;
-            color: #1A0D0E;
-            min-width: 50px;
-            text-align: right;
-        }
-
-        .slip-item-del-btn {
+        .slip-item-del-btn,
+        .slip-remove-btn {
             background: none;
             border: none;
             color: #991b1b;
-            font-size: 1.1rem;
+            font-size: 1.25rem;
+            line-height: 1;
             cursor: pointer;
-            padding: 2px 6px;
+            padding: 3px 6px;
             border-radius: 4px;
             transition: background 0.15s ease;
         }
 
-        .slip-item-del-btn:hover {
+        .slip-item-del-btn:hover,
+        .slip-remove-btn:hover {
             background: rgba(153, 27, 27, 0.1);
         }
 
-        .slip-dish-note-input {
+        .slip-dish-note-input,
+        .slip-item-note-input {
             width: 100%;
-            padding: 5px 9px;
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 6px 10px;
+            border: 1px solid rgba(0, 0, 0, 0.09);
             border-radius: 6px;
-            font-size: 0.74rem;
+            font-size: 0.76rem;
             color: #4A3E36;
             background: #FAF5EB;
             font-family: var(--font-sans);
             box-sizing: border-box;
         }
 
-        .slip-dish-note-input:focus {
+        .slip-dish-note-input:focus,
+        .slip-item-note-input:focus {
             background: #ffffff;
             border-color: var(--burgundy);
             outline: none;
         }
 
         /* WAITER MODE: HIGH CONTRAST & LARGE TYPE */
+        .slip-modal-backdrop.waiter-mode .slip-modal-dialog,
         .slip-modal-dialog.waiter-mode {
             background: #ffffff !important;
         }
 
-        .slip-modal-dialog.waiter-mode .slip-dish-card {
+        .slip-modal-backdrop.waiter-mode .slip-dish-card,
+        .slip-modal-backdrop.waiter-mode .slip-item-row,
+        .slip-modal-dialog.waiter-mode .slip-dish-card,
+        .slip-modal-dialog.waiter-mode .slip-item-row {
             background: #fdfbf7;
-            border: 2px solid #000000;
+            border: 2.5px solid #000000;
             padding: 14px 16px;
             border-radius: 12px;
         }
 
-        .slip-modal-dialog.waiter-mode .slip-dish-name {
-            font-size: 1.30rem !important;
+        .slip-modal-backdrop.waiter-mode .slip-dish-name,
+        .slip-modal-backdrop.waiter-mode .slip-item-title,
+        .slip-modal-dialog.waiter-mode .slip-dish-name,
+        .slip-modal-dialog.waiter-mode .slip-item-title {
+            font-size: 1.35rem !important;
             font-weight: 800 !important;
             color: #000000 !important;
             white-space: normal !important;
             line-height: 1.25 !important;
         }
 
-        .slip-modal-dialog.waiter-mode .slip-stepper-val {
-            font-size: 1.15rem !important;
+        .slip-modal-backdrop.waiter-mode .slip-stepper-val,
+        .slip-modal-backdrop.waiter-mode .slip-qty-val,
+        .slip-modal-dialog.waiter-mode .slip-stepper-val,
+        .slip-modal-dialog.waiter-mode .slip-qty-val {
+            font-size: 1.25rem !important;
             font-weight: 900 !important;
             color: #681418 !important;
         }
 
-        .slip-modal-dialog.waiter-mode .slip-dish-thumb {
+        .slip-modal-backdrop.waiter-mode .slip-dish-thumb,
+        .slip-modal-backdrop.waiter-mode .slip-item-thumb,
+        .slip-modal-dialog.waiter-mode .slip-dish-thumb,
+        .slip-modal-dialog.waiter-mode .slip-item-thumb {
             width: 64px;
             height: 64px;
         }
 
-        .slip-modal-dialog.waiter-mode .slip-waiter-banner {
+        .slip-modal-backdrop.waiter-mode .slip-expiry-banner {
             background: #000000;
             color: #ffffff;
             font-weight: 800;
-            font-size: 0.82rem;
+        }
+
+        .slip-modal-backdrop.waiter-mode .slip-expiry-timer {
+            background: #d4af37;
+            color: #000000;
+            font-weight: 800;
         }
 
         /* Empty State */
@@ -2226,7 +2289,8 @@ if (!empty($urlSlug)) {
             opacity: 0.6;
         }
 
-        .slip-empty-state h3 {
+        .slip-empty-state h3,
+        .slip-empty-state h4 {
             font-family: var(--font-heading);
             font-size: 1.3rem;
             color: var(--primary-accent);
@@ -2238,20 +2302,10 @@ if (!empty($urlSlug)) {
             margin: 0 0 16px;
             max-width: 320px;
             margin-inline: auto;
+            line-height: 1.4;
         }
 
-        .btn-browse-menu {
-            background: var(--burgundy);
-            color: #ffffff;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.82rem;
-            cursor: pointer;
-        }
-
-        /* Slip Footer */
+        /* Slip Footer (NO PRICING) */
         .slip-modal-footer {
             background: #ffffff;
             border-top: 1px solid rgba(104, 20, 24, 0.1);
@@ -2262,39 +2316,41 @@ if (!empty($urlSlug)) {
             flex-shrink: 0;
         }
 
-        .slip-totals-row {
+        .slip-summary-footer-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 4px;
         }
 
-        .slip-total-label {
-            font-family: var(--font-heading);
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--primary-accent);
+        .slip-total-dishes-label {
+            font-size: 0.94rem;
+            color: #1A0D0E;
+            font-weight: 600;
         }
 
-        .slip-total-sub {
-            font-size: 0.70rem;
-            color: #8a7153;
-        }
-
-        .slip-total-amount {
-            font-family: var(--font-heading);
-            font-size: 1.6rem;
+        .slip-total-dishes-label strong {
+            color: #681418;
             font-weight: 800;
-            color: var(--burgundy);
+            font-size: 1.08rem;
         }
 
-        .slip-footer-btns {
+        .slip-expiry-footer-note {
+            font-size: 0.72rem;
+            color: #8a7153;
+            font-weight: 600;
+        }
+
+        .slip-footer-btns,
+        .slip-action-buttons {
             display: flex;
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
         }
 
-        .btn-clear-slip {
+        .btn-clear-slip,
+        .slip-clear-btn {
             display: inline-flex;
             align-items: center;
             gap: 5px;
@@ -2309,11 +2365,13 @@ if (!empty($urlSlug)) {
             transition: all 0.2s ease;
         }
 
-        .btn-clear-slip:hover {
+        .btn-clear-slip:hover,
+        .slip-clear-btn:hover {
             background: #fee2e2;
         }
 
-        .btn-whatsapp-share-slip {
+        .btn-whatsapp-share-slip,
+        .slip-share-btn {
             flex: 1 1 auto;
             background: #15803d;
             border: 1px solid #166534;
@@ -2324,10 +2382,15 @@ if (!empty($urlSlug)) {
             border-radius: 20px;
             cursor: pointer;
             text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             transition: all 0.2s ease;
         }
 
-        .btn-whatsapp-share-slip:hover {
+        .btn-whatsapp-share-slip:hover,
+        .slip-share-btn:hover {
             background: #166534;
         }
 
@@ -2355,19 +2418,32 @@ if (!empty($urlSlug)) {
             transform: translateX(-50%) translateY(-30px);
             background: #1A0D0E;
             color: #FFF9F0;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            padding: 10px 20px;
+            border: 1.5px solid rgba(212, 175, 55, 0.6);
+            padding: 11px 22px;
             border-radius: 30px;
-            font-size: 0.84rem;
+            font-size: 0.86rem;
             font-weight: 700;
             z-index: 100000;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
             display: flex;
             align-items: center;
             gap: 8px;
             opacity: 0;
             pointer-events: none;
+            cursor: pointer;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slip-toast-notice.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .slip-toast-notice:hover {
+            background: #2a0e10;
+            border-color: rgba(212, 175, 55, 0.95);
+        }
             font-family: var(--font-sans);
         }
 
@@ -3330,17 +3406,16 @@ if (!empty($urlSlug)) {
 
     <!-- Floating Dine-In Slip Trigger Pill -->
     <div class="floating-dine-in-slip" id="floatingDineInSlip" role="region" aria-label="Dine-in Order Slip bar">
-        <button type="button" class="dine-in-slip-pill" id="openFloatingSlipBtn" aria-label="Open Dine-In Order Slip">
+        <button type="button" class="dine-in-slip-pill" id="openFloatingSlipBtn" aria-label="Open Dine-In List">
             <div class="slip-pill-left">
                 <span class="slip-pill-icon">📋</span>
                 <div class="slip-pill-text-wrap">
-                    <span class="slip-pill-title">Dine-In Table Order</span>
-                    <span class="slip-pill-meta" id="slipPillMeta">0 items selected</span>
+                    <span class="slip-pill-title">My Dine-In List</span>
+                    <span class="slip-pill-sub" id="slipPillMeta">0 items added</span>
                 </div>
             </div>
             <div class="slip-pill-right">
-                <span class="slip-pill-amount" id="slipPillTotal">₹0</span>
-                <span class="slip-pill-cta">View Slip ↗</span>
+                <span class="slip-pill-cta">View List (<span class="slip-badge-count-text">0</span>) ↗</span>
             </div>
         </button>
     </div>
@@ -3351,58 +3426,62 @@ if (!empty($urlSlug)) {
             <!-- Modal Header -->
             <div class="slip-modal-header">
                 <div class="slip-header-brand">
-                    <div class="slip-header-badge">TABLE ORDER SLIP</div>
-                    <h2 class="slip-header-title">My Dine-In Selections</h2>
-                    <p class="slip-header-sub">Show this slip to your server to place your table order without having to remember dishes.</p>
+                    <div class="slip-header-eyebrow">DINE-IN ORDER LIST</div>
+                    <h2 class="slip-header-title">My Dine-In List</h2>
                 </div>
                 <div class="slip-header-actions">
-                    <button type="button" class="waiter-mode-toggle-btn" id="waiterModeToggleBtn" title="Toggle large-text high-contrast mode for servers">
+                    <button type="button" class="btn-waiter-mode-toggle" id="waiterModeToggleBtn" title="Toggle large-text high-contrast mode for servers">
                         <span class="waiter-icon">👓</span>
                         <span class="waiter-label">Waiter Mode</span>
                     </button>
-                    <button type="button" class="slip-modal-close" id="closeSlipModalBtn" aria-label="Close Dine-In Slip">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </button>
+                    <button type="button" class="slip-modal-close" id="closeSlipModalBtn" aria-label="Close Dine-In Slip">&times;</button>
                 </div>
             </div>
 
-            <!-- Table Number & Slip Meta Bar -->
-            <div class="slip-table-meta-bar">
-                <div class="slip-table-input-wrap">
-                    <label for="tableNumberInput" class="slip-table-label">Table Number:</label>
-                    <input type="text" id="tableNumberInput" class="slip-table-input" placeholder="e.g. 4 or T-12" maxlength="10">
+            <!-- Auto-Expiry Notice Banner (3 Hours) -->
+            <div class="slip-expiry-banner">
+                <span class="slip-expiry-icon">⏱️</span>
+                <div class="slip-expiry-text">
+                    <strong>Auto-Expiry:</strong> This list will be automatically gone after 3 hours.
+                    <span class="slip-expiry-timer" id="slipExpiryTimerBadge">Active</span>
                 </div>
-                <div class="slip-count-badge" id="slipSummaryPill">0 items</div>
             </div>
 
-            <!-- Items List Container -->
-            <div class="slip-items-container" id="slipItemsContainer">
+            <!-- Table Number Bar -->
+            <div class="slip-table-row">
+                <div class="table-input-wrap">
+                    <label for="tableNumberInput">Table Number (optional):</label>
+                    <input type="text" id="tableNumberInput" placeholder="e.g. 4 or T-12" maxlength="10">
+                </div>
+                <div class="slip-item-summary-pill" id="slipSummaryPill">0 items</div>
+            </div>
+
+            <!-- Items Scroll Area -->
+            <div class="slip-items-scroll-area" id="slipItemsContainer">
                 <!-- Dynamically populated by DineInOrderSlip engine -->
             </div>
 
             <!-- Empty State -->
             <div class="slip-empty-state" id="slipEmptyState" style="display:none;">
                 <div class="slip-empty-icon">🤍</div>
-                <h4 class="slip-empty-title">Your Dine-In Slip is empty</h4>
-                <p class="slip-empty-text">Tap the heart icon (<svg viewBox="0 0 24 24" width="13" height="13" fill="#681418" stroke="#681418" style="vertical-align:middle;display:inline-block;"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>) on any dish while browsing to add it here. When your waiter arrives, just open this screen!</p>
+                <h3>Your Dine-In List is empty</h3>
+                <p>Tap the heart icon (<svg viewBox="0 0 24 24" width="13" height="13" fill="#681418" stroke="#681418" style="vertical-align:middle;display:inline-block;"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>) on any dish while browsing to add it here. When your waiter arrives, just show this list!</p>
             </div>
 
-            <!-- Slip Footer & Actions -->
+            <!-- Slip Footer (NO PRICING) -->
             <div class="slip-modal-footer" id="slipModalFooter">
-                <div class="slip-bill-breakdown">
-                    <div class="slip-bill-row">
-                        <span>Items Total (<span id="slipFooterItemCount">0</span>)</span>
-                        <span class="slip-bill-val" id="slipFooterSubtotal">₹0</span>
-                    </div>
-                    <div class="slip-bill-note">*Prices exclude applicable restaurant taxes & service charges. Final bill will be provided by your server.</div>
+                <div class="slip-summary-footer-row">
+                    <span class="slip-total-dishes-label">Total Dishes: <strong id="slipFooterItemCount">0</strong></span>
+                    <span class="slip-expiry-footer-note">⏱️ Disappears 3 hrs after creation</span>
                 </div>
 
-                <div class="slip-action-buttons">
-                    <button type="button" class="slip-clear-btn" id="slipClearAllBtn">Clear List</button>
-                    <button type="button" class="slip-share-btn" id="slipShareWhatsAppBtn" aria-label="Share Table Order on WhatsApp">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.02 18.06c-1.49 0-2.95-.4-4.23-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a8.136 8.136 0 0 1-1.25-4.28c0-4.52 3.68-8.2 8.2-8.2 2.19 0 4.25.85 5.8 2.4 1.55 1.55 2.41 3.61 2.41 5.8 0 4.52-3.68 8.15-8.14 8.15z"/></svg>
-                        <span>Send via WhatsApp</span>
+                <div class="slip-footer-btns">
+                    <button type="button" class="btn-clear-slip" id="slipClearAllBtn">Clear List</button>
+                    <button type="button" class="btn-whatsapp-share-slip" id="slipShareWhatsAppBtn" aria-label="Share Table List on WhatsApp">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="vertical-align:middle; margin-right:4px;"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.02 18.06c-1.49 0-2.95-.4-4.23-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a8.136 8.136 0 0 1-1.25-4.28c0-4.52 3.68-8.2 8.2-8.2 2.19 0 4.25.85 5.8 2.4 1.55 1.55 2.41 3.61 2.41 5.8 0 4.52-3.68 8.15-8.14 8.15z"/></svg>
+                        <span>Share on WhatsApp</span>
                     </button>
+                    <button type="button" class="btn-done-ordering" id="slipDoneOrderingBtn">Done</button>
                 </div>
             </div>
         </div>
@@ -3792,11 +3871,13 @@ if (!empty($urlSlug)) {
             });
 
             // =========================================================================
-            // DINE-IN TABLE ORDER SLIP & SERVER SELECTIONS ENGINE
+            // DINE-IN TABLE ORDER LIST ENGINE (NO PRICING • 3-HOUR AUTO-EXPIRY)
             // =========================================================================
             const SLIP_STORAGE_KEY = 'orah_table_slip_v2';
+            const SLIP_EXPIRY_KEY = 'orah_table_slip_time';
             const TABLE_NUM_KEY = 'orah_table_number';
             const WAITER_MODE_KEY = 'orah_waiter_mode';
+            const THREE_HOURS_MS = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
 
             const floatingSlip = document.getElementById('floatingDineInSlip');
             const openFloatingSlipBtn = document.getElementById('openFloatingSlipBtn');
@@ -3804,6 +3885,7 @@ if (!empty($urlSlug)) {
             const detailSlipTriggerBtn = document.getElementById('detailSlipTriggerBtn');
             const slipModal = document.getElementById('dineInSlipModal');
             const closeSlipModalBtn = document.getElementById('closeSlipModalBtn');
+            const slipDoneOrderingBtn = document.getElementById('slipDoneOrderingBtn');
             const slipItemsContainer = document.getElementById('slipItemsContainer');
             const slipEmptyState = document.getElementById('slipEmptyState');
             const slipModalFooter = document.getElementById('slipModalFooter');
@@ -3812,10 +3894,9 @@ if (!empty($urlSlug)) {
             const slipClearAllBtn = document.getElementById('slipClearAllBtn');
             const slipShareWhatsAppBtn = document.getElementById('slipShareWhatsAppBtn');
             const slipPillMeta = document.getElementById('slipPillMeta');
-            const slipPillTotal = document.getElementById('slipPillTotal');
             const slipSummaryPill = document.getElementById('slipSummaryPill');
             const slipFooterItemCount = document.getElementById('slipFooterItemCount');
-            const slipFooterSubtotal = document.getElementById('slipFooterSubtotal');
+            const slipExpiryTimerBadge = document.getElementById('slipExpiryTimerBadge');
             const toastNotice = document.getElementById('slipToastNotice');
             const modalAddToSlipBtn = document.getElementById('modalAddToSlipBtn');
             const modalSlipBtnText = document.getElementById('modalSlipBtnText');
@@ -3831,24 +3912,49 @@ if (!empty($urlSlug)) {
                 }[m]));
             }
 
-            function parsePriceNumber(str) {
-                if (!str) return 0;
-                const cleaned = String(str).replace(/[^0-9.]/g, '');
-                return parseFloat(cleaned) || 0;
-            }
-
             function showToast(message) {
                 if (!toastNotice) return;
-                toastNotice.textContent = message;
+                toastNotice.innerHTML = `<span>${message}</span> <strong style="text-decoration:underline;margin-left:6px;color:#d4af37;">View ↗</strong>`;
                 toastNotice.classList.add('visible');
                 clearTimeout(toastTimer);
                 toastTimer = setTimeout(() => {
                     toastNotice.classList.remove('visible');
-                }, 2200);
+                }, 3000);
+            }
+
+            // Click toast notice to open list immediately
+            toastNotice?.addEventListener('click', () => {
+                toastNotice.classList.remove('visible');
+                openSlipModal();
+            });
+
+            function getExpiryRemainingText() {
+                const timeRaw = localStorage.getItem(SLIP_EXPIRY_KEY);
+                if (!timeRaw) return 'Auto-clears in 3 hrs';
+                const createdTime = parseInt(timeRaw, 10);
+                if (isNaN(createdTime)) return 'Auto-clears in 3 hrs';
+                const remaining = THREE_HOURS_MS - (Date.now() - createdTime);
+                if (remaining <= 0) return 'Expired';
+                const hrs = Math.floor(remaining / (60 * 60 * 1000));
+                const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+                if (hrs > 0) return `Auto-clears in ${hrs}h ${mins}m`;
+                return `Auto-clears in ${mins}m`;
             }
 
             function getSlipItems() {
                 try {
+                    // Check if 3 hours have elapsed since creation
+                    const timeRaw = localStorage.getItem(SLIP_EXPIRY_KEY);
+                    if (timeRaw) {
+                        const createdTime = parseInt(timeRaw, 10);
+                        if (!isNaN(createdTime) && (Date.now() - createdTime > THREE_HOURS_MS)) {
+                            // Automatically expired! Clear list
+                            localStorage.removeItem(SLIP_STORAGE_KEY);
+                            localStorage.removeItem(SLIP_EXPIRY_KEY);
+                            return [];
+                        }
+                    }
+
                     const raw = localStorage.getItem(SLIP_STORAGE_KEY);
                     if (raw) {
                         const parsed = JSON.parse(raw);
@@ -3860,7 +3966,15 @@ if (!empty($urlSlug)) {
 
             function saveSlipItems(items) {
                 try {
-                    localStorage.setItem(SLIP_STORAGE_KEY, JSON.stringify(items));
+                    if (items.length === 0) {
+                        localStorage.removeItem(SLIP_STORAGE_KEY);
+                        localStorage.removeItem(SLIP_EXPIRY_KEY);
+                    } else {
+                        if (!localStorage.getItem(SLIP_EXPIRY_KEY)) {
+                            localStorage.setItem(SLIP_EXPIRY_KEY, Date.now().toString());
+                        }
+                        localStorage.setItem(SLIP_STORAGE_KEY, JSON.stringify(items));
+                    }
                 } catch(e) {}
                 syncSlipUI();
             }
@@ -3878,13 +3992,11 @@ if (!empty($urlSlug)) {
                 if (existingIdx > -1) {
                     const removed = items.splice(existingIdx, 1)[0];
                     saveSlipItems(items);
-                    showToast(`Removed "${removed.name}" from Dine-In slip`);
+                    showToast(`Removed "${removed.name}" from Dine-In list`);
                 } else {
                     const newItem = {
                         id: dishData.id || ('dish_' + Math.random().toString(36).substr(2, 9)),
                         name: dishData.name,
-                        price: dishData.price || '₹0',
-                        priceNum: parsePriceNumber(dishData.price),
                         img: dishData.img || '',
                         veg: (dishData.veg === '1' || dishData.veg === true || dishData.veg === 1),
                         cat: dishData.cat || dishData.badge || '',
@@ -3893,7 +4005,7 @@ if (!empty($urlSlug)) {
                     };
                     items.push(newItem);
                     saveSlipItems(items);
-                    showToast(`Added "${newItem.name}" to Dine-In slip`);
+                    showToast(`Added "${newItem.name}" to Dine-In list`);
                 }
 
                 if (triggerBtn) {
@@ -3911,7 +4023,7 @@ if (!empty($urlSlug)) {
                 if (item.qty <= 0) {
                     const filtered = items.filter(it => it.id !== dishId);
                     saveSlipItems(filtered);
-                    showToast(`Removed "${item.name}" from Dine-In slip`);
+                    showToast(`Removed "${item.name}" from Dine-In list`);
                 } else {
                     saveSlipItems(items);
                 }
@@ -3933,20 +4045,19 @@ if (!empty($urlSlug)) {
                 const item = items.find(it => it.id === dishId);
                 const filtered = items.filter(it => it.id !== dishId);
                 saveSlipItems(filtered);
-                if (item) showToast(`Removed "${item.name}" from slip`);
+                if (item) showToast(`Removed "${item.name}" from list`);
             }
 
             function clearAllSlipItems() {
-                if (confirm('Clear all items from your Dine-In Table Slip?')) {
+                if (confirm('Clear all items from your Dine-In Table List?')) {
                     saveSlipItems([]);
-                    showToast('Dine-In Slip cleared');
+                    showToast('Dine-In list cleared');
                 }
             }
 
             function syncSlipUI() {
                 const items = getSlipItems();
                 const totalItemCount = items.reduce((sum, it) => sum + (it.qty || 1), 0);
-                const totalAmount = items.reduce((sum, it) => sum + ((it.priceNum || 0) * (it.qty || 1)), 0);
 
                 // 1. Update Badges
                 const badgeElements = document.querySelectorAll('.slip-badge-count');
@@ -3969,10 +4080,7 @@ if (!empty($urlSlug)) {
                     }
                 }
                 if (slipPillMeta) {
-                    slipPillMeta.textContent = `${totalItemCount} ${totalItemCount === 1 ? 'item' : 'items'} selected`;
-                }
-                if (slipPillTotal) {
-                    slipPillTotal.textContent = `₹${totalAmount.toLocaleString('en-IN')}`;
+                    slipPillMeta.textContent = `${totalItemCount} ${totalItemCount === 1 ? 'item' : 'items'} added`;
                 }
 
                 // 3. Update Dish Card Heart Buttons
@@ -3992,15 +4100,20 @@ if (!empty($urlSlug)) {
                 if (currentModalDishData && modalAddToSlipBtn && modalSlipBtnText) {
                     if (isDishInSlip(currentModalDishData.id, currentModalDishData.name)) {
                         modalAddToSlipBtn.classList.add('in-slip');
-                        modalSlipBtnText.textContent = '✓ In Table Slip (Tap to remove)';
+                        modalSlipBtnText.textContent = '✓ In Dine-In List (Tap to remove)';
                     } else {
                         modalAddToSlipBtn.classList.remove('in-slip');
-                        modalSlipBtnText.textContent = 'Add to Dine-In Slip';
+                        modalSlipBtnText.textContent = 'Add to Dine-In List';
                     }
                 }
 
-                // 5. Update Modal Content if open
-                if (slipModal && slipModal.classList.contains('active')) {
+                // 5. Update Expiry timer badge
+                if (slipExpiryTimerBadge) {
+                    slipExpiryTimerBadge.textContent = getExpiryRemainingText();
+                }
+
+                // 6. Update Modal Content if open
+                if (slipModal && (slipModal.classList.contains('active') || slipModal.classList.contains('open'))) {
                     renderSlipModalContent();
                 }
             }
@@ -4008,7 +4121,6 @@ if (!empty($urlSlug)) {
             function renderSlipModalContent() {
                 const items = getSlipItems();
                 const totalItemCount = items.reduce((sum, it) => sum + (it.qty || 1), 0);
-                const totalAmount = items.reduce((sum, it) => sum + ((it.priceNum || 0) * (it.qty || 1)), 0);
 
                 if (slipSummaryPill) {
                     slipSummaryPill.textContent = `${totalItemCount} ${totalItemCount === 1 ? 'item' : 'items'}`;
@@ -4016,8 +4128,8 @@ if (!empty($urlSlug)) {
                 if (slipFooterItemCount) {
                     slipFooterItemCount.textContent = totalItemCount;
                 }
-                if (slipFooterSubtotal) {
-                    slipFooterSubtotal.textContent = `₹${totalAmount.toLocaleString('en-IN')}`;
+                if (slipExpiryTimerBadge) {
+                    slipExpiryTimerBadge.textContent = getExpiryRemainingText();
                 }
 
                 if (items.length === 0) {
@@ -4034,39 +4146,37 @@ if (!empty($urlSlug)) {
                 if (!slipItemsContainer) return;
                 slipItemsContainer.innerHTML = '';
 
-                items.forEach((item, index) => {
+                items.forEach((item) => {
                     const row = document.createElement('div');
-                    row.className = 'slip-item-row';
+                    row.className = 'slip-dish-card';
                     row.setAttribute('data-dish-id', item.id);
 
-                    const lineSubtotal = (item.priceNum || 0) * (item.qty || 1);
                     const dietLabel = item.veg ? '● VEG' : '● NON-VEG';
                     const dietColor = item.veg ? '#2e7d32' : '#c62828';
                     const imgUrl = item.img || 'assets/placeholder.jpg';
 
+                    // NO PRICING: Only display thumbnail, name, dietary, category, quantity stepper, and kitchen note
                     row.innerHTML = `
-                        <div class="slip-item-main">
-                            <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(item.name)}" class="slip-item-thumb" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&q=70'">
-                            <div class="slip-item-info">
-                                <div class="slip-item-meta-top">
-                                    <span class="slip-item-diet" style="color: ${dietColor};">${dietLabel}</span>
+                        <div class="slip-dish-main-row">
+                            <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(item.name)}" class="slip-dish-thumb" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&q=70'">
+                            <div class="slip-dish-info">
+                                <div class="slip-dish-meta">
+                                    <span style="color: ${dietColor}; font-weight:700;">${dietLabel}</span>
                                     ${item.cat ? `<span class="slip-item-cat">${escapeHtml(item.cat)}</span>` : ''}
                                 </div>
-                                <h4 class="slip-item-title">${escapeHtml(item.name)}</h4>
-                                <div class="slip-item-unit-price">${escapeHtml(item.price)} each</div>
+                                <h4 class="slip-dish-name">${escapeHtml(item.name)}</h4>
                             </div>
-                            <div class="slip-item-right-col">
-                                <div class="slip-item-subtotal">₹${lineSubtotal.toLocaleString('en-IN')}</div>
+                            <div class="slip-dish-controls">
                                 <div class="slip-qty-stepper">
-                                    <button type="button" class="slip-qty-btn minus" data-id="${escapeHtml(item.id)}" aria-label="Decrease quantity">−</button>
-                                    <span class="slip-qty-val">${item.qty || 1}</span>
-                                    <button type="button" class="slip-qty-btn plus" data-id="${escapeHtml(item.id)}" aria-label="Increase quantity">+</button>
+                                    <button type="button" class="slip-stepper-btn minus" data-id="${escapeHtml(item.id)}" aria-label="Decrease quantity">−</button>
+                                    <span class="slip-stepper-val">${item.qty || 1}</span>
+                                    <button type="button" class="slip-stepper-btn plus" data-id="${escapeHtml(item.id)}" aria-label="Increase quantity">+</button>
                                 </div>
-                                <button type="button" class="slip-remove-btn" data-id="${escapeHtml(item.id)}" aria-label="Remove item">×</button>
+                                <button type="button" class="slip-item-del-btn" data-id="${escapeHtml(item.id)}" aria-label="Remove item">×</button>
                             </div>
                         </div>
-                        <div class="slip-item-note-wrap">
-                            <input type="text" class="slip-item-note-input" data-id="${escapeHtml(item.id)}" placeholder="✎ Special instructions (e.g. Less spicy, dressing on side...)" value="${escapeHtml(item.note || '')}" maxlength="120">
+                        <div class="slip-dish-note-wrap">
+                            <input type="text" class="slip-dish-note-input" data-id="${escapeHtml(item.id)}" placeholder="✎ Special instructions (e.g. Less spicy, dressing on side...)" value="${escapeHtml(item.note || '')}" maxlength="120">
                         </div>
                     `;
 
@@ -4076,9 +4186,9 @@ if (!empty($urlSlug)) {
 
             // Stepper and Note Events in Slip Modal
             slipItemsContainer?.addEventListener('click', (e) => {
-                const minusBtn = e.target.closest('.slip-qty-btn.minus');
-                const plusBtn = e.target.closest('.slip-qty-btn.plus');
-                const removeBtn = e.target.closest('.slip-remove-btn');
+                const minusBtn = e.target.closest('.slip-stepper-btn.minus, .slip-qty-btn.minus');
+                const plusBtn = e.target.closest('.slip-stepper-btn.plus, .slip-qty-btn.plus');
+                const removeBtn = e.target.closest('.slip-item-del-btn, .slip-remove-btn');
 
                 if (minusBtn) {
                     const id = minusBtn.getAttribute('data-id');
@@ -4093,7 +4203,7 @@ if (!empty($urlSlug)) {
             });
 
             slipItemsContainer?.addEventListener('input', (e) => {
-                if (e.target.classList.contains('slip-item-note-input')) {
+                if (e.target.classList.contains('slip-dish-note-input') || e.target.classList.contains('slip-item-note-input')) {
                     const id = e.target.getAttribute('data-id');
                     updateDishNote(id, e.target.value);
                 }
@@ -4120,59 +4230,56 @@ if (!empty($urlSlug)) {
                 const isActive = slipModal?.classList.toggle('waiter-mode');
                 waiterModeBtn?.classList.toggle('active', !!isActive);
                 localStorage.setItem(WAITER_MODE_KEY, isActive ? '1' : '0');
-                showToast(isActive ? '👓 Waiter Mode: High-contrast large text active' : 'Waiter Mode deactivated');
+                showToast(isActive ? '👓 Waiter Mode: Large text active' : 'Waiter Mode deactivated');
             });
 
             // Clear All List
             slipClearAllBtn?.addEventListener('click', clearAllSlipItems);
 
-            // WhatsApp Share Table Order
+            // WhatsApp Share Table Order (NO PRICING)
             slipShareWhatsAppBtn?.addEventListener('click', () => {
                 const items = getSlipItems();
                 if (items.length === 0) {
-                    alert('Please add some dishes to your table slip before sharing.');
+                    alert('Please add dishes to your Dine-In list before sharing.');
                     return;
                 }
 
                 const tableNum = (tableNumberInput?.value || '').trim() || 'Not specified';
                 const totalItemCount = items.reduce((sum, it) => sum + (it.qty || 1), 0);
-                const totalAmount = items.reduce((sum, it) => sum + ((it.priceNum || 0) * (it.qty || 1)), 0);
 
-                let text = `*ORAH - DINE-IN TABLE ORDER SLIP*\n`;
+                let text = `*ORAH - DINE-IN TABLE ORDER LIST*\n`;
                 text += `📍 *Table:* ${tableNum}\n`;
                 text += `📅 *Time:* ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}\n`;
                 text += `------------------------------------\n`;
 
                 items.forEach((it, idx) => {
                     const diet = it.veg ? '(Veg)' : '(Non-Veg)';
-                    const lineTotal = (it.priceNum || 0) * (it.qty || 1);
-                    text += `${idx + 1}. *${it.qty}x* ${it.name} ${diet} - ₹${lineTotal.toLocaleString('en-IN')}\n`;
+                    text += `${idx + 1}. *${it.qty || 1}x* ${it.name} ${diet}\n`;
                     if (it.note && it.note.trim()) {
                         text += `    ✎ _Note: ${it.note.trim()}_\n`;
                     }
                 });
 
                 text += `------------------------------------\n`;
-                text += `*Total Items:* ${totalItemCount}\n`;
-                text += `*Estimated Total:* ₹${totalAmount.toLocaleString('en-IN')}\n`;
-                text += `_(Taxes & charges as applicable)_\n`;
+                text += `*Total Dishes:* ${totalItemCount}\n`;
+                text += `_(Note: This list automatically expires after 3 hours)_\n`;
 
                 const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
                 window.open(url, '_blank');
             });
 
-            // Open & Close Slip Modal
+            // Open & Close Slip Modal (Supports both .active and .open)
             function openSlipModal() {
                 if (!slipModal) return;
                 renderSlipModalContent();
-                slipModal.classList.add('active');
+                slipModal.classList.add('active', 'open');
                 slipModal.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden';
             }
 
             function closeSlipModal() {
                 if (!slipModal) return;
-                slipModal.classList.remove('active');
+                slipModal.classList.remove('active', 'open');
                 slipModal.setAttribute('aria-hidden', 'true');
                 if (!modalBackdrop || !modalBackdrop.classList.contains('active')) {
                     document.body.style.overflow = '';
@@ -4183,6 +4290,7 @@ if (!empty($urlSlug)) {
             overviewSlipBtn?.addEventListener('click', openSlipModal);
             detailSlipTriggerBtn?.addEventListener('click', openSlipModal);
             closeSlipModalBtn?.addEventListener('click', closeSlipModal);
+            slipDoneOrderingBtn?.addEventListener('click', closeSlipModal);
             modalViewSlipLink?.addEventListener('click', () => {
                 closeModal();
                 openSlipModal();
@@ -4199,7 +4307,6 @@ if (!empty($urlSlug)) {
                     const dishData = {
                         id: btn.getAttribute('data-dish-id'),
                         name: btn.getAttribute('data-dish-name'),
-                        price: btn.getAttribute('data-dish-price'),
                         img: btn.getAttribute('data-dish-img'),
                         veg: btn.getAttribute('data-dish-veg'),
                         cat: btn.getAttribute('data-dish-cat')
