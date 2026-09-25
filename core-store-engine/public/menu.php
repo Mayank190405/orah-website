@@ -1033,32 +1033,95 @@ $sectionKeys = array_keys($orderedSections);
         }
 
         /* =====================================================================
-           SEARCH BAR & SMART RECOMMENDATIONS UI
+           TOP EXPANDABLE SEARCH DRAWER & SMART RECOMMENDATIONS
            ===================================================================== */
-        .menu-search-bar-wrapper {
-            margin: 22px auto 0;
-            max-width: 760px;
-            width: 100%;
-            position: relative;
-            z-index: 40;
-        }
-
-        .menu-search-input-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-            background: #ffffff;
-            border: 1.5px solid rgba(104, 20, 24, 0.18);
-            border-radius: 50px;
-            padding: 8px 18px;
-            box-shadow: 0 6px 20px rgba(70, 25, 20, 0.08);
+        .masthead-search-toggle {
+            cursor: pointer;
+            border: 1px solid rgba(104, 20, 24, 0.15);
+            background: rgba(104, 20, 24, 0.05);
+            color: var(--burgundy);
             transition: all 0.25s ease;
         }
 
-        .menu-search-input-box:focus-within {
+        .masthead-search-toggle:hover,
+        .masthead-search-toggle.active {
+            background: #681418;
+            color: #FAF5EE;
             border-color: #681418;
-            box-shadow: 0 8px 28px rgba(104, 20, 24, 0.16);
-            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(104, 20, 24, 0.22);
+        }
+
+        .top-search-drawer {
+            max-width: 920px;
+            margin: 0 auto 28px;
+            background: #FFFFFF;
+            border: 1.5px solid rgba(104, 20, 24, 0.16);
+            border-radius: 24px;
+            padding: 22px 24px;
+            box-shadow: 0 16px 44px rgba(60, 18, 14, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+            animation: topDrawerExpand 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 50;
+        }
+
+        @keyframes topDrawerExpand {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.985);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .top-search-input-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .top-search-input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #FAF7F2;
+            border: 1.5px solid rgba(104, 20, 24, 0.16);
+            border-radius: 50px;
+            padding: 10px 18px;
+            flex: 1;
+            transition: all 0.25s ease;
+        }
+
+        .top-search-input-box:focus-within {
+            background: #FFFFFF;
+            border-color: #681418;
+            box-shadow: 0 6px 20px rgba(104, 20, 24, 0.12);
+        }
+
+        .close-top-search-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            background: rgba(104, 20, 24, 0.06);
+            border: 1px solid rgba(104, 20, 24, 0.15);
+            border-radius: 50px;
+            color: #681418;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .close-top-search-btn:hover {
+            background: #681418;
+            color: #FFFFFF;
+            border-color: #681418;
+            transform: scale(1.02);
         }
 
         .search-box-icon {
@@ -1102,11 +1165,11 @@ $sectionKeys = array_keys($orderedSections);
             flex-wrap: wrap;
             gap: 8px;
             margin-top: 14px;
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         .recommendation-label {
-            font-size: 0.76rem;
+            font-size: 0.74rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -1115,7 +1178,7 @@ $sectionKeys = array_keys($orderedSections);
         }
 
         .recom-chip {
-            background: rgba(255, 255, 255, 0.85);
+            background: #FAF7F2;
             border: 1px solid rgba(104, 20, 24, 0.16);
             border-radius: 50px;
             padding: 6px 14px;
@@ -1128,7 +1191,7 @@ $sectionKeys = array_keys($orderedSections);
             align-items: center;
             gap: 5px;
             transition: all 0.22s ease;
-            box-shadow: 0 2px 6px rgba(70, 25, 20, 0.04);
+            box-shadow: 0 1px 4px rgba(70, 25, 20, 0.03);
         }
 
         .recom-chip:hover {
@@ -1162,19 +1225,13 @@ $sectionKeys = array_keys($orderedSections);
 
         /* Live Results Panel */
         .search-live-results-panel {
-            background: #ffffff;
-            border: 1.5px solid rgba(104, 20, 24, 0.15);
-            border-radius: 20px;
-            margin-top: 14px;
-            padding: 18px;
-            box-shadow: 0 16px 40px rgba(50, 15, 10, 0.18);
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 100%;
-            max-height: 480px;
+            background: #FAF7F2;
+            border: 1px solid rgba(104, 20, 24, 0.12);
+            border-radius: 18px;
+            margin-top: 16px;
+            padding: 16px;
+            max-height: 440px;
             overflow-y: auto;
-            z-index: 100;
             animation: fadeInResults 0.2s ease-out;
         }
 
@@ -1903,10 +1960,62 @@ $sectionKeys = array_keys($orderedSections);
                         <span class="masthead-brand-name">ORAH HOUSE</span>
                     </div>
 
-                    <button type="button" class="masthead-back-link" style="background:none; border:none; cursor:pointer;" onclick="document.getElementById('menuMainSearchInput')?.focus(); document.getElementById('menuMainSearchInput')?.scrollIntoView({behavior:'smooth', block:'center'});">
+                    <button type="button" class="masthead-back-link masthead-search-toggle" id="toggleTopSearchBtn" aria-expanded="false" aria-label="Toggle Search">
                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                         <span>Search</span>
                     </button>
+                </div>
+
+                <!-- Top Expandable Search Drawer (Click to expand) -->
+                <div class="top-search-drawer" id="topSearchDrawer" style="display: none;">
+                    <div class="top-search-input-row">
+                        <div class="top-search-input-box">
+                            <svg class="search-box-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" id="menuMainSearchInput" placeholder="Search dish name, ingredients, or pairings..." autocomplete="off">
+                            <button type="button" id="clearMenuSearchBtn" class="clear-search-btn" aria-label="Clear search" style="display:none;">&times;</button>
+                        </div>
+                        <button type="button" class="close-top-search-btn" id="closeTopSearchBtn" aria-label="Close search">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            <span>Close</span>
+                        </button>
+                    </div>
+
+                    <!-- Recommendations Chips -->
+                    <div class="search-recommendation-chips">
+                        <span class="recommendation-label">Recommendations:</span>
+                        <button type="button" class="recom-chip chip-chef-special" data-recom="chef_special">
+                            <span>📎</span> Chef's Specials
+                        </button>
+                        <button type="button" class="recom-chip" data-recom="featured">
+                            ★ Signatures
+                        </button>
+                        <button type="button" class="recom-chip" data-recom="truffle">
+                            🍄 Truffle Picks
+                        </button>
+                        <button type="button" class="recom-chip" data-recom="sourdough">
+                            🥖 Sourdough Flatbreads
+                        </button>
+                        <button type="button" class="recom-chip" data-recom="veg">
+                            🌱 Pure Veg
+                        </button>
+                        <button type="button" class="recom-chip" data-recom="pasta">
+                            🍝 Artisan Pastas
+                        </button>
+                        <button type="button" class="recom-chip" data-recom="dessert">
+                            🍫 Desserts
+                        </button>
+                    </div>
+
+                    <!-- Live Search Results Dropdown/Drawer -->
+                    <div class="search-live-results-panel" id="searchLiveResultsPanel" style="display:none;">
+                        <div class="results-header">
+                            <div class="results-count-title" id="resultsCountTitle">Recommended Dishes</div>
+                            <button type="button" class="close-results-btn" id="closeResultsPanelBtn">&times; Clear</button>
+                        </div>
+                        <div class="results-scroll-grid" id="resultsScrollGrid">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
                 </div>
 
                 <div class="masthead-center-content">
@@ -1915,52 +2024,6 @@ $sectionKeys = array_keys($orderedSections);
                     <p class="masthead-tagline">
                         Handcrafted sourdoughs, slow-cooked pastas, and specialty estate roasts. Tap any section to explore.
                     </p>
-
-                    <!-- Interactive Search Bar with Smart Recommendations -->
-                    <div class="menu-search-bar-wrapper">
-                        <div class="menu-search-input-box">
-                            <svg class="search-box-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                            <input type="text" id="menuMainSearchInput" placeholder="Search dish name, ingredients, or pairings..." autocomplete="off">
-                            <button type="button" id="clearMenuSearchBtn" class="clear-search-btn" aria-label="Clear search" style="display:none;">&times;</button>
-                        </div>
-
-                        <!-- Recommendations Chips -->
-                        <div class="search-recommendation-chips">
-                            <span class="recommendation-label">Recommendations:</span>
-                            <button type="button" class="recom-chip chip-chef-special" data-recom="chef_special">
-                                <span>📎</span> Chef's Specials
-                            </button>
-                            <button type="button" class="recom-chip" data-recom="featured">
-                                ★ Signatures
-                            </button>
-                            <button type="button" class="recom-chip" data-recom="truffle">
-                                🍄 Truffle Picks
-                            </button>
-                            <button type="button" class="recom-chip" data-recom="sourdough">
-                                🥖 Sourdough Flatbreads
-                            </button>
-                            <button type="button" class="recom-chip" data-recom="veg">
-                                🌱 Pure Veg
-                            </button>
-                            <button type="button" class="recom-chip" data-recom="pasta">
-                                🍝 Artisan Pastas
-                            </button>
-                            <button type="button" class="recom-chip" data-recom="dessert">
-                                🍫 Desserts
-                            </button>
-                        </div>
-
-                        <!-- Live Search Results Dropdown/Drawer -->
-                        <div class="search-live-results-panel" id="searchLiveResultsPanel" style="display:none;">
-                            <div class="results-header">
-                                <div class="results-count-title" id="resultsCountTitle">Recommended Dishes</div>
-                                <button type="button" class="close-results-btn" id="closeResultsPanelBtn">&times; Close</button>
-                            </div>
-                            <div class="results-scroll-grid" id="resultsScrollGrid">
-                                <!-- Populated dynamically by JS -->
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -2679,7 +2742,7 @@ $sectionKeys = array_keys($orderedSections);
             });
 
             // =========================================================================
-            // SEARCH & SMART RECOMMENDATIONS ENGINE
+            // TOP EXPANDABLE SEARCH & SMART RECOMMENDATIONS ENGINE
             // =========================================================================
             const catalogDishes = <?= json_encode(array_values($catalog), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
             const searchInput = document.getElementById('menuMainSearchInput');
@@ -2690,8 +2753,54 @@ $sectionKeys = array_keys($orderedSections);
             const closeResultsBtn = document.getElementById('closeResultsPanelBtn');
             const recomChips = document.querySelectorAll('.recom-chip');
             const detailSearchBtn = document.getElementById('detailSearchTriggerBtn');
+            const toggleTopSearchBtn = document.getElementById('toggleTopSearchBtn');
+            const closeTopSearchBtn = document.getElementById('closeTopSearchBtn');
+            const topSearchDrawer = document.getElementById('topSearchDrawer');
 
             let activeFilter = null; // e.g. 'chef_special', 'featured', etc.
+
+            function openSearchDrawer() {
+                if (!topSearchDrawer) return;
+                topSearchDrawer.style.display = 'block';
+                toggleTopSearchBtn?.classList.add('active');
+                toggleTopSearchBtn?.setAttribute('aria-expanded', 'true');
+                setTimeout(() => {
+                    searchInput?.focus();
+                }, 50);
+            }
+
+            function closeSearchDrawer() {
+                if (!topSearchDrawer) return;
+                topSearchDrawer.style.display = 'none';
+                toggleTopSearchBtn?.classList.remove('active');
+                toggleTopSearchBtn?.setAttribute('aria-expanded', 'false');
+            }
+
+            function toggleSearchDrawer() {
+                if (!topSearchDrawer) return;
+                if (topSearchDrawer.style.display === 'none' || !topSearchDrawer.style.display) {
+                    openSearchDrawer();
+                } else {
+                    closeSearchDrawer();
+                }
+            }
+
+            toggleTopSearchBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggleSearchDrawer();
+            });
+
+            closeTopSearchBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeSearchDrawer();
+            });
+
+            // Close top drawer on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && topSearchDrawer && topSearchDrawer.style.display !== 'none') {
+                    closeSearchDrawer();
+                }
+            });
 
             function performSearch() {
                 const query = (searchInput?.value || '').trim().toLowerCase();
@@ -2806,7 +2915,7 @@ $sectionKeys = array_keys($orderedSections);
                         `;
 
                         card.addEventListener('click', () => {
-                            resultsPanel.style.display = 'none';
+                            closeSearchDrawer();
                             
                             // Open Detailed View for this section
                             const sectionKey = d.badge;
@@ -2846,6 +2955,10 @@ $sectionKeys = array_keys($orderedSections);
 
             closeResultsBtn?.addEventListener('click', () => {
                 if (resultsPanel) resultsPanel.style.display = 'none';
+                if (searchInput) searchInput.value = '';
+                if (clearSearchBtn) clearSearchBtn.style.display = 'none';
+                activeFilter = null;
+                recomChips.forEach(c => c.classList.remove('active'));
             });
 
             recomChips.forEach(chip => {
@@ -2865,21 +2978,20 @@ $sectionKeys = array_keys($orderedSections);
 
             // Detail Header Search Trigger
             detailSearchBtn?.addEventListener('click', () => {
-                // Switch smoothly back to overview and focus search input
+                // Switch smoothly back to overview and open top search drawer
                 overviewView.style.display = 'block';
                 overviewView.style.opacity = '1';
                 detailView.style.display = 'none';
                 detailView.style.opacity = '0';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 setTimeout(() => {
-                    searchInput?.focus();
-                    searchInput?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    openSearchDrawer();
                     // Open recommendations automatically
-                    if (!activeFilter && !searchInput.value) {
+                    if (!activeFilter && (!searchInput || !searchInput.value)) {
                         const chefChip = document.querySelector('.recom-chip.chip-chef-special');
                         if (chefChip) chefChip.click();
                     }
-                }, 200);
+                }, 150);
             });
 
             updateDockLabels();
