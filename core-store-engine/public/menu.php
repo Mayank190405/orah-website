@@ -274,9 +274,11 @@ if (!empty($urlSlug)) {
         }
 
         .masthead-utility-row {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            min-height: 48px;
             margin-bottom: 22px;
             padding-bottom: 12px;
             border-bottom: 1px solid rgba(104, 20, 24, 0.08);
@@ -284,12 +286,15 @@ if (!empty($urlSlug)) {
 
         @media (max-width: 768px) {
             .masthead-utility-row {
+                min-height: 44px;
                 margin-bottom: 16px;
                 padding-bottom: 10px;
             }
         }
 
         .masthead-back-link {
+            position: relative;
+            z-index: 5;
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -311,18 +316,39 @@ if (!empty($urlSlug)) {
             transform: translateX(-2px);
         }
 
+        .masthead-right-actions {
+            position: relative;
+            z-index: 5;
+        }
+
         .masthead-brand-crest {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--burgundy);
+            z-index: 2;
         }
 
         .masthead-swans-img {
-            height: 30px;
+            height: 48px;
             width: auto;
             object-fit: contain;
             display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .masthead-brand-crest:hover .masthead-swans-img {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .masthead-swans-img {
+                height: 40px;
+            }
         }
 
         .utility-spacer {
@@ -663,6 +689,7 @@ if (!empty($urlSlug)) {
         }
 
         .detail-nav-container {
+            position: relative;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 16px;
@@ -670,9 +697,12 @@ if (!empty($urlSlug)) {
             align-items: center;
             justify-content: space-between;
             gap: 12px;
+            min-height: 48px;
         }
 
         .back-to-sections-btn {
+            position: relative;
+            z-index: 5;
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -696,16 +726,40 @@ if (!empty($urlSlug)) {
         }
 
         .detail-brand-crest {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 2;
         }
 
         .detail-brand-crest img {
-            height: 30px;
+            height: 48px;
             width: auto;
             object-fit: contain;
             display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .detail-brand-crest:hover img {
+            transform: scale(1.05);
+        }
+
+        .detail-nav-right-actions {
+            position: relative;
+            z-index: 5;
+        }
+
+        @media (max-width: 600px) {
+            .detail-nav-container {
+                min-height: 44px;
+            }
+            .detail-brand-crest img {
+                height: 40px;
+            }
         }
 
         /* Carousel Deck for Swiping */
@@ -2316,50 +2370,129 @@ if (!empty($urlSlug)) {
             background: #4a0d10;
         }
 
-        /* Floating Toast Notice */
+        /* Luxury Aesthetic Toast Notification */
         .slip-toast-notice {
             position: fixed;
-            top: 24px;
+            top: 104px;
             left: 50%;
-            transform: translateX(-50%) translateY(-30px);
-            background: #1A0D0E;
-            color: #FFF9F0;
-            border: 1.5px solid rgba(212, 175, 55, 0.6);
-            padding: 11px 22px;
-            border-radius: 30px;
-            font-size: 0.86rem;
-            font-weight: 700;
+            transform: translateX(-50%) translateY(-18px) scale(0.96);
+            background: rgba(28, 11, 14, 0.92);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            backdrop-filter: blur(18px) saturate(180%);
+            color: #FFF8EE;
+            border: 1px solid rgba(212, 175, 55, 0.38);
+            padding: 6px 8px 6px 12px;
+            border-radius: 999px;
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
             z-index: 100000;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
-            display: flex;
+            box-shadow: 0 16px 36px -4px rgba(18, 6, 8, 0.5), 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             opacity: 0;
             pointer-events: none;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease, box-shadow 0.28s ease;
+            user-select: none;
+            max-width: min(92vw, 440px);
+            box-sizing: border-box;
         }
 
         .slip-toast-notice.visible {
-            transform: translateX(-50%) translateY(0);
+            transform: translateX(-50%) translateY(0) scale(1);
             opacity: 1;
             pointer-events: auto;
         }
 
         .slip-toast-notice:hover {
-            background: #2a0e10;
-            border-color: rgba(212, 175, 55, 0.95);
-        }
-            font-family: var(--font-sans);
-        }
-
-        .slip-toast-notice.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
+            background: rgba(36, 13, 17, 0.96);
+            border-color: rgba(212, 175, 55, 0.65);
+            box-shadow: 0 20px 42px -4px rgba(18, 6, 8, 0.6), 0 6px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18);
         }
 
-        .slip-toast-icon {
-            color: #d4af37;
+        .slip-toast-icon-wrap {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .slip-toast-icon-wrap.is-added {
+            background: rgba(212, 175, 55, 0.2);
+            color: #E8C87A;
+            border: 1px solid rgba(212, 175, 55, 0.45);
+        }
+
+        .slip-toast-icon-wrap.is-removed {
+            background: rgba(217, 83, 79, 0.2);
+            color: #f28b82;
+            border: 1px solid rgba(217, 83, 79, 0.4);
+        }
+
+        .slip-toast-text-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            min-width: 0;
+            flex: 1 1 auto;
+            line-height: 1.2;
+        }
+
+        .slip-toast-dish {
+            font-weight: 700;
+            color: #FFFFFF;
+            max-width: 170px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .slip-toast-status {
+            color: rgba(255, 248, 238, 0.72);
+            font-size: 0.78rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .slip-toast-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(212, 175, 55, 0.16);
+            color: #E8C87A;
+            border: 1px solid rgba(212, 175, 55, 0.38);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slip-toast-notice:hover .slip-toast-cta {
+            background: #D4AF37;
+            color: #1A0D0E;
+            border-color: #D4AF37;
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 600px) {
+            .slip-toast-notice {
+                top: 96px;
+                padding: 6px 8px 6px 10px;
+                gap: 8px;
+                max-width: calc(100vw - 24px);
+            }
+            .slip-toast-dish {
+                max-width: 130px;
+            }
         }
 
         .modal-add-slip-btn {
@@ -3804,18 +3937,66 @@ if (!empty($urlSlug)) {
 
             function showToast(message) {
                 if (!toastNotice) return;
-                toastNotice.innerHTML = `<span>${message}</span> <strong style="text-decoration:underline;margin-left:6px;color:#d4af37;">View ↗</strong>`;
+
+                let iconSvg = '';
+                let textHtml = '';
+                
+                // Parse "Added "Dish Name" to Dine-In list" or "Removed "Dish Name" from Dine-In list"
+                const match = message.match(/^(Added|Removed)\s+"([^"]+)"\s+(to|from)\s+(?:Dine-In\s+)?list/i);
+                if (match) {
+                    const isAdded = match[1].toLowerCase() === 'added';
+                    const dishName = match[2];
+                    iconSvg = isAdded
+                        ? `<div class="slip-toast-icon-wrap is-added"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>`
+                        : `<div class="slip-toast-icon-wrap is-removed"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="6" y1="12" x2="18" y2="12"/></svg></div>`;
+                    
+                    textHtml = `
+                        <div class="slip-toast-text-wrap">
+                            <span class="slip-toast-dish" title="${escapeHtml(dishName)}">${escapeHtml(dishName)}</span>
+                            <span class="slip-toast-status">${isAdded ? 'added' : 'removed'}</span>
+                        </div>
+                    `;
+                } else {
+                    const isClear = message.toLowerCase().includes('clear') || message.toLowerCase().includes('removed');
+                    iconSvg = `<div class="slip-toast-icon-wrap ${isClear ? 'is-removed' : 'is-added'}"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>`;
+                    textHtml = `
+                        <div class="slip-toast-text-wrap">
+                            <span class="slip-toast-dish">${escapeHtml(message)}</span>
+                        </div>
+                    `;
+                }
+
+                toastNotice.innerHTML = `
+                    ${iconSvg}
+                    ${textHtml}
+                    <div class="slip-toast-cta" role="button" aria-label="View Dine-In list">
+                        <span>View</span>
+                        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l10-10M17 17V7H7"/></svg>
+                    </div>
+                `;
+
                 toastNotice.classList.add('visible');
                 clearTimeout(toastTimer);
                 toastTimer = setTimeout(() => {
                     toastNotice.classList.remove('visible');
-                }, 3000);
+                }, 3200);
             }
 
             // Click toast notice to open list immediately
             toastNotice?.addEventListener('click', () => {
                 toastNotice.classList.remove('visible');
                 openSlipModal();
+            });
+
+            // Pause toast auto-dismiss while hovered
+            toastNotice?.addEventListener('mouseenter', () => {
+                clearTimeout(toastTimer);
+            });
+            toastNotice?.addEventListener('mouseleave', () => {
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => {
+                    toastNotice.classList.remove('visible');
+                }, 2000);
             });
 
             function getExpiryRemainingText() {
