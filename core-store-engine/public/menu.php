@@ -1634,12 +1634,12 @@ if (!empty($urlSlug)) {
             display: flex;
             align-items: center;
             gap: 5px;
-            font-size: 0.62rem;
+            font-size: 0.68rem;
             font-weight: 700;
             letter-spacing: 1px;
             color: #8a7153;
             text-transform: uppercase;
-            margin: 4px 0 8px;
+            margin: 8px 0 10px;
         }
 
         .diet-dot.veg {
@@ -2349,18 +2349,6 @@ if (!empty($urlSlug)) {
                                                 <?php if (!empty($dishDesc) && !$isSampleDesc): ?>
                                                     <p class="split-dish-desc"><?= htmlspecialchars($dishDesc) ?></p>
                                                 <?php endif; ?>
-
-                                                <div class="split-divider"></div>
-
-                                                <!-- 4 Highlights with Icons -->
-                                                <div class="split-highlights-list">
-                                                    <?php foreach ($highlights as $hl): ?>
-                                                        <div class="split-highlight-item">
-                                                            <span class="highlight-icon"><?= $hl['icon'] ?></span>
-                                                            <span class="highlight-name"><?= htmlspecialchars($hl['name']) ?></span>
-                                                        </div>
-                                                    <?php endforeach; ?>
-                                                </div>
 
                                                 <!-- Dietary Badge -->
                                                 <div class="split-diet-row">
