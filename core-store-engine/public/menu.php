@@ -1439,6 +1439,10 @@ if (!empty($urlSlug)) {
             overflow: hidden;
             background: #e8ded2;
             box-sizing: border-box;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            -webkit-mask-image: -webkit-radial-gradient(white, black);
+            transform: translateZ(0);
         }
 
         .split-card-img {
@@ -1527,6 +1531,8 @@ if (!empty($urlSlug)) {
             position: relative;
             box-sizing: border-box;
             overflow: hidden;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
         }
 
         .split-details-header {
@@ -1993,11 +1999,15 @@ if (!empty($urlSlug)) {
             .split-card-media {
                 flex: 0 0 47%;
                 min-height: 220px;
+                border-top-left-radius: 16px;
+                border-bottom-left-radius: 16px;
             }
 
             .split-card-details {
                 flex: 1 1 53%;
                 padding: 12px 10px;
+                border-top-right-radius: 16px;
+                border-bottom-right-radius: 16px;
             }
         }
 

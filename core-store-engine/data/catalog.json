@@ -792,7 +792,7 @@
         "is_chef_special": false,
         "chef_special_note": "",
         "card_style": {
-            "bg_color": "#831100",
+            "bg_color": "#aa7942",
             "border_color": "#791a3e",
             "accent_color": "",
             "animation": "none"
@@ -969,14 +969,15 @@
     {
         "id": "past_1",
         "name": "Moonlit Alfredo",
-        "particular": "Alfredo",
         "description": "",
+        "tagline": "",
         "price": "\u20b9350",
         "badge": "Pasta",
         "is_veg": true,
         "featured": true,
         "available": true,
         "image": "https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=700&q=80",
+        "custom_fields": [],
         "order": 1,
         "is_chef_special": true,
         "chef_special_note": "Signature Artisan Craft",
@@ -984,7 +985,7 @@
             "bg_color": "",
             "border_color": "",
             "accent_color": "",
-            "animation": "gradient_shimmer"
+            "animation": "gold_aura"
         }
     },
     {
