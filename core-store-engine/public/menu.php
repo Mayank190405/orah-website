@@ -2049,25 +2049,25 @@ if (!empty($urlSlug)) {
                     <div class="search-recommendation-chips">
                         <span class="recommendation-label">Recommendations:</span>
                         <button type="button" class="recom-chip chip-chef-special" data-recom="chef_special">
-                            <span>📎</span> Chef's Specials
+                            Chef's Specials
                         </button>
                         <button type="button" class="recom-chip" data-recom="featured">
-                            ★ Signatures
+                            Signatures
                         </button>
                         <button type="button" class="recom-chip" data-recom="truffle">
-                            🍄 Truffle Picks
+                            Truffle Picks
                         </button>
                         <button type="button" class="recom-chip" data-recom="sourdough">
-                            🥖 Sourdough Flatbreads
+                            Sourdough Flatbreads
                         </button>
                         <button type="button" class="recom-chip" data-recom="veg">
-                            🌱 Pure Veg
+                            Pure Veg
                         </button>
                         <button type="button" class="recom-chip" data-recom="pasta">
-                            🍝 Artisan Pastas
+                            Artisan Pastas
                         </button>
                         <button type="button" class="recom-chip" data-recom="dessert">
-                            🍫 Desserts
+                            Desserts
                         </button>
                     </div>
 
@@ -2991,13 +2991,13 @@ if (!empty($urlSlug)) {
                     titleText = `Found ${matches.length} matching "${query}"`;
                 } else if (activeFilter) {
                     const labels = {
-                        chef_special: "✦ Chef's Special Picks (With Paper Clip Tag)",
-                        featured: "★ Signature House Creations",
-                        truffle: "🍄 Truffle & Forest Mushroom Delights",
-                        sourdough: "🥖 Hand-Stretched Sourdough Melts",
-                        veg: "🌱 Pure Vegetarian Selections",
-                        pasta: "🍝 House-Made Fresh Artisan Pastas",
-                        dessert: "🍫 Sweet Endings & Molten Confections"
+                        chef_special: "Chef's Special Picks (With Paper Clip Tag)",
+                        featured: "Signature House Creations",
+                        truffle: "Truffle & Forest Mushroom Delights",
+                        sourdough: "Hand-Stretched Sourdough Melts",
+                        veg: "Pure Vegetarian Selections",
+                        pasta: "House-Made Fresh Artisan Pastas",
+                        dessert: "Sweet Endings & Molten Confections"
                     };
                     titleText = labels[activeFilter] || `Curated Selections (${matches.length})`;
                 }
@@ -3007,7 +3007,6 @@ if (!empty($urlSlug)) {
                 if (matches.length === 0) {
                     resultsGrid.innerHTML = `
                         <div style="grid-column: 1 / -1; padding: 32px 16px; text-align: center; color: #8c7365;">
-                            <div style="font-size: 2rem; margin-bottom: 8px;">🍽️</div>
                             <div style="font-weight: 600; font-size: 1rem; color: #500f12;">No dishes found matching your criteria</div>
                             <div style="font-size: 0.82rem; margin-top: 4px;">Try another search term or click one of our curated recommendations above.</div>
                         </div>
@@ -3019,7 +3018,7 @@ if (!empty($urlSlug)) {
                         
                         let specialBadge = '';
                         if (d.is_chef_special) {
-                            specialBadge = '<span class="result-special-pill">📎 Chef\'s Special</span>';
+                            specialBadge = '<span class="result-special-pill">Chef\'s Special</span>';
                         }
                         const vegDot = d.is_veg ? '<span style="color:#2e7d32;font-size:0.75rem;">● Veg</span>' : '<span style="color:#c62828;font-size:0.75rem;">● Non-Veg</span>';
 
