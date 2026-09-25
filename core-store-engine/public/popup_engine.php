@@ -102,7 +102,7 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
 .layout-center_modal .orah-popup-card {
     background: #FAF6EE;
     border-radius: 24px;
-    max-width: 520px;
+    max-width: 540px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
@@ -297,7 +297,7 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
 .popup-form {
     display: flex;
     flex-direction: column;
-    gap: 13px;
+    gap: 14px;
     width: 100%;
     box-sizing: border-box;
 }
@@ -305,7 +305,7 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
 .popup-form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 14px;
     width: 100%;
     box-sizing: border-box;
 }
@@ -313,55 +313,72 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
 .popup-input-wrap {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
     width: 100%;
     box-sizing: border-box;
     min-width: 0;
 }
 
 .popup-label {
-    font-size: 0.72rem;
+    font-size: 0.74rem;
     font-weight: 700;
     color: #4a3e35;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.7px;
 }
 
 .popup-input, .popup-select, .popup-textarea {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    padding: 10px 14px;
-    font-size: 0.88rem;
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 0.94rem;
     font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: #1e1e1e;
     background: #ffffff;
-    border: 1px solid rgba(104, 20, 24, 0.16);
-    border-radius: 10px;
+    border: 1.5px solid rgba(104, 20, 24, 0.18);
+    border-radius: 12px;
     outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.popup-select {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23681418' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 14px) center;
+    background-size: 16px 16px;
+    padding-right: 42px;
+    line-height: 1.45;
+}
+
 .popup-input:focus, .popup-select:focus, .popup-textarea:focus {
     border-color: #681418;
-    box-shadow: 0 0 0 3px rgba(104, 20, 24, 0.08);
+    box-shadow: 0 0 0 3px rgba(104, 20, 24, 0.10);
+    background-color: #ffffff;
 }
 
 .popup-textarea {
     resize: vertical;
-    min-height: 68px;
-    line-height: 1.4;
+    min-height: 80px;
+    line-height: 1.45;
 }
 
 .popup-submit-btn {
     width: 100%;
     box-sizing: border-box;
+    min-height: 50px;
     background: #681418;
     color: #ffffff;
     border: none;
     border-radius: 50px;
-    padding: 13px 22px;
-    font-size: 0.88rem;
+    padding: 14px 24px;
+    font-size: 0.92rem;
     font-weight: 700;
     letter-spacing: 0.6px;
     cursor: pointer;
@@ -517,13 +534,13 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
     }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 580px) {
     .popup-body {
-        padding: 20px 18px 24px;
+        padding: 22px 18px 26px;
     }
     .popup-form-row {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 14px;
     }
 }
 </style>

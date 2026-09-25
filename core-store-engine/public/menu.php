@@ -170,12 +170,56 @@ foreach ($sections as $k => $v) {
     }
 }
 $sectionKeys = array_keys($orderedSections);
+
+// Canonical slug helper for menu routing
+function getCanonicalCategorySlug($catName) {
+    $cleaned = strtolower(trim($catName));
+    if ($cleaned === 'pizzas' || $cleaned === 'pizza') return 'pizza';
+    if ($cleaned === 'flat breads' || $cleaned === 'flatbreads') return 'flat-breads';
+    if ($cleaned === 'pasta' || $cleaned === 'pastas') return 'pasta';
+    if ($cleaned === 'desserts' || $cleaned === 'dessert') return 'desserts';
+    if ($cleaned === 'appetizers' || $cleaned === 'appetizer') return 'appetizers';
+    if ($cleaned === 'beverages' || $cleaned === 'beverage') return 'beverages';
+    return strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $catName), '-'));
+}
+
+// Compute base URL for relative assets and routing
+$scriptName = $_SERVER['SCRIPT_NAME'] ?? '/menu.php';
+$baseDir = rtrim(dirname($scriptName), '/\\');
+$baseUrl = ($baseDir === '' || $baseDir === '.') ? '/' : $baseDir . '/';
+
+// Parse requested category slug from PATH_INFO or REQUEST_URI
+$requestUri = $_SERVER['REQUEST_URI'] ?? '';
+$pathInfo = $_SERVER['PATH_INFO'] ?? '';
+if (empty($pathInfo) && strpos($requestUri, 'menu.php/') !== false) {
+    $parts = explode('menu.php/', $requestUri, 2);
+    $pathInfo = '/' . strtok($parts[1] ?? '', '?#');
+}
+
+$urlSlug = strtolower(trim($pathInfo, '/'));
+
+$initialSectionKey = null;
+if (!empty($urlSlug)) {
+    foreach ($sectionKeys as $sKey) {
+        $canonical = getCanonicalCategorySlug($sKey);
+        $rawSlug = strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $sKey), '-'));
+        if ($urlSlug === $canonical || 
+            $urlSlug === $rawSlug || 
+            rtrim($urlSlug, 's') === rtrim($canonical, 's') ||
+            rtrim($urlSlug, 's') === rtrim($rawSlug, 's') ||
+            str_replace('-', '', $urlSlug) === str_replace('-', '', $canonical)) {
+            $initialSectionKey = $sKey;
+            break;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="<?= htmlspecialchars($baseUrl) ?>">
     <title>Curated Menu &bull; Orah House Nashik</title>
     <meta name="description" content="Explore the authentic architectural menu of Orah House Nashik. Hand-stretched sourdough flatbreads, Neapolitan pizzas, specialty coffees, and artisan pastas.">
     
@@ -2424,10 +2468,46 @@ $sectionKeys = array_keys($orderedSections);
             const modalDiet = document.getElementById('modalDishDiet');
             const modalCfContainer = document.getElementById('modalCustomFieldsContainer');
 
+            const initialRouteSection = <?= json_encode($initialSectionKey) ?>;
+            const baseUrl = <?= json_encode($baseUrl) ?>;
+
             // Get display name for labels
             function getCleanName(key) {
                 if (!key) return '';
                 return (key === 'Pasta') ? 'Pastas' : key;
+            }
+
+            // Canonical slug mapping (e.g. Pizzas -> pizza, Flat Breads -> flat-breads)
+            function getCanonicalSlug(catName) {
+                if (!catName) return '';
+                const cleaned = catName.toLowerCase().trim();
+                if (cleaned === 'pizzas' || cleaned === 'pizza') return 'pizza';
+                if (cleaned === 'flat breads' || cleaned === 'flatbreads') return 'flat-breads';
+                if (cleaned === 'pasta' || cleaned === 'pastas') return 'pasta';
+                if (cleaned === 'desserts' || cleaned === 'dessert') return 'desserts';
+                if (cleaned === 'appetizers' || cleaned === 'appetizer') return 'appetizers';
+                if (cleaned === 'beverages' || cleaned === 'beverage') return 'beverages';
+                return cleaned.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            }
+
+            // Match route string (path or hash) to existing section key
+            function matchSectionFromRoute(routeStr) {
+                if (!routeStr) return null;
+                const clean = routeStr.replace(/^#/, '').replace(/^\/?menu\.php\/?/, '').replace(/^\//, '').toLowerCase().trim();
+                if (!clean) return null;
+
+                for (const key of sectionKeys) {
+                    const canonical = getCanonicalSlug(key);
+                    const rawSlug = key.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+                    if (clean === canonical || 
+                        clean === rawSlug ||
+                        clean.replace(/s$/, '') === canonical.replace(/s$/, '') ||
+                        clean.replace(/s$/, '') === rawSlug.replace(/s$/, '') ||
+                        clean.replace(/-/g, '') === canonical.replace(/-/g, '')) {
+                        return key;
+                    }
+                }
+                return null;
             }
 
             // Dynamically adjust viewport height to fit active section cleanly
@@ -2464,7 +2544,7 @@ $sectionKeys = array_keys($orderedSections);
             }
 
             // Slide to a specific section with silky ease-out
-            function goToSection(index, animated = true, allowScroll = false) {
+            function goToSection(index, animated = true, allowScroll = false, updateUrl = true) {
                 if (isAnimating && animated) return;
                 if (index < 0) index = 0;
                 if (index >= totalSections) index = totalSections - 1;
@@ -2494,10 +2574,16 @@ $sectionKeys = array_keys($orderedSections);
                 // Update dock labels
                 updateDockLabels();
 
-                // Update URL hash without scroll jumps
-                const activeKey = sectionKeys[currentSectionIndex];
-                if (activeKey) {
-                    history.replaceState(null, '', '#' + encodeURIComponent(activeKey.toLowerCase().replace(/[\s&]+/g, '-')));
+                // Update URL to /menu.php/{category}
+                if (updateUrl) {
+                    const activeKey = sectionKeys[currentSectionIndex];
+                    if (activeKey) {
+                        const slug = getCanonicalSlug(activeKey);
+                        const targetPath = baseUrl + 'menu.php/' + slug;
+                        if (window.location.pathname !== targetPath) {
+                            history.replaceState({ section: activeKey }, '', targetPath);
+                        }
+                    }
                 }
 
                 // Only smoothly scroll if user tapped dock while far down the page
@@ -2507,13 +2593,13 @@ $sectionKeys = array_keys($orderedSections);
             }
 
             // Show Detailed Menu
-            function openDetailView(sectionKey) {
+            function openDetailView(sectionKey, updateUrl = true) {
                 let targetIndex = sectionKeys.findIndex(k => k === sectionKey);
                 if (targetIndex === -1) targetIndex = 0;
 
                 overviewView.style.display = 'none';
                 detailView.style.display = 'block';
-                goToSection(targetIndex, false, false);
+                goToSection(targetIndex, false, false, updateUrl);
                 updateViewportHeight(targetIndex);
 
                 requestAnimationFrame(() => {
@@ -2524,7 +2610,7 @@ $sectionKeys = array_keys($orderedSections);
             }
 
             // Return to Overview (First Page)
-            function showOverview() {
+            function showOverview(updateUrl = true) {
                 detailView.style.opacity = '0';
                 setTimeout(() => {
                     detailView.style.display = 'none';
@@ -2533,11 +2619,13 @@ $sectionKeys = array_keys($orderedSections);
                 }, 200);
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                history.replaceState(null, '', window.location.pathname);
+                if (updateUrl) {
+                    history.pushState(null, '', baseUrl + 'menu.php');
+                }
             }
 
-            backBtn?.addEventListener('click', showOverview);
-            dockExploreBtn?.addEventListener('click', showOverview);
+            backBtn?.addEventListener('click', () => showOverview(true));
+            dockExploreBtn?.addEventListener('click', () => showOverview(true));
 
             // Dock Prev / Next Click Handlers
             dockPrevBtn?.addEventListener('click', () => {
@@ -2992,6 +3080,39 @@ $sectionKeys = array_keys($orderedSections);
                         if (chefChip) chefChip.click();
                     }
                 }, 150);
+            });
+
+            // =========================================================================
+            // URL ROUTING & PERSISTENT DEEP LINKING
+            // =========================================================================
+            // Detect if a category was requested via URL path (/menu.php/pizza) or hash (#pizzas)
+            const hashSection = matchSectionFromRoute(window.location.hash);
+            const pathSection = matchSectionFromRoute(window.location.pathname);
+            const targetOnLoad = initialRouteSection || hashSection || pathSection;
+
+            if (targetOnLoad) {
+                openDetailView(targetOnLoad, true);
+            }
+
+            // Handle browser Back & Forward navigation
+            window.addEventListener('popstate', (e) => {
+                const stateSection = e.state && e.state.section;
+                const urlSection = matchSectionFromRoute(window.location.pathname) || matchSectionFromRoute(window.location.hash);
+                const sectionToOpen = stateSection || urlSection;
+
+                if (sectionToOpen) {
+                    openDetailView(sectionToOpen, false);
+                } else {
+                    showOverview(false);
+                }
+            });
+
+            // Handle manual or anchor hash changes
+            window.addEventListener('hashchange', () => {
+                const hashMatch = matchSectionFromRoute(window.location.hash);
+                if (hashMatch) {
+                    openDetailView(hashMatch, true);
+                }
             });
 
             updateDockLabels();
