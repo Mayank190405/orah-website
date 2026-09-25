@@ -728,7 +728,7 @@ if (!empty($urlSlug)) {
             max-width: 900px;
             width: 100%;
             margin: 0 auto;
-            padding: 0 0 130px;
+            padding: 0;
             overflow: hidden;
             touch-action: pan-y;
             box-sizing: border-box;
@@ -754,7 +754,7 @@ if (!empty($urlSlug)) {
             min-width: 100%;
             max-width: 100%;
             box-sizing: border-box;
-            padding: 14px 16px 0;
+            padding: 14px 16px 140px;
             overflow: hidden;
             opacity: 1;
             transform: translate3d(0, 0, 0);
@@ -1672,27 +1672,47 @@ if (!empty($urlSlug)) {
         }
 
         /* ==========================================================================
-           FLOATING SLIDE NAVIGATION DOCK
+           FLOATING SLIDE NAVIGATION DOCK & CROSS-BROWSER OVERLAY SCRIM
            ========================================================================== */
+        .dock-backdrop-scrim {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(to top, rgba(251, 246, 238, 0.98) 0%, rgba(251, 246, 238, 0.82) 48%, rgba(251, 246, 238, 0) 100%);
+            pointer-events: none;
+            z-index: 990;
+        }
+
         .floating-slide-dock {
             position: fixed;
-            bottom: 16px;
+            bottom: 18px;
             left: 50%;
             transform: translateX(-50%);
             width: calc(100% - 24px);
-            max-width: 430px;
-            background: rgba(248, 243, 235, 0.94);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            max-width: 440px;
+            background: #FAF6EE; /* Solid fallback for browsers without backdrop-filter */
+            background: rgba(251, 246, 238, 0.96);
             border-radius: 40px;
-            box-shadow: 0 12px 36px rgba(45, 20, 15, 0.16);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 14px 40px rgba(45, 20, 15, 0.18), 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1.5px solid rgba(255, 255, 255, 0.95);
             z-index: 999;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 6px 12px;
+            padding: 7px 14px;
             box-sizing: border-box;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
+            .floating-slide-dock {
+                background: rgba(251, 246, 238, 0.92);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+            }
         }
 
         .dock-nav-btn {
@@ -1958,11 +1978,11 @@ if (!empty($urlSlug)) {
             }
 
             .swipe-deck-viewport {
-                padding: 0 0 120px;
+                padding: 0;
             }
 
             .section-slide-pane {
-                padding: 10px 12px 0;
+                padding: 10px 12px 140px;
             }
 
             .dish-split-card {
@@ -2372,6 +2392,9 @@ if (!empty($urlSlug)) {
                 </div>
             </div>
 
+            <!-- Ambient Bottom Gradient Scrim (Fades content gracefully behind dock) -->
+            <div class="dock-backdrop-scrim" aria-hidden="true"></div>
+
             <!-- Floating Slide Navigation Dock matching reference mockup -->
             <aside class="floating-slide-dock" id="floatingSlideDock" aria-label="Menu category slide dock">
                 <!-- Previous Section -->
@@ -2514,12 +2537,27 @@ if (!empty($urlSlug)) {
             function updateViewportHeight(targetIdx = currentSectionIndex) {
                 const pane = sectionPanes[targetIdx];
                 if (pane && viewport) {
-                    const h = pane.offsetHeight;
+                    const h = Math.max(pane.scrollHeight || 0, pane.offsetHeight || 0);
                     if (h > 0) {
                         viewport.style.height = h + 'px';
                     }
                 }
             }
+
+            // Continuous height observer for dynamic font/image rendering across all browsers
+            if (window.ResizeObserver) {
+                const paneObserver = new ResizeObserver(() => {
+                    updateViewportHeight(currentSectionIndex);
+                });
+                sectionPanes.forEach(pane => paneObserver.observe(pane));
+            }
+
+            // Hook into image load events to adjust height immediately as dish photos finish loading
+            viewport?.querySelectorAll('img').forEach(img => {
+                if (!img.complete) {
+                    img.addEventListener('load', () => updateViewportHeight(currentSectionIndex), { once: true });
+                }
+            });
 
             // Update dock previous and next labels with soft cross-fade
             function updateDockLabels() {
