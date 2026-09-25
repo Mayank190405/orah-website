@@ -740,7 +740,7 @@ if (!empty($urlSlug)) {
             min-width: 100%;
             max-width: 100%;
             box-sizing: border-box;
-            padding: 14px 16px 140px;
+            padding: 14px 16px 210px;
             overflow: hidden;
             opacity: 1;
             transform: translate3d(0, 0, 0);
@@ -758,9 +758,9 @@ if (!empty($urlSlug)) {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 22px;
-            padding: 8px 0 4px;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding: 4px 0 2px;
             width: 100%;
             max-width: 100%;
             box-sizing: border-box;
@@ -778,32 +778,32 @@ if (!empty($urlSlug)) {
             color: #a08264;
             text-transform: uppercase;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .editorial-title {
             font-family: 'Dream Avenue', 'Cormorant Garamond', Georgia, serif;
-            font-size: clamp(2.3rem, 6vw, 3.4rem);
+            font-size: clamp(2.2rem, 5.5vw, 3.2rem);
             color: var(--burgundy);
-            line-height: 1.02;
+            line-height: 1.04;
             font-weight: 400;
-            margin: 0 0 8px;
+            margin: 0 0 6px;
             letter-spacing: 0.3px;
             word-break: break-word;
         }
 
         .editorial-title-underline {
-            width: 34px;
+            width: 32px;
             height: 2px;
             background: var(--burgundy);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .editorial-desc {
-            font-size: clamp(0.82rem, 1.8vw, 0.92rem);
+            font-size: clamp(0.80rem, 1.8vw, 0.90rem);
             color: #5d564e;
             max-width: 440px;
-            line-height: 1.45;
+            line-height: 1.42;
             margin: 0;
             word-break: break-word;
         }
@@ -812,9 +812,10 @@ if (!empty($urlSlug)) {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 6px;
+            gap: 5px;
             flex-shrink: 0;
             min-width: 0;
+            padding-top: 2px;
         }
 
         .editorial-header-actions-row {
@@ -828,12 +829,12 @@ if (!empty($urlSlug)) {
             align-items: center;
             gap: 6px;
             background: #ffffff;
-            border: 1px solid rgba(104, 20, 24, 0.22);
+            border: 1.5px solid rgba(104, 20, 24, 0.18);
             color: #681418;
             font-family: var(--font-sans);
-            font-size: 0.82rem;
+            font-size: 0.80rem;
             font-weight: 700;
-            padding: 5px 13px;
+            padding: 5px 12px;
             border-radius: 20px;
             cursor: pointer;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -841,6 +842,7 @@ if (!empty($urlSlug)) {
             white-space: nowrap;
             user-select: none;
             text-decoration: none;
+            line-height: 1.2;
         }
 
         .editorial-slip-btn:hover {
@@ -857,6 +859,18 @@ if (!empty($urlSlug)) {
         .editorial-slip-btn svg {
             color: #681418;
             flex-shrink: 0;
+        }
+
+        .editorial-slip-btn .slip-badge-count {
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 10px;
+            background: #681418;
+            color: #ffffff;
+            font-size: 0.68rem;
+            font-weight: 800;
+            margin-left: 2px;
         }
 
         .editorial-counter-box {
@@ -885,12 +899,12 @@ if (!empty($urlSlug)) {
 
         .editorial-cursive-quote {
             position: relative;
-            margin-top: 10px;
+            margin-top: 4px;
             font-family: 'Caveat', cursive;
-            font-size: clamp(1.2rem, 3vw, 1.7rem);
+            font-size: clamp(1.15rem, 2.6vw, 1.45rem);
             color: #a67c52;
             white-space: nowrap;
-            transform: rotate(-6deg);
+            transform: rotate(-3.5deg);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -898,9 +912,9 @@ if (!empty($urlSlug)) {
 
         .cursive-underline-svg {
             width: 100%;
-            height: 10px;
+            height: 9px;
             color: #a67c52;
-            margin-top: -4px;
+            margin-top: -3px;
             opacity: 0.85;
         }
 
@@ -1784,7 +1798,7 @@ if (!empty($urlSlug)) {
             pointer-events: none;
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             width: calc(100% - 32px);
-            max-width: 440px;
+            max-width: 420px;
         }
 
         .floating-dine-in-slip.visible {
@@ -1794,20 +1808,20 @@ if (!empty($urlSlug)) {
         }
 
         body.in-detailed-view .floating-dine-in-slip.visible {
-            bottom: 92px;
+            bottom: 80px;
         }
 
         .dine-in-slip-pill {
             width: 100%;
             background: linear-gradient(135deg, #1C0A0D 0%, #3B0D12 100%);
             border: 1.5px solid rgba(212, 175, 55, 0.55);
-            border-radius: 36px;
-            padding: 10px 18px;
+            border-radius: 30px;
+            padding: 7px 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            box-shadow: 0 14px 38px rgba(0, 0, 0, 0.48), 0 0 25px rgba(104, 20, 24, 0.35);
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.42), 0 0 18px rgba(104, 20, 24, 0.28);
             cursor: pointer;
             color: #FAF5EB;
             font-family: var(--font-sans);
@@ -1816,24 +1830,24 @@ if (!empty($urlSlug)) {
 
         .dine-in-slip-pill:hover {
             transform: translateY(-2px);
-            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.52), 0 0 28px rgba(212, 175, 55, 0.45);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.48), 0 0 24px rgba(212, 175, 55, 0.45);
             border-color: rgba(212, 175, 55, 0.9);
         }
 
         .slip-pill-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-align: left;
         }
 
         .slip-pill-icon {
-            font-size: 1.25rem;
+            font-size: 1.05rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 38px;
-            height: 38px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.12);
             border: 1px solid rgba(212, 175, 55, 0.35);
@@ -1843,18 +1857,18 @@ if (!empty($urlSlug)) {
         .slip-pill-text-wrap {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
         }
 
         .slip-pill-title {
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             font-weight: 800;
             color: #FAF5EB;
             letter-spacing: 0.3px;
         }
 
         .slip-pill-sub {
-            font-size: 0.74rem;
+            font-size: 0.70rem;
             color: rgba(250, 245, 235, 0.82);
             font-weight: 600;
         }
@@ -1862,16 +1876,16 @@ if (!empty($urlSlug)) {
         .slip-pill-right {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
             color: #1A0D0E;
             font-weight: 800;
-            font-size: 0.76rem;
-            padding: 7px 15px;
-            border-radius: 20px;
-            letter-spacing: 0.4px;
+            font-size: 0.72rem;
+            padding: 5px 12px;
+            border-radius: 18px;
+            letter-spacing: 0.3px;
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 2px 6px rgba(212, 175, 55, 0.35);
         }
 
         /* =========================================================================
@@ -2770,7 +2784,16 @@ if (!empty($urlSlug)) {
             }
 
             .section-slide-pane {
-                padding: 10px 12px 140px;
+                padding: 10px 14px 210px;
+            }
+
+            .editorial-header-actions-row {
+                gap: 8px;
+            }
+
+            .editorial-slip-btn {
+                padding: 4px 10px;
+                font-size: 0.76rem;
             }
 
             .dish-split-card {
