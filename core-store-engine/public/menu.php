@@ -1833,7 +1833,7 @@ if (!empty($urlSlug)) {
         }
 
         /* =========================================================================
-           DINE-IN ORDER SLIP MODAL & WAITER MODE
+           DINE-IN SAVED DISHES LIST MODAL
            ========================================================================= */
         .slip-modal-backdrop {
             position: fixed;
@@ -1930,32 +1930,7 @@ if (!empty($urlSlug)) {
         .slip-header-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .btn-waiter-mode-toggle,
-        .waiter-mode-toggle-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: #FAF5EB;
-            border: 1px solid rgba(104, 20, 24, 0.2);
-            color: var(--burgundy);
-            padding: 6px 12px;
-            border-radius: 16px;
-            font-size: 0.76rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-waiter-mode-toggle:hover,
-        .btn-waiter-mode-toggle.active,
-        .waiter-mode-toggle-btn:hover,
-        .waiter-mode-toggle-btn.active {
-            background: var(--burgundy);
-            color: #ffffff;
-            border-color: var(--burgundy);
+            gap: 10px;
         }
 
         .slip-modal-close {
@@ -1975,82 +1950,13 @@ if (!empty($urlSlug)) {
             background: rgba(104, 20, 24, 0.06);
         }
 
-        /* 3-Hour Auto-Expiry Notice Banner */
-        .slip-expiry-banner {
-            background: #FFF8E7;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.35);
-            padding: 10px 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.78rem;
-            color: #694D0C;
-            flex-shrink: 0;
-        }
-
-        .slip-expiry-icon {
-            font-size: 1.15rem;
-            flex-shrink: 0;
-        }
-
-        .slip-expiry-text {
-            flex: 1;
-            line-height: 1.35;
-        }
-
-        .slip-expiry-timer {
-            display: inline-block;
-            margin-left: 6px;
-            background: #681418;
-            color: #ffffff;
-            font-size: 0.70rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 10px;
-            letter-spacing: 0.3px;
-        }
-
-        .slip-table-row,
-        .slip-table-meta-bar {
-            padding: 10px 18px;
-            background: rgba(255, 255, 255, 0.7);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        .table-input-wrap,
-        .slip-table-input-wrap {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: #5a5046;
-        }
-
-        .table-input-wrap input,
-        .slip-table-input-wrap input {
-            width: 120px;
-            padding: 5px 9px;
-            border-radius: 6px;
-            border: 1px solid rgba(104, 20, 24, 0.2);
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--primary-accent);
-            background: #ffffff;
-        }
-
         .slip-item-summary-pill,
         .slip-count-badge {
             font-size: 0.74rem;
             font-weight: 800;
             color: var(--burgundy);
             background: rgba(104, 20, 24, 0.08);
-            padding: 3px 10px;
+            padding: 4px 10px;
             border-radius: 12px;
         }
 
@@ -2058,7 +1964,7 @@ if (!empty($urlSlug)) {
         .slip-items-container {
             flex: 1 1 auto;
             overflow-y: auto;
-            padding: 12px 18px;
+            padding: 14px 18px;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -2220,60 +2126,53 @@ if (!empty($urlSlug)) {
             outline: none;
         }
 
-        /* WAITER MODE: HIGH CONTRAST & LARGE TYPE */
-        .slip-modal-backdrop.waiter-mode .slip-modal-dialog,
-        .slip-modal-dialog.waiter-mode {
-            background: #ffffff !important;
+        /* Top of List: Total Dishes */
+        .slip-list-top-bar {
+            padding: 10px 20px;
+            background: #ffffff;
+            border-bottom: 1px solid rgba(104, 20, 24, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
         }
 
-        .slip-modal-backdrop.waiter-mode .slip-dish-card,
-        .slip-modal-backdrop.waiter-mode .slip-item-row,
-        .slip-modal-dialog.waiter-mode .slip-dish-card,
-        .slip-modal-dialog.waiter-mode .slip-item-row {
-            background: #fdfbf7;
-            border: 2.5px solid #000000;
-            padding: 14px 16px;
-            border-radius: 12px;
+        .slip-total-dishes-label {
+            font-size: 0.95rem;
+            color: #1A0D0E;
+            font-weight: 600;
         }
 
-        .slip-modal-backdrop.waiter-mode .slip-dish-name,
-        .slip-modal-backdrop.waiter-mode .slip-item-title,
-        .slip-modal-dialog.waiter-mode .slip-dish-name,
-        .slip-modal-dialog.waiter-mode .slip-item-title {
-            font-size: 1.35rem !important;
-            font-weight: 800 !important;
-            color: #000000 !important;
-            white-space: normal !important;
-            line-height: 1.25 !important;
-        }
-
-        .slip-modal-backdrop.waiter-mode .slip-stepper-val,
-        .slip-modal-backdrop.waiter-mode .slip-qty-val,
-        .slip-modal-dialog.waiter-mode .slip-stepper-val,
-        .slip-modal-dialog.waiter-mode .slip-qty-val {
-            font-size: 1.25rem !important;
-            font-weight: 900 !important;
-            color: #681418 !important;
-        }
-
-        .slip-modal-backdrop.waiter-mode .slip-dish-thumb,
-        .slip-modal-backdrop.waiter-mode .slip-item-thumb,
-        .slip-modal-dialog.waiter-mode .slip-dish-thumb,
-        .slip-modal-dialog.waiter-mode .slip-item-thumb {
-            width: 64px;
-            height: 64px;
-        }
-
-        .slip-modal-backdrop.waiter-mode .slip-expiry-banner {
-            background: #000000;
-            color: #ffffff;
+        .slip-total-dishes-label strong {
+            color: #681418;
             font-weight: 800;
+            font-size: 1.12rem;
+            margin-left: 2px;
         }
 
-        .slip-modal-backdrop.waiter-mode .slip-expiry-timer {
-            background: #d4af37;
-            color: #000000;
+        /* 3-Hour Auto-Expiry Notice (Out of box, small, without image, with hh:mm:ss) */
+        .slip-expiry-plain-note {
+            font-size: 0.74rem;
+            color: #8a7153;
+            text-align: center;
+            line-height: 1.35;
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-family: var(--font-sans);
+        }
+
+        .slip-expiry-plain-note strong {
+            color: #681418;
+            font-weight: 700;
+        }
+
+        .slip-expiry-timer-digits {
             font-weight: 800;
+            color: #681418;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.5px;
         }
 
         /* Empty State */
@@ -2305,7 +2204,7 @@ if (!empty($urlSlug)) {
             line-height: 1.4;
         }
 
-        /* Slip Footer (NO PRICING) */
+        /* Slip Footer (NO PRICING • MINIMAL & CLEAN) */
         .slip-modal-footer {
             background: #ffffff;
             border-top: 1px solid rgba(104, 20, 24, 0.1);
@@ -2316,91 +2215,42 @@ if (!empty($urlSlug)) {
             flex-shrink: 0;
         }
 
-        .slip-summary-footer-row {
+        .slip-footer-btns {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 4px;
+            gap: 12px;
         }
 
-        .slip-total-dishes-label {
-            font-size: 0.94rem;
-            color: #1A0D0E;
-            font-weight: 600;
-        }
-
-        .slip-total-dishes-label strong {
-            color: #681418;
-            font-weight: 800;
-            font-size: 1.08rem;
-        }
-
-        .slip-expiry-footer-note {
-            font-size: 0.72rem;
-            color: #8a7153;
-            font-weight: 600;
-        }
-
-        .slip-footer-btns,
-        .slip-action-buttons {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .btn-clear-slip,
-        .slip-clear-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: #FAF5EB;
-            border: 1px solid rgba(153, 27, 27, 0.2);
-            color: #991b1b;
-            font-size: 0.78rem;
-            font-weight: 700;
-            padding: 9px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-clear-slip:hover,
-        .slip-clear-btn:hover {
-            background: #fee2e2;
-        }
-
-        .btn-whatsapp-share-slip,
-        .slip-share-btn {
-            flex: 1 1 auto;
-            background: #15803d;
-            border: 1px solid #166534;
-            color: #ffffff;
-            font-size: 0.80rem;
-            font-weight: 700;
-            padding: 9px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            text-align: center;
+        .btn-clear-slip {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            background: #FAF5EB;
+            border: 1px solid rgba(153, 27, 27, 0.2);
+            color: #991b1b;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .btn-whatsapp-share-slip:hover,
-        .slip-share-btn:hover {
-            background: #166534;
+        .btn-clear-slip:hover {
+            background: #fee2e2;
         }
 
         .btn-done-ordering {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background: var(--burgundy);
             border: 1px solid var(--burgundy);
             color: #ffffff;
-            font-size: 0.80rem;
+            font-size: 0.84rem;
             font-weight: 700;
-            padding: 9px 18px;
+            padding: 10px 20px;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -2924,7 +2774,7 @@ if (!empty($urlSlug)) {
                     </div>
 
                     <div class="masthead-right-actions" style="display:flex; align-items:center; gap:8px;">
-                        <button type="button" class="masthead-back-link masthead-slip-toggle" id="overviewSlipBtn" aria-label="View Dine-In Order Slip">
+                        <button type="button" class="masthead-back-link masthead-slip-toggle" id="overviewSlipBtn" aria-label="View Dine-In List">
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h4"/></svg>
                             <span>Dine-In</span>
                             <span class="slip-badge-count" style="display:none;">0</span>
@@ -3076,7 +2926,7 @@ if (!empty($urlSlug)) {
                     </div>
 
                     <div class="detail-nav-right-actions" style="display:flex; align-items:center; gap:8px;">
-                        <button type="button" class="detail-search-trigger-btn detail-slip-btn" id="detailSlipTriggerBtn" aria-label="View Dine-In Order Slip">
+                        <button type="button" class="detail-search-trigger-btn detail-slip-btn" id="detailSlipTriggerBtn" aria-label="View Dine-In List">
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h4"/></svg>
                             <span>Dine-In</span>
                             <span class="slip-badge-count" style="display:none;">0</span>
@@ -3394,18 +3244,18 @@ if (!empty($urlSlug)) {
                 <div class="dish-modal-actions" style="margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(104,20,24,0.08); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
                     <button type="button" class="modal-add-to-slip-btn" id="modalAddToSlipBtn">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-                        <span id="modalSlipBtnText">Add to Dine-In Slip</span>
+                        <span id="modalSlipBtnText">Add to Dine-In List</span>
                     </button>
                     <button type="button" class="modal-view-slip-link" id="modalViewSlipLink" style="font-size: 0.8rem; font-weight: 700; color: #681418; background: none; border: none; cursor: pointer; text-decoration: underline; padding: 4px 6px;">
-                        View Slip (<span class="slip-badge-count-text">0</span>) ↗
+                        View List (<span class="slip-badge-count-text">0</span>) ↗
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Floating Dine-In Slip Trigger Pill -->
-    <div class="floating-dine-in-slip" id="floatingDineInSlip" role="region" aria-label="Dine-in Order Slip bar">
+    <!-- Floating Dine-In List Trigger Pill -->
+    <div class="floating-dine-in-slip" id="floatingDineInSlip" role="region" aria-label="Dine-in saved dishes bar">
         <button type="button" class="dine-in-slip-pill" id="openFloatingSlipBtn" aria-label="Open Dine-In List">
             <div class="slip-pill-left">
                 <span class="slip-pill-icon">📋</span>
@@ -3420,45 +3270,28 @@ if (!empty($urlSlug)) {
         </button>
     </div>
 
-    <!-- Dine-In Table Order Slip Modal / Drawer -->
+    <!-- Dine-In Saved Dishes Modal / Drawer -->
     <div class="slip-modal-backdrop" id="dineInSlipModal" role="dialog" aria-modal="true" aria-hidden="true">
         <div class="slip-modal-dialog">
             <!-- Modal Header -->
             <div class="slip-modal-header">
                 <div class="slip-header-brand">
-                    <div class="slip-header-eyebrow">DINE-IN ORDER LIST</div>
+                    <div class="slip-header-eyebrow">SAVED DISHES</div>
                     <h2 class="slip-header-title">My Dine-In List</h2>
                 </div>
                 <div class="slip-header-actions">
-                    <button type="button" class="btn-waiter-mode-toggle" id="waiterModeToggleBtn" title="Toggle large-text high-contrast mode for servers">
-                        <span class="waiter-icon">👓</span>
-                        <span class="waiter-label">Waiter Mode</span>
-                    </button>
-                    <button type="button" class="slip-modal-close" id="closeSlipModalBtn" aria-label="Close Dine-In Slip">&times;</button>
+                    <button type="button" class="slip-modal-close" id="closeSlipModalBtn" aria-label="Close Dine-In List">&times;</button>
                 </div>
             </div>
 
-            <!-- Auto-Expiry Notice Banner (3 Hours) -->
-            <div class="slip-expiry-banner">
-                <span class="slip-expiry-icon">⏱️</span>
-                <div class="slip-expiry-text">
-                    <strong>Auto-Expiry:</strong> This list will be automatically gone after 3 hours.
-                    <span class="slip-expiry-timer" id="slipExpiryTimerBadge">Active</span>
-                </div>
-            </div>
-
-            <!-- Table Number Bar -->
-            <div class="slip-table-row">
-                <div class="table-input-wrap">
-                    <label for="tableNumberInput">Table Number (optional):</label>
-                    <input type="text" id="tableNumberInput" placeholder="e.g. 4 or T-12" maxlength="10">
-                </div>
-                <div class="slip-item-summary-pill" id="slipSummaryPill">0 items</div>
+            <!-- Top of List: Total Dishes -->
+            <div class="slip-list-top-bar" id="slipTopDishBar">
+                <span class="slip-total-dishes-label">Total Dishes: <strong id="slipTopDishCount">0</strong></span>
             </div>
 
             <!-- Items Scroll Area -->
             <div class="slip-items-scroll-area" id="slipItemsContainer">
-                <!-- Dynamically populated by DineInOrderSlip engine -->
+                <!-- Dynamically populated by Dine-In List engine -->
             </div>
 
             <!-- Empty State -->
@@ -3466,21 +3299,18 @@ if (!empty($urlSlug)) {
                 <div class="slip-empty-icon">🤍</div>
                 <h3>Your Dine-In List is empty</h3>
                 <p>Tap the heart icon (<svg viewBox="0 0 24 24" width="13" height="13" fill="#681418" stroke="#681418" style="vertical-align:middle;display:inline-block;"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>) on any dish while browsing to add it here. When your waiter arrives, just show this list!</p>
+                <div class="slip-expiry-plain-note" style="margin-top:14px;">This list will be automatically gone after 3 hours (<span class="slip-expiry-timer-digits">03:00:00</span>)</div>
             </div>
 
-            <!-- Slip Footer (NO PRICING) -->
+            <!-- Slip Footer (NO PRICING • MINIMAL & CLEAN) -->
             <div class="slip-modal-footer" id="slipModalFooter">
-                <div class="slip-summary-footer-row">
-                    <span class="slip-total-dishes-label">Total Dishes: <strong id="slipFooterItemCount">0</strong></span>
-                    <span class="slip-expiry-footer-note">⏱️ Disappears 3 hrs after creation</span>
+                <!-- 3-Hour Auto-Expiry Notice (Out of box, small, without image, with time hh:mm:ss) -->
+                <div class="slip-expiry-plain-note">
+                    This list will be automatically gone after 3 hours (<span id="slipExpiryTimerBadge" class="slip-expiry-timer-digits">03:00:00</span>)
                 </div>
 
                 <div class="slip-footer-btns">
                     <button type="button" class="btn-clear-slip" id="slipClearAllBtn">Clear List</button>
-                    <button type="button" class="btn-whatsapp-share-slip" id="slipShareWhatsAppBtn" aria-label="Share Table List on WhatsApp">
-                        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="vertical-align:middle; margin-right:4px;"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.02 18.06c-1.49 0-2.95-.4-4.23-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a8.136 8.136 0 0 1-1.25-4.28c0-4.52 3.68-8.2 8.2-8.2 2.19 0 4.25.85 5.8 2.4 1.55 1.55 2.41 3.61 2.41 5.8 0 4.52-3.68 8.15-8.14 8.15z"/></svg>
-                        <span>Share on WhatsApp</span>
-                    </button>
                     <button type="button" class="btn-done-ordering" id="slipDoneOrderingBtn">Done</button>
                 </div>
             </div>
@@ -3871,12 +3701,10 @@ if (!empty($urlSlug)) {
             });
 
             // =========================================================================
-            // DINE-IN TABLE ORDER LIST ENGINE (NO PRICING • 3-HOUR AUTO-EXPIRY)
+            // DINE-IN SAVED DISHES LIST ENGINE (NO PRICING • 3-HOUR AUTO-EXPIRY)
             // =========================================================================
             const SLIP_STORAGE_KEY = 'orah_table_slip_v2';
             const SLIP_EXPIRY_KEY = 'orah_table_slip_time';
-            const TABLE_NUM_KEY = 'orah_table_number';
-            const WAITER_MODE_KEY = 'orah_waiter_mode';
             const THREE_HOURS_MS = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
 
             const floatingSlip = document.getElementById('floatingDineInSlip');
@@ -3889,13 +3717,9 @@ if (!empty($urlSlug)) {
             const slipItemsContainer = document.getElementById('slipItemsContainer');
             const slipEmptyState = document.getElementById('slipEmptyState');
             const slipModalFooter = document.getElementById('slipModalFooter');
-            const tableNumberInput = document.getElementById('tableNumberInput');
-            const waiterModeBtn = document.getElementById('waiterModeToggleBtn');
             const slipClearAllBtn = document.getElementById('slipClearAllBtn');
-            const slipShareWhatsAppBtn = document.getElementById('slipShareWhatsAppBtn');
             const slipPillMeta = document.getElementById('slipPillMeta');
-            const slipSummaryPill = document.getElementById('slipSummaryPill');
-            const slipFooterItemCount = document.getElementById('slipFooterItemCount');
+            const slipTopDishCount = document.getElementById('slipTopDishCount');
             const slipExpiryTimerBadge = document.getElementById('slipExpiryTimerBadge');
             const toastNotice = document.getElementById('slipToastNotice');
             const modalAddToSlipBtn = document.getElementById('modalAddToSlipBtn');
@@ -3930,16 +3754,23 @@ if (!empty($urlSlug)) {
 
             function getExpiryRemainingText() {
                 const timeRaw = localStorage.getItem(SLIP_EXPIRY_KEY);
-                if (!timeRaw) return 'Auto-clears in 3 hrs';
+                if (!timeRaw) return '03:00:00';
                 const createdTime = parseInt(timeRaw, 10);
-                if (isNaN(createdTime)) return 'Auto-clears in 3 hrs';
+                if (isNaN(createdTime)) return '03:00:00';
                 const remaining = THREE_HOURS_MS - (Date.now() - createdTime);
-                if (remaining <= 0) return 'Expired';
+                if (remaining <= 0) return '00:00:00';
                 const hrs = Math.floor(remaining / (60 * 60 * 1000));
                 const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
-                if (hrs > 0) return `Auto-clears in ${hrs}h ${mins}m`;
-                return `Auto-clears in ${mins}m`;
+                const secs = Math.floor((remaining % (60 * 1000)) / 1000);
+                return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             }
+
+            // Live countdown ticker for 3-hour expiry note (hh:mm:ss)
+            setInterval(() => {
+                if (slipExpiryTimerBadge) {
+                    slipExpiryTimerBadge.textContent = getExpiryRemainingText();
+                }
+            }, 1000);
 
             function getSlipItems() {
                 try {
@@ -4112,7 +3943,12 @@ if (!empty($urlSlug)) {
                     slipExpiryTimerBadge.textContent = getExpiryRemainingText();
                 }
 
-                // 6. Update Modal Content if open
+                // 6. Update Top Dish Count
+                if (slipTopDishCount) {
+                    slipTopDishCount.textContent = totalItemCount;
+                }
+
+                // 7. Update Modal Content if open
                 if (slipModal && (slipModal.classList.contains('active') || slipModal.classList.contains('open'))) {
                     renderSlipModalContent();
                 }
@@ -4122,11 +3958,8 @@ if (!empty($urlSlug)) {
                 const items = getSlipItems();
                 const totalItemCount = items.reduce((sum, it) => sum + (it.qty || 1), 0);
 
-                if (slipSummaryPill) {
-                    slipSummaryPill.textContent = `${totalItemCount} ${totalItemCount === 1 ? 'item' : 'items'}`;
-                }
-                if (slipFooterItemCount) {
-                    slipFooterItemCount.textContent = totalItemCount;
+                if (slipTopDishCount) {
+                    slipTopDishCount.textContent = totalItemCount;
                 }
                 if (slipExpiryTimerBadge) {
                     slipExpiryTimerBadge.textContent = getExpiryRemainingText();
@@ -4209,64 +4042,8 @@ if (!empty($urlSlug)) {
                 }
             });
 
-            // Table Number Persistence
-            if (tableNumberInput) {
-                tableNumberInput.value = localStorage.getItem(TABLE_NUM_KEY) || '';
-                tableNumberInput.addEventListener('input', () => {
-                    localStorage.setItem(TABLE_NUM_KEY, tableNumberInput.value.trim());
-                });
-            }
-
-            // Waiter Mode (High-contrast, large text for servers at tables)
-            function initWaiterMode() {
-                const isWaiterMode = localStorage.getItem(WAITER_MODE_KEY) === '1';
-                if (isWaiterMode) {
-                    slipModal?.classList.add('waiter-mode');
-                    waiterModeBtn?.classList.add('active');
-                }
-            }
-
-            waiterModeBtn?.addEventListener('click', () => {
-                const isActive = slipModal?.classList.toggle('waiter-mode');
-                waiterModeBtn?.classList.toggle('active', !!isActive);
-                localStorage.setItem(WAITER_MODE_KEY, isActive ? '1' : '0');
-                showToast(isActive ? '👓 Waiter Mode: Large text active' : 'Waiter Mode deactivated');
-            });
-
             // Clear All List
             slipClearAllBtn?.addEventListener('click', clearAllSlipItems);
-
-            // WhatsApp Share Table Order (NO PRICING)
-            slipShareWhatsAppBtn?.addEventListener('click', () => {
-                const items = getSlipItems();
-                if (items.length === 0) {
-                    alert('Please add dishes to your Dine-In list before sharing.');
-                    return;
-                }
-
-                const tableNum = (tableNumberInput?.value || '').trim() || 'Not specified';
-                const totalItemCount = items.reduce((sum, it) => sum + (it.qty || 1), 0);
-
-                let text = `*ORAH - DINE-IN TABLE ORDER LIST*\n`;
-                text += `📍 *Table:* ${tableNum}\n`;
-                text += `📅 *Time:* ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}\n`;
-                text += `------------------------------------\n`;
-
-                items.forEach((it, idx) => {
-                    const diet = it.veg ? '(Veg)' : '(Non-Veg)';
-                    text += `${idx + 1}. *${it.qty || 1}x* ${it.name} ${diet}\n`;
-                    if (it.note && it.note.trim()) {
-                        text += `    ✎ _Note: ${it.note.trim()}_\n`;
-                    }
-                });
-
-                text += `------------------------------------\n`;
-                text += `*Total Dishes:* ${totalItemCount}\n`;
-                text += `_(Note: This list automatically expires after 3 hours)_\n`;
-
-                const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-                window.open(url, '_blank');
-            });
 
             // Open & Close Slip Modal (Supports both .active and .open)
             function openSlipModal() {
@@ -4694,8 +4471,7 @@ if (!empty($urlSlug)) {
                 }
             });
 
-            // Initialize Dine-In Table Order Slip & Waiter Mode state
-            initWaiterMode();
+            // Initialize Dine-In Saved Dishes List state
             syncSlipUI();
 
             updateDockLabels();
