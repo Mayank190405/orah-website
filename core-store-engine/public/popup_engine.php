@@ -44,7 +44,7 @@ $showTerms = $elements['show_terms'] ?? true;
 $triggerType = $activePopup['trigger_type'] ?? 'both';
 $delaySec = intval($activePopup['trigger_delay_sec'] ?? 6);
 $floatingBtnText = $activePopup['floating_btn_text'] ?? ($popupType === 'offer' ? '🎁 Special Offer' : '✦ Reserve Table');
-$badgeText = $activePopup['badge_text'] ?? ($popupType === 'offer' ? 'EXCLUSIVE OFFER' : 'EXCLUSIVE DINING');
+$badgeText = str_ireplace('&bull;', '•', $activePopup['badge_text'] ?? ($popupType === 'offer' ? 'EXCLUSIVE OFFER' : 'EXCLUSIVE DINING'));
 $title = $activePopup['title'] ?? ($popupType === 'offer' ? 'Special Tasting Offer' : 'Reserve Your Dining Experience');
 $subtitle = $activePopup['subtitle'] ?? '';
 $btnText = $activePopup['button_text'] ?? ($popupType === 'offer' ? 'Claim Offer ↗' : 'Confirm Reservation Request');
@@ -54,7 +54,7 @@ $resolvedImg = str_starts_with($image, 'http') ? $image : $image;
 // Offer specific values
 $discountBadge = $activePopup['discount_badge'] ?? '15% OFF';
 $promoCode = $activePopup['promo_code'] ?? 'ORAH15';
-$offerExpiry = $activePopup['offer_expiry'] ?? 'Valid this week only';
+$offerExpiry = str_ireplace('&bull;', '•', $activePopup['offer_expiry'] ?? 'Valid this week only');
 $offerCtaType = $activePopup['offer_cta_type'] ?? 'whatsapp';
 $offerCtaLink = $activePopup['offer_cta_link'] ?? ('https://wa.me/919429693199?text=Hello%20Orah%20House%2C%20I%20would%20like%20to%20redeem%20the%20offer%20code%3A%20' . urlencode($promoCode));
 $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during ordering.';
@@ -63,6 +63,13 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
 <!-- Pop-up & Form Stylesheet -->
 <style>
 /* Pop-up Overlay Backdrop */
+.orah-popup-overlay,
+.orah-popup-overlay *,
+.orah-popup-overlay *::before,
+.orah-popup-overlay *::after {
+    box-sizing: border-box;
+}
+
 .orah-popup-overlay {
     position: fixed;
     inset: 0;
@@ -251,7 +258,9 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
 
 /* Body Content */
 .popup-body {
-    padding: 24px 26px 28px;
+    padding: 26px 30px 30px;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .popup-badge {
@@ -270,9 +279,9 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
 
 .popup-title {
     font-family: 'Dream Avenue', 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.6rem, 3.2vw, 2.1rem);
+    font-size: clamp(1.55rem, 3.2vw, 2.05rem);
     color: #681418;
-    line-height: 1.1;
+    line-height: 1.15;
     font-weight: 400;
     margin-bottom: 6px;
 }
@@ -281,26 +290,33 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
     font-size: 0.85rem;
     color: #6c6054;
     line-height: 1.45;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 /* Form Controls */
 .popup-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 13px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .popup-form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .popup-input-wrap {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .popup-label {
@@ -313,9 +329,11 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
 
 .popup-input, .popup-select, .popup-textarea {
     width: 100%;
-    padding: 10px 12px;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 10px 14px;
     font-size: 0.88rem;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: #1e1e1e;
     background: #ffffff;
     border: 1px solid rgba(104, 20, 24, 0.16);
@@ -329,17 +347,25 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
     box-shadow: 0 0 0 3px rgba(104, 20, 24, 0.08);
 }
 
+.popup-textarea {
+    resize: vertical;
+    min-height: 68px;
+    line-height: 1.4;
+}
+
 .popup-submit-btn {
+    width: 100%;
+    box-sizing: border-box;
     background: #681418;
     color: #ffffff;
     border: none;
-    border-radius: 24px;
+    border-radius: 50px;
     padding: 13px 22px;
     font-size: 0.88rem;
     font-weight: 700;
     letter-spacing: 0.6px;
     cursor: pointer;
-    margin-top: 8px;
+    margin-top: 6px;
     box-shadow: 0 6px 18px rgba(104, 20, 24, 0.28);
     transition: all 0.25s ease;
     display: flex;
@@ -488,6 +514,16 @@ $terms = $activePopup['terms'] ?? '*Dine-in only. Present promo code during orde
         right: 16px;
         padding: 9px 16px;
         font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 540px) {
+    .popup-body {
+        padding: 20px 18px 24px;
+    }
+    .popup-form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 }
 </style>
