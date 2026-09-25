@@ -987,6 +987,7 @@ if (!empty($urlSlug)) {
 
         /* =====================================================================
            CARD ANIMATIONS (GRADIENT FLOW, GOLD AURA, PULSE, COLOR SHIFT, TILT)
+           High-Contrast, Radiant Luxury Visual Effects Visible on All Browsers
            ===================================================================== */
         @keyframes gradientFlowBorder {
             0% { background-position: 0% 50%; }
@@ -997,85 +998,83 @@ if (!empty($urlSlug)) {
         .dish-split-card.card-anim-gradient-shimmer,
         .section-card.card-anim-gradient-shimmer {
             position: relative;
-            border-color: transparent !important;
-            background-clip: padding-box;
-        }
-
-        .dish-split-card.card-anim-gradient-shimmer::before {
-            content: "";
-            position: absolute;
-            inset: -2.5px;
-            border-radius: 24px;
-            background: linear-gradient(115deg, #c99a68, #681418, #ffd700, #96252c, #d4af37, #681418);
-            background-size: 300% 300%;
-            animation: gradientFlowBorder 5s ease infinite;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .section-card.card-anim-gradient-shimmer::before {
-            content: "";
-            position: absolute;
-            inset: -2.5px;
-            border-radius: 20px;
-            background: linear-gradient(115deg, #c99a68, #681418, #ffd700, #96252c, #d4af37, #681418);
-            background-size: 300% 300%;
-            animation: gradientFlowBorder 5s ease infinite;
-            z-index: 0;
-            pointer-events: none;
+            border: 2.5px solid transparent !important;
+            background: linear-gradient(var(--card-bg-active, #FAF5EB), var(--card-bg-active, #FAF5EB)) padding-box,
+                        linear-gradient(115deg, #e6b800, #80141a, #ffd700, #b32d36, #e6b800, #681418) border-box !important;
+            background-size: 100% 100%, 300% 300% !important;
+            animation: gradientFlowBorder 4s linear infinite !important;
+            box-shadow: 0 10px 32px rgba(104, 20, 24, 0.22), 0 0 18px rgba(212, 175, 55, 0.3) !important;
         }
 
         @keyframes goldAuraPulse {
             0%, 100% {
-                box-shadow: 0 8px 24px rgba(70, 25, 20, 0.08), 0 0 16px rgba(201, 154, 104, 0.25);
-                border-color: rgba(201, 154, 104, 0.45);
+                border-color: #d4af37 !important;
+                box-shadow: 0 8px 24px rgba(70, 25, 20, 0.08), 0 0 18px rgba(212, 175, 55, 0.45);
             }
             50% {
-                box-shadow: 0 14px 38px rgba(70, 25, 20, 0.14), 0 0 32px rgba(212, 175, 55, 0.55);
-                border-color: rgba(212, 175, 55, 0.8);
+                border-color: #ffdf73 !important;
+                box-shadow: 0 14px 38px rgba(70, 25, 20, 0.16), 0 0 34px rgba(255, 215, 0, 0.7);
             }
         }
 
         .dish-split-card.card-anim-gold-aura,
         .section-card.card-anim-gold-aura {
-            animation: goldAuraPulse 3.5s ease-in-out infinite;
+            border: 2.5px solid #d4af37 !important;
+            animation: goldAuraPulse 2.8s ease-in-out infinite !important;
         }
 
         @keyframes burgundyPulseBreathe {
             0%, 100% {
-                box-shadow: 0 8px 24px rgba(70, 25, 20, 0.08), 0 0 14px rgba(104, 20, 24, 0.15);
-                border-color: rgba(104, 20, 24, 0.25);
+                border-color: #681418 !important;
+                box-shadow: 0 8px 24px rgba(70, 25, 20, 0.08), 0 0 16px rgba(104, 20, 24, 0.35);
             }
             50% {
-                box-shadow: 0 14px 34px rgba(104, 20, 24, 0.25), 0 0 26px rgba(104, 20, 24, 0.4);
-                border-color: rgba(104, 20, 24, 0.6);
+                border-color: #a81c24 !important;
+                box-shadow: 0 14px 38px rgba(104, 20, 24, 0.35), 0 0 32px rgba(168, 28, 36, 0.65);
             }
         }
 
         .dish-split-card.card-anim-burgundy-pulse,
         .section-card.card-anim-burgundy-pulse {
-            animation: burgundyPulseBreathe 4s ease-in-out infinite;
+            border: 2.5px solid #681418 !important;
+            animation: burgundyPulseBreathe 3s ease-in-out infinite !important;
         }
 
         @keyframes cardBorderColorShift {
-            0% { border-color: #c99a68; }
-            25% { border-color: #681418; }
-            50% { border-color: #aa7c11; }
-            75% { border-color: #96252c; }
-            100% { border-color: #c99a68; }
+            0% { border-color: #d4af37 !important; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4); }
+            25% { border-color: #681418 !important; box-shadow: 0 8px 25px rgba(104, 20, 24, 0.4); }
+            50% { border-color: #c99a68 !important; box-shadow: 0 8px 25px rgba(201, 154, 104, 0.4); }
+            75% { border-color: #a81c24 !important; box-shadow: 0 8px 25px rgba(168, 28, 36, 0.4); }
+            100% { border-color: #d4af37 !important; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4); }
         }
 
-        .dish-split-card.card-anim-color-shift {
-            animation: cardBorderColorShift 6s ease-in-out infinite;
+        .dish-split-card.card-anim-color-shift,
+        .section-card.card-anim-color-shift {
+            border: 2.5px solid #d4af37 !important;
+            animation: cardBorderColorShift 5s linear infinite !important;
         }
 
-        .dish-split-card.card-anim-floating-tilt {
+        @keyframes gentleCardFloat {
+            0% {
+                transform: translateY(0px);
+                box-shadow: 0 8px 24px rgba(70, 25, 20, 0.08);
+            }
+            100% {
+                transform: translateY(-6px);
+                box-shadow: 0 18px 38px rgba(70, 25, 20, 0.18), 0 0 18px rgba(201, 154, 104, 0.25);
+            }
+        }
+
+        .dish-split-card.card-anim-floating-tilt,
+        .section-card.card-anim-floating-tilt {
+            animation: gentleCardFloat 3s ease-in-out infinite alternate !important;
             transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
         }
 
-        .dish-split-card.card-anim-floating-tilt:hover {
-            transform: translateY(-6px) scale(1.015);
-            box-shadow: 0 20px 42px rgba(70, 25, 20, 0.18);
+        .dish-split-card.card-anim-floating-tilt:hover,
+        .section-card.card-anim-floating-tilt:hover {
+            transform: translateY(-9px) scale(1.015) !important;
+            box-shadow: 0 24px 48px rgba(70, 25, 20, 0.22), 0 0 24px rgba(201, 154, 104, 0.3) !important;
         }
 
         /* =====================================================================
@@ -1521,7 +1520,7 @@ if (!empty($urlSlug)) {
             max-width: 54%;
             min-width: 0;
             padding: 14px 14px 14px 16px;
-            background: #FAF5EB;
+            background: transparent;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -2111,8 +2110,8 @@ if (!empty($urlSlug)) {
                             $catCardBg = $meta['card_bg'] ?? '';
                             $catBorder = $meta['border_color'] ?? '';
                             $catCustomStyle = '';
-                            if (!empty($catCardBg)) $catCustomStyle .= "background-color: {$catCardBg} !important; ";
-                            if (!empty($catBorder)) $catCustomStyle .= "border-color: {$catBorder} !important; ";
+                            if (!empty($catCardBg)) $catCustomStyle .= "--card-bg-active: {$catCardBg}; background-color: {$catCardBg} !important; ";
+                            if (!empty($catBorder)) $catCustomStyle .= "border-color: {$catBorder} !important; border-width: 2.5px !important; ";
                         ?>
                         <?php 
                             $displayName = ($sectionName === 'Pasta') ? 'Pastas' : $sectionName;
@@ -2255,8 +2254,8 @@ if (!empty($urlSlug)) {
                                         elseif ($cardAnim === 'floating_tilt') $cardAnimClass = 'card-anim-floating-tilt';
 
                                         $cardInlineStyle = '';
-                                        if (!empty($cardBg)) $cardInlineStyle .= "background-color: {$cardBg} !important; ";
-                                        if (!empty($cardBorder)) $cardInlineStyle .= "border-color: {$cardBorder} !important; ";
+                                        if (!empty($cardBg)) $cardInlineStyle .= "--card-bg-active: {$cardBg}; background-color: {$cardBg} !important; ";
+                                        if (!empty($cardBorder)) $cardInlineStyle .= "border-color: {$cardBorder} !important; border-width: 2.5px !important; ";
                                     ?>
                                     <article class="dish-split-card <?= $cardAnimClass ?> <?= $isChefSpecial ? 'has-chef-special' : '' ?>" style="<?= $cardInlineStyle ?>" data-dish-id="<?= htmlspecialchars($dish['id'] ?? '') ?>">
                                         <?php if ($isChefSpecial): ?>
@@ -2329,12 +2328,16 @@ if (!empty($urlSlug)) {
                                                     </button>
                                                 </div>
 
-                                                <?php if (!empty($dishDesc)): ?>
+                                                <?php 
+                                                    // Only display real descriptions; filter out empty or boilerplate descriptions
+                                                    $isSampleDesc = empty($dishDesc) || 
+                                                                    stripos($dishDesc, 'Orah House signature') !== false || 
+                                                                    stripos($dishDesc, 'slow-fermented artisanal craft') !== false ||
+                                                                    stripos($dishDesc, 'specialty herbs and house infusions') !== false ||
+                                                                    stripos($dishDesc, 'House signature prepared with') !== false;
+                                                ?>
+                                                <?php if (!empty($dishDesc) && !$isSampleDesc): ?>
                                                     <p class="split-dish-desc"><?= htmlspecialchars($dishDesc) ?></p>
-                                                <?php elseif (!empty($particular) && $particular !== $dishName): ?>
-                                                    <p class="split-dish-desc"><?= htmlspecialchars($particular) ?> prepared with slow-fermented artisanal craft and fresh estate ingredients.</p>
-                                                <?php else: ?>
-                                                    <p class="split-dish-desc">House signature prepared with artisanal craft, estate herbs, and slow-baked pantry ingredients.</p>
                                                 <?php endif; ?>
 
                                                 <div class="split-divider"></div>
