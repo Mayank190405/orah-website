@@ -1583,13 +1583,826 @@ if (!empty($urlSlug)) {
         }
 
         .split-fav-btn.active {
-            color: #b71c1c;
-            border-color: rgba(183, 28, 28, 0.2);
-            background: #ffebee;
+            color: #b71c1c !important;
+            border-color: rgba(183, 28, 28, 0.35) !important;
+            background: #ffebee !important;
+            transform: scale(1.1);
         }
 
         .split-fav-btn.active svg {
-            fill: #b71c1c;
+            fill: #b71c1c !important;
+        }
+
+        @keyframes heartPop {
+            0% { transform: scale(1); }
+            45% { transform: scale(1.38); }
+            100% { transform: scale(1.1); }
+        }
+
+        .split-fav-btn.animate-pop {
+            animation: heartPop 0.32s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+        }
+
+        /* =========================================================================
+           QUICK CATEGORY NAV (FAST HORIZONTAL SWITCHER IN DETAILED VIEW)
+           ========================================================================= */
+        .quick-category-nav {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            background: rgba(251, 246, 238, 0.98);
+            padding: 8px 0 10px;
+            border-top: 1px solid rgba(104, 20, 24, 0.08);
+        }
+
+        .quick-category-track {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 2px 16px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+
+        .quick-category-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .quick-cat-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: #ffffff;
+            border: 1px solid rgba(104, 20, 24, 0.14);
+            color: #4A3E36;
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            user-select: none;
+        }
+
+        .quick-cat-pill .pill-name {
+            letter-spacing: 0.3px;
+        }
+
+        .quick-cat-pill .pill-count {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 10px;
+            background: rgba(104, 20, 24, 0.08);
+            color: var(--burgundy);
+            transition: all 0.2s ease;
+        }
+
+        .quick-cat-pill:hover {
+            border-color: var(--burgundy);
+            color: var(--burgundy);
+            background: #FAF5EB;
+            transform: translateY(-1px);
+        }
+
+        .quick-cat-pill.active {
+            background: linear-gradient(135deg, #681418 0%, #4a0d10 100%);
+            border-color: #681418;
+            color: #FFF9F0;
+            box-shadow: 0 4px 14px rgba(104, 20, 24, 0.32);
+            transform: translateY(-1px);
+        }
+
+        .quick-cat-pill.active .pill-count {
+            background: rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+        }
+
+        /* =========================================================================
+           DINE-IN ORDER SLIP TRIGGER BUTTONS & BADGES
+           ========================================================================= */
+        .detail-slip-btn, .masthead-slip-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: var(--burgundy);
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .detail-slip-btn:hover, .masthead-slip-toggle:hover {
+            background: var(--burgundy);
+            color: #FBF6EE;
+            border-color: var(--burgundy);
+        }
+
+        .detail-slip-btn svg, .masthead-slip-toggle svg {
+            color: #b71c1c;
+            flex-shrink: 0;
+        }
+
+        .slip-badge-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 10px;
+            background: #b71c1c;
+            color: #ffffff;
+            font-size: 0.68rem;
+            font-weight: 800;
+            transition: transform 0.2s ease;
+        }
+
+        /* =========================================================================
+           FLOATING DINE-IN TABLE SLIP BOTTOM DOCK
+           ========================================================================= */
+        .floating-dine-in-slip {
+            position: fixed;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%) translateY(140px);
+            z-index: 140;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            width: calc(100% - 32px);
+            max-width: 440px;
+        }
+
+        .floating-dine-in-slip.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        body.in-detailed-view .floating-dine-in-slip.visible {
+            bottom: 92px;
+        }
+
+        .dine-in-slip-pill {
+            width: 100%;
+            background: linear-gradient(135deg, #1C0A0D 0%, #3B0D12 100%);
+            border: 1.5px solid rgba(212, 175, 55, 0.5);
+            border-radius: 36px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.42), 0 0 20px rgba(104, 20, 24, 0.3);
+            cursor: pointer;
+            color: #FAF5EB;
+            font-family: var(--font-sans);
+            transition: all 0.25s ease;
+        }
+
+        .dine-in-slip-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.48), 0 0 25px rgba(212, 175, 55, 0.4);
+            border-color: rgba(212, 175, 55, 0.85);
+        }
+
+        .slip-pill-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .slip-pill-icon {
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            flex-shrink: 0;
+        }
+
+        .slip-pill-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #FAF5EB;
+            letter-spacing: 0.3px;
+        }
+
+        .slip-pill-sub {
+            font-size: 0.74rem;
+            color: rgba(250, 245, 235, 0.8);
+            font-weight: 600;
+        }
+
+        .slip-pill-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            color: #1A0D0E;
+            font-weight: 800;
+            font-size: 0.76rem;
+            padding: 6px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.4px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+        }
+
+        /* =========================================================================
+           DINE-IN ORDER SLIP MODAL & WAITER MODE
+           ========================================================================= */
+        .slip-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 10, 12, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slip-modal-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .slip-modal-dialog {
+            background: #FAF5EB;
+            width: 100%;
+            max-width: 580px;
+            max-height: 88vh;
+            border-radius: 26px 26px 0 0;
+            box-shadow: 0 -15px 45px rgba(0, 0, 0, 0.35);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(104, 20, 24, 0.12);
+            border-bottom: none;
+        }
+
+        .slip-modal-backdrop.open .slip-modal-dialog {
+            transform: translateY(0);
+        }
+
+        @media (min-width: 640px) {
+            .slip-modal-backdrop {
+                align-items: center;
+                padding: 20px;
+            }
+            .slip-modal-dialog {
+                border-radius: 24px;
+                max-height: 85vh;
+                border-bottom: 1px solid rgba(104, 20, 24, 0.12);
+                transform: translateY(30px) scale(0.97);
+            }
+            .slip-modal-backdrop.open .slip-modal-dialog {
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .slip-modal-header {
+            padding: 16px 20px;
+            background: #ffffff;
+            border-bottom: 1px solid rgba(104, 20, 24, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .slip-header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slip-brand-logo {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .slip-header-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: #8a7153;
+        }
+
+        .slip-header-title {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            color: var(--primary-accent);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .slip-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-waiter-mode-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #FAF5EB;
+            border: 1px solid rgba(104, 20, 24, 0.2);
+            color: var(--burgundy);
+            padding: 5px 11px;
+            border-radius: 16px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-waiter-mode-toggle:hover, .btn-waiter-mode-toggle.active {
+            background: var(--burgundy);
+            color: #ffffff;
+            border-color: var(--burgundy);
+        }
+
+        .slip-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            line-height: 1;
+            color: #8a7153;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .slip-modal-close:hover {
+            color: var(--burgundy);
+            background: rgba(104, 20, 24, 0.06);
+        }
+
+        .slip-waiter-banner {
+            background: #fff8e7;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 8px 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.74rem;
+            color: #694d0c;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .slip-table-row {
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .table-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #5a5046;
+        }
+
+        .table-input-wrap input {
+            width: 110px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(104, 20, 24, 0.2);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            background: #ffffff;
+        }
+
+        .slip-item-summary-pill {
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: var(--burgundy);
+            background: rgba(104, 20, 24, 0.08);
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
+        .slip-items-scroll-area {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding: 12px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Individual Dish Card in Slip */
+        .slip-dish-card {
+            background: #ffffff;
+            border: 1px solid rgba(104, 20, 24, 0.1);
+            border-radius: 14px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .slip-dish-main-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slip-dish-thumb {
+            width: 52px;
+            height: 52px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .slip-dish-info {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .slip-dish-name {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            line-height: 1.2;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .slip-dish-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            color: #8a7153;
+            font-weight: 600;
+        }
+
+        .slip-dish-unit-price {
+            font-size: 0.78rem;
+            color: #681418;
+            font-weight: 700;
+        }
+
+        .slip-dish-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .slip-qty-stepper {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid rgba(104, 20, 24, 0.2);
+            border-radius: 18px;
+            overflow: hidden;
+            background: #FAF5EB;
+        }
+
+        .slip-stepper-btn {
+            background: none;
+            border: none;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--burgundy);
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .slip-stepper-btn:hover {
+            background: rgba(104, 20, 24, 0.12);
+        }
+
+        .slip-stepper-val {
+            min-width: 22px;
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: #1A0D0E;
+        }
+
+        .slip-item-subtotal {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #1A0D0E;
+            min-width: 50px;
+            text-align: right;
+        }
+
+        .slip-item-del-btn {
+            background: none;
+            border: none;
+            color: #991b1b;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: background 0.15s ease;
+        }
+
+        .slip-item-del-btn:hover {
+            background: rgba(153, 27, 27, 0.1);
+        }
+
+        .slip-dish-note-input {
+            width: 100%;
+            padding: 5px 9px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            font-size: 0.74rem;
+            color: #4A3E36;
+            background: #FAF5EB;
+            font-family: var(--font-sans);
+            box-sizing: border-box;
+        }
+
+        .slip-dish-note-input:focus {
+            background: #ffffff;
+            border-color: var(--burgundy);
+            outline: none;
+        }
+
+        /* WAITER MODE: HIGH CONTRAST & LARGE TYPE */
+        .slip-modal-dialog.waiter-mode {
+            background: #ffffff !important;
+        }
+
+        .slip-modal-dialog.waiter-mode .slip-dish-card {
+            background: #fdfbf7;
+            border: 2px solid #000000;
+            padding: 14px 16px;
+            border-radius: 12px;
+        }
+
+        .slip-modal-dialog.waiter-mode .slip-dish-name {
+            font-size: 1.30rem !important;
+            font-weight: 800 !important;
+            color: #000000 !important;
+            white-space: normal !important;
+            line-height: 1.25 !important;
+        }
+
+        .slip-modal-dialog.waiter-mode .slip-stepper-val {
+            font-size: 1.15rem !important;
+            font-weight: 900 !important;
+            color: #681418 !important;
+        }
+
+        .slip-modal-dialog.waiter-mode .slip-dish-thumb {
+            width: 64px;
+            height: 64px;
+        }
+
+        .slip-modal-dialog.waiter-mode .slip-waiter-banner {
+            background: #000000;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 0.82rem;
+        }
+
+        /* Empty State */
+        .slip-empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: #6b5e52;
+        }
+
+        .slip-empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            opacity: 0.6;
+        }
+
+        .slip-empty-state h3 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--primary-accent);
+            margin: 0 0 6px;
+        }
+
+        .slip-empty-state p {
+            font-size: 0.82rem;
+            margin: 0 0 16px;
+            max-width: 320px;
+            margin-inline: auto;
+        }
+
+        .btn-browse-menu {
+            background: var(--burgundy);
+            color: #ffffff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+        }
+
+        /* Slip Footer */
+        .slip-modal-footer {
+            background: #ffffff;
+            border-top: 1px solid rgba(104, 20, 24, 0.1);
+            padding: 14px 20px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .slip-totals-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .slip-total-label {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+        }
+
+        .slip-total-sub {
+            font-size: 0.70rem;
+            color: #8a7153;
+        }
+
+        .slip-total-amount {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--burgundy);
+        }
+
+        .slip-footer-btns {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-clear-slip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #FAF5EB;
+            border: 1px solid rgba(153, 27, 27, 0.2);
+            color: #991b1b;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 9px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-clear-slip:hover {
+            background: #fee2e2;
+        }
+
+        .btn-whatsapp-share-slip {
+            flex: 1 1 auto;
+            background: #15803d;
+            border: 1px solid #166534;
+            color: #ffffff;
+            font-size: 0.80rem;
+            font-weight: 700;
+            padding: 9px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-whatsapp-share-slip:hover {
+            background: #166534;
+        }
+
+        .btn-done-ordering {
+            background: var(--burgundy);
+            border: 1px solid var(--burgundy);
+            color: #ffffff;
+            font-size: 0.80rem;
+            font-weight: 700;
+            padding: 9px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-done-ordering:hover {
+            background: #4a0d10;
+        }
+
+        /* Floating Toast Notice */
+        .slip-toast-notice {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-30px);
+            background: #1A0D0E;
+            color: #FFF9F0;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            z-index: 100000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            font-family: var(--font-sans);
+        }
+
+        .slip-toast-notice.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .slip-toast-icon {
+            color: #d4af37;
+        }
+
+        .modal-add-slip-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--burgundy);
+            color: #ffffff;
+            border: 1px solid var(--burgundy);
+            padding: 9px 18px;
+            border-radius: 24px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-add-slip-btn:hover {
+            background: #4a0d10;
+            transform: translateY(-1px);
+        }
+
+        .modal-add-slip-btn.in-slip {
+            background: #15803d;
+            border-color: #15803d;
         }
 
         .split-dish-desc {
@@ -2034,10 +2847,18 @@ if (!empty($urlSlug)) {
                         <img src="assets/images/swans_only.png" alt="Orah Emblem" class="masthead-swans-img">
                     </div>
 
-                    <button type="button" class="masthead-back-link masthead-search-toggle" id="toggleTopSearchBtn" aria-expanded="false" aria-label="Toggle Search">
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <span>Search</span>
-                    </button>
+                    <div class="masthead-right-actions" style="display:flex; align-items:center; gap:8px;">
+                        <button type="button" class="masthead-back-link masthead-slip-toggle" id="overviewSlipBtn" aria-label="View Dine-In Order Slip">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h4"/></svg>
+                            <span>Dine-In</span>
+                            <span class="slip-badge-count" style="display:none;">0</span>
+                        </button>
+
+                        <button type="button" class="masthead-back-link masthead-search-toggle" id="toggleTopSearchBtn" aria-expanded="false" aria-label="Toggle Search">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <span>Search</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Top Expandable Search Drawer (Click to expand) -->
@@ -2178,11 +2999,41 @@ if (!empty($urlSlug)) {
                         <img src="assets/images/swans_only.png" alt="Orah Emblem">
                     </div>
 
-                    <button type="button" class="detail-search-trigger-btn" id="detailSearchTriggerBtn" aria-label="Search Dishes & Recommendations">
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <span>Search</span>
-                    </button>
+                    <div class="detail-nav-right-actions" style="display:flex; align-items:center; gap:8px;">
+                        <button type="button" class="detail-search-trigger-btn detail-slip-btn" id="detailSlipTriggerBtn" aria-label="View Dine-In Order Slip">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h4"/></svg>
+                            <span>Dine-In</span>
+                            <span class="slip-badge-count" style="display:none;">0</span>
+                        </button>
+
+                        <button type="button" class="detail-search-trigger-btn" id="detailSearchTriggerBtn" aria-label="Search Dishes & Recommendations">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <span>Search</span>
+                        </button>
+                    </div>
                 </div>
+
+                <!-- Quick Nav Horizontal Track for Fast Category Switch -->
+                <nav class="quick-category-nav" id="quickCategoryNav" aria-label="Quick Category Switch">
+                    <div class="quick-category-track" id="quickCategoryTrack">
+                        <?php $qIdx = 0; ?>
+                        <?php foreach ($orderedSections as $secK => $dishesK): ?>
+                            <?php 
+                                $pillName = ($secK === 'Pasta') ? 'Pastas' : $secK;
+                                $pCount = count($dishesK);
+                            ?>
+                            <button type="button" 
+                                    class="quick-cat-pill <?= $qIdx === 0 ? 'active' : '' ?>" 
+                                    data-section-key="<?= htmlspecialchars($secK) ?>" 
+                                    data-section-index="<?= $qIdx ?>"
+                                    aria-label="Switch to <?= htmlspecialchars($pillName) ?>">
+                                <span><?= htmlspecialchars($pillName) ?></span>
+                                <span class="quick-cat-count"><?= $pCount ?></span>
+                            </button>
+                            <?php $qIdx++; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </nav>
             </div>
 
             <!-- Swiping Viewport with Slide Deck -->
@@ -2331,7 +3182,15 @@ if (!empty($urlSlug)) {
                                                         <h3 class="split-dish-title"><?= htmlspecialchars($dishName) ?></h3>
                                                         <div class="split-dish-price"><?= htmlspecialchars($dishPrice) ?></div>
                                                     </div>
-                                                    <button type="button" class="split-fav-btn" aria-label="Favorite <?= htmlspecialchars($dishName) ?>">
+                                                    <button type="button" class="split-fav-btn" 
+                                                            aria-label="Add <?= htmlspecialchars($dishName) ?> to Dine-In List"
+                                                            data-dish-id="<?= htmlspecialchars(md5($dishName . $sKey)) ?>"
+                                                            data-dish-name="<?= htmlspecialchars($dishName) ?>"
+                                                            data-dish-price="<?= htmlspecialchars($dishPrice) ?>"
+                                                            data-dish-img="<?= htmlspecialchars($dishImg) ?>"
+                                                            data-dish-veg="<?= $isVeg ? '1' : '0' ?>"
+                                                            data-dish-cat="<?= htmlspecialchars($displayName) ?>"
+                                                            title="Add to Dine-In Table Slip">
                                                         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
                                                             <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
                                                         </svg>
@@ -2455,9 +3314,102 @@ if (!empty($urlSlug)) {
                 </div>
                 <p class="dish-modal-desc" id="modalDishDesc"></p>
                 <div id="modalCustomFieldsContainer" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;"></div>
+
+                <div class="dish-modal-actions" style="margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(104,20,24,0.08); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+                    <button type="button" class="modal-add-to-slip-btn" id="modalAddToSlipBtn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                        <span id="modalSlipBtnText">Add to Dine-In Slip</span>
+                    </button>
+                    <button type="button" class="modal-view-slip-link" id="modalViewSlipLink" style="font-size: 0.8rem; font-weight: 700; color: #681418; background: none; border: none; cursor: pointer; text-decoration: underline; padding: 4px 6px;">
+                        View Slip (<span class="slip-badge-count-text">0</span>) ↗
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Floating Dine-In Slip Trigger Pill -->
+    <div class="floating-dine-in-slip" id="floatingDineInSlip" role="region" aria-label="Dine-in Order Slip bar">
+        <button type="button" class="dine-in-slip-pill" id="openFloatingSlipBtn" aria-label="Open Dine-In Order Slip">
+            <div class="slip-pill-left">
+                <span class="slip-pill-icon">📋</span>
+                <div class="slip-pill-text-wrap">
+                    <span class="slip-pill-title">Dine-In Table Order</span>
+                    <span class="slip-pill-meta" id="slipPillMeta">0 items selected</span>
+                </div>
+            </div>
+            <div class="slip-pill-right">
+                <span class="slip-pill-amount" id="slipPillTotal">₹0</span>
+                <span class="slip-pill-cta">View Slip ↗</span>
+            </div>
+        </button>
+    </div>
+
+    <!-- Dine-In Table Order Slip Modal / Drawer -->
+    <div class="slip-modal-backdrop" id="dineInSlipModal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="slip-modal-dialog">
+            <!-- Modal Header -->
+            <div class="slip-modal-header">
+                <div class="slip-header-brand">
+                    <div class="slip-header-badge">TABLE ORDER SLIP</div>
+                    <h2 class="slip-header-title">My Dine-In Selections</h2>
+                    <p class="slip-header-sub">Show this slip to your server to place your table order without having to remember dishes.</p>
+                </div>
+                <div class="slip-header-actions">
+                    <button type="button" class="waiter-mode-toggle-btn" id="waiterModeToggleBtn" title="Toggle large-text high-contrast mode for servers">
+                        <span class="waiter-icon">👓</span>
+                        <span class="waiter-label">Waiter Mode</span>
+                    </button>
+                    <button type="button" class="slip-modal-close" id="closeSlipModalBtn" aria-label="Close Dine-In Slip">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table Number & Slip Meta Bar -->
+            <div class="slip-table-meta-bar">
+                <div class="slip-table-input-wrap">
+                    <label for="tableNumberInput" class="slip-table-label">Table Number:</label>
+                    <input type="text" id="tableNumberInput" class="slip-table-input" placeholder="e.g. 4 or T-12" maxlength="10">
+                </div>
+                <div class="slip-count-badge" id="slipSummaryPill">0 items</div>
+            </div>
+
+            <!-- Items List Container -->
+            <div class="slip-items-container" id="slipItemsContainer">
+                <!-- Dynamically populated by DineInOrderSlip engine -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="slip-empty-state" id="slipEmptyState" style="display:none;">
+                <div class="slip-empty-icon">🤍</div>
+                <h4 class="slip-empty-title">Your Dine-In Slip is empty</h4>
+                <p class="slip-empty-text">Tap the heart icon (<svg viewBox="0 0 24 24" width="13" height="13" fill="#681418" stroke="#681418" style="vertical-align:middle;display:inline-block;"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>) on any dish while browsing to add it here. When your waiter arrives, just open this screen!</p>
+            </div>
+
+            <!-- Slip Footer & Actions -->
+            <div class="slip-modal-footer" id="slipModalFooter">
+                <div class="slip-bill-breakdown">
+                    <div class="slip-bill-row">
+                        <span>Items Total (<span id="slipFooterItemCount">0</span>)</span>
+                        <span class="slip-bill-val" id="slipFooterSubtotal">₹0</span>
+                    </div>
+                    <div class="slip-bill-note">*Prices exclude applicable restaurant taxes & service charges. Final bill will be provided by your server.</div>
+                </div>
+
+                <div class="slip-action-buttons">
+                    <button type="button" class="slip-clear-btn" id="slipClearAllBtn">Clear List</button>
+                    <button type="button" class="slip-share-btn" id="slipShareWhatsAppBtn" aria-label="Share Table Order on WhatsApp">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.02 18.06c-1.49 0-2.95-.4-4.23-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a8.136 8.136 0 0 1-1.25-4.28c0-4.52 3.68-8.2 8.2-8.2 2.19 0 4.25.85 5.8 2.4 1.55 1.55 2.41 3.61 2.41 5.8 0 4.52-3.68 8.15-8.14 8.15z"/></svg>
+                        <span>Send via WhatsApp</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Toast Notification -->
+    <div class="slip-toast-notice" id="slipToastNotice" role="status" aria-live="polite"></div>
 
     <!-- Interactive Navigation & Touch Swipe Engine -->
     <script>
@@ -2582,6 +3534,40 @@ if (!empty($urlSlug)) {
                 }
             }
 
+            // Quick Category Nav Pills Synchronization
+            function updateQuickNavPills(activeIdx) {
+                const pills = document.querySelectorAll('.quick-cat-pill');
+                pills.forEach((p, idx) => {
+                    if (idx === activeIdx) {
+                        p.classList.add('active');
+                        p.setAttribute('aria-selected', 'true');
+                        // Auto scroll active pill into comfortable view
+                        const track = document.getElementById('quickCategoryTrack');
+                        if (track) {
+                            const trackWidth = track.offsetWidth;
+                            const pillLeft = p.offsetLeft;
+                            const pillWidth = p.offsetWidth;
+                            const scrollPos = pillLeft - (trackWidth / 2) + (pillWidth / 2);
+                            track.scrollTo({ left: scrollPos, behavior: 'smooth' });
+                        }
+                    } else {
+                        p.classList.remove('active');
+                        p.removeAttribute('aria-selected');
+                    }
+                });
+            }
+
+            // Click listener for Quick Category Nav Pills
+            document.querySelectorAll('.quick-cat-pill').forEach(pill => {
+                pill.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetIdx = parseInt(pill.getAttribute('data-section-index'), 10);
+                    if (!isNaN(targetIdx)) {
+                        goToSection(targetIdx, true, false, true);
+                    }
+                });
+            });
+
             // Slide to a specific section with silky ease-out
             function goToSection(index, animated = true, allowScroll = false, updateUrl = true) {
                 if (isAnimating && animated) return;
@@ -2613,6 +3599,9 @@ if (!empty($urlSlug)) {
                 // Update dock labels
                 updateDockLabels();
 
+                // Update Quick Category Nav Pills
+                updateQuickNavPills(currentSectionIndex);
+
                 // Update URL to /menu.php/{category}
                 if (updateUrl) {
                     const activeKey = sectionKeys[currentSectionIndex];
@@ -2638,6 +3627,7 @@ if (!empty($urlSlug)) {
 
                 overviewView.style.display = 'none';
                 detailView.style.display = 'block';
+                document.body.classList.add('in-detailed-view');
                 goToSection(targetIndex, false, false, updateUrl);
                 updateViewportHeight(targetIndex);
 
@@ -2650,6 +3640,7 @@ if (!empty($urlSlug)) {
 
             // Return to Overview (First Page)
             function showOverview(updateUrl = true) {
+                document.body.classList.remove('in-detailed-view');
                 detailView.style.opacity = '0';
                 setTimeout(() => {
                     detailView.style.display = 'none';
@@ -2779,27 +3770,450 @@ if (!empty($urlSlug)) {
             viewport.addEventListener('touchend', handleTouchEnd);
             viewport.addEventListener('touchcancel', handleTouchEnd);
 
-            // Keyboard Arrow Support
+            // Keyboard Navigation & Escape Handler Support
             window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (slipModal && slipModal.classList.contains('active')) {
+                        closeSlipModal();
+                        return;
+                    }
+                    if (modalBackdrop && modalBackdrop.classList.contains('active')) {
+                        closeModal();
+                        return;
+                    }
+                }
                 if (detailView.style.display !== 'none' && detailView.style.display !== '') {
                     if (e.key === 'ArrowRight') {
                         goToSection((currentSectionIndex + 1) % totalSections, true);
                     } else if (e.key === 'ArrowLeft') {
                         goToSection((currentSectionIndex - 1 + totalSections) % totalSections, true);
-                    } else if (e.key === 'Escape') {
-                        closeModal();
                     }
                 }
             });
 
             // =========================================================================
-            // FAVORITE BUTTON INTERACTION
+            // DINE-IN TABLE ORDER SLIP & SERVER SELECTIONS ENGINE
             // =========================================================================
+            const SLIP_STORAGE_KEY = 'orah_table_slip_v2';
+            const TABLE_NUM_KEY = 'orah_table_number';
+            const WAITER_MODE_KEY = 'orah_waiter_mode';
+
+            const floatingSlip = document.getElementById('floatingDineInSlip');
+            const openFloatingSlipBtn = document.getElementById('openFloatingSlipBtn');
+            const overviewSlipBtn = document.getElementById('overviewSlipBtn');
+            const detailSlipTriggerBtn = document.getElementById('detailSlipTriggerBtn');
+            const slipModal = document.getElementById('dineInSlipModal');
+            const closeSlipModalBtn = document.getElementById('closeSlipModalBtn');
+            const slipItemsContainer = document.getElementById('slipItemsContainer');
+            const slipEmptyState = document.getElementById('slipEmptyState');
+            const slipModalFooter = document.getElementById('slipModalFooter');
+            const tableNumberInput = document.getElementById('tableNumberInput');
+            const waiterModeBtn = document.getElementById('waiterModeToggleBtn');
+            const slipClearAllBtn = document.getElementById('slipClearAllBtn');
+            const slipShareWhatsAppBtn = document.getElementById('slipShareWhatsAppBtn');
+            const slipPillMeta = document.getElementById('slipPillMeta');
+            const slipPillTotal = document.getElementById('slipPillTotal');
+            const slipSummaryPill = document.getElementById('slipSummaryPill');
+            const slipFooterItemCount = document.getElementById('slipFooterItemCount');
+            const slipFooterSubtotal = document.getElementById('slipFooterSubtotal');
+            const toastNotice = document.getElementById('slipToastNotice');
+            const modalAddToSlipBtn = document.getElementById('modalAddToSlipBtn');
+            const modalSlipBtnText = document.getElementById('modalSlipBtnText');
+            const modalViewSlipLink = document.getElementById('modalViewSlipLink');
+
+            let currentModalDishData = null;
+            let toastTimer = null;
+
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str).replace(/[&<>"']/g, m => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+                }[m]));
+            }
+
+            function parsePriceNumber(str) {
+                if (!str) return 0;
+                const cleaned = String(str).replace(/[^0-9.]/g, '');
+                return parseFloat(cleaned) || 0;
+            }
+
+            function showToast(message) {
+                if (!toastNotice) return;
+                toastNotice.textContent = message;
+                toastNotice.classList.add('visible');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => {
+                    toastNotice.classList.remove('visible');
+                }, 2200);
+            }
+
+            function getSlipItems() {
+                try {
+                    const raw = localStorage.getItem(SLIP_STORAGE_KEY);
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        if (Array.isArray(parsed)) return parsed;
+                    }
+                } catch(e) {}
+                return [];
+            }
+
+            function saveSlipItems(items) {
+                try {
+                    localStorage.setItem(SLIP_STORAGE_KEY, JSON.stringify(items));
+                } catch(e) {}
+                syncSlipUI();
+            }
+
+            function isDishInSlip(dishId, dishName) {
+                const items = getSlipItems();
+                return items.some(item => (dishId && item.id === dishId) || (dishName && item.name.toLowerCase() === dishName.toLowerCase()));
+            }
+
+            function toggleDishInSlip(dishData, triggerBtn = null) {
+                if (!dishData || !dishData.name) return;
+                const items = getSlipItems();
+                const existingIdx = items.findIndex(it => (dishData.id && it.id === dishData.id) || (it.name.toLowerCase() === dishData.name.toLowerCase()));
+
+                if (existingIdx > -1) {
+                    const removed = items.splice(existingIdx, 1)[0];
+                    saveSlipItems(items);
+                    showToast(`Removed "${removed.name}" from Dine-In slip`);
+                } else {
+                    const newItem = {
+                        id: dishData.id || ('dish_' + Math.random().toString(36).substr(2, 9)),
+                        name: dishData.name,
+                        price: dishData.price || '₹0',
+                        priceNum: parsePriceNumber(dishData.price),
+                        img: dishData.img || '',
+                        veg: (dishData.veg === '1' || dishData.veg === true || dishData.veg === 1),
+                        cat: dishData.cat || dishData.badge || '',
+                        qty: 1,
+                        note: ''
+                    };
+                    items.push(newItem);
+                    saveSlipItems(items);
+                    showToast(`Added "${newItem.name}" to Dine-In slip`);
+                }
+
+                if (triggerBtn) {
+                    triggerBtn.classList.add('animate-pop');
+                    setTimeout(() => triggerBtn.classList.remove('animate-pop'), 400);
+                }
+            }
+
+            function updateDishQuantity(dishId, delta) {
+                const items = getSlipItems();
+                const item = items.find(it => it.id === dishId);
+                if (!item) return;
+
+                item.qty = (item.qty || 1) + delta;
+                if (item.qty <= 0) {
+                    const filtered = items.filter(it => it.id !== dishId);
+                    saveSlipItems(filtered);
+                    showToast(`Removed "${item.name}" from Dine-In slip`);
+                } else {
+                    saveSlipItems(items);
+                }
+            }
+
+            function updateDishNote(dishId, noteText) {
+                const items = getSlipItems();
+                const item = items.find(it => it.id === dishId);
+                if (item) {
+                    item.note = noteText;
+                    try {
+                        localStorage.setItem(SLIP_STORAGE_KEY, JSON.stringify(items));
+                    } catch(e) {}
+                }
+            }
+
+            function removeDishFromSlip(dishId) {
+                const items = getSlipItems();
+                const item = items.find(it => it.id === dishId);
+                const filtered = items.filter(it => it.id !== dishId);
+                saveSlipItems(filtered);
+                if (item) showToast(`Removed "${item.name}" from slip`);
+            }
+
+            function clearAllSlipItems() {
+                if (confirm('Clear all items from your Dine-In Table Slip?')) {
+                    saveSlipItems([]);
+                    showToast('Dine-In Slip cleared');
+                }
+            }
+
+            function syncSlipUI() {
+                const items = getSlipItems();
+                const totalItemCount = items.reduce((sum, it) => sum + (it.qty || 1), 0);
+                const totalAmount = items.reduce((sum, it) => sum + ((it.priceNum || 0) * (it.qty || 1)), 0);
+
+                // 1. Update Badges
+                const badgeElements = document.querySelectorAll('.slip-badge-count');
+                badgeElements.forEach(badge => {
+                    badge.textContent = totalItemCount;
+                    badge.style.display = totalItemCount > 0 ? 'inline-flex' : 'none';
+                });
+
+                const badgeTextElements = document.querySelectorAll('.slip-badge-count-text');
+                badgeTextElements.forEach(el => {
+                    el.textContent = totalItemCount;
+                });
+
+                // 2. Update Floating Bar
+                if (floatingSlip) {
+                    if (totalItemCount > 0) {
+                        floatingSlip.classList.add('visible');
+                    } else {
+                        floatingSlip.classList.remove('visible');
+                    }
+                }
+                if (slipPillMeta) {
+                    slipPillMeta.textContent = `${totalItemCount} ${totalItemCount === 1 ? 'item' : 'items'} selected`;
+                }
+                if (slipPillTotal) {
+                    slipPillTotal.textContent = `₹${totalAmount.toLocaleString('en-IN')}`;
+                }
+
+                // 3. Update Dish Card Heart Buttons
+                document.querySelectorAll('.split-fav-btn').forEach(btn => {
+                    const dishId = btn.getAttribute('data-dish-id');
+                    const dishName = btn.getAttribute('data-dish-name');
+                    if (isDishInSlip(dishId, dishName)) {
+                        btn.classList.add('active');
+                        btn.setAttribute('aria-pressed', 'true');
+                    } else {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-pressed', 'false');
+                    }
+                });
+
+                // 4. Update Modal Button
+                if (currentModalDishData && modalAddToSlipBtn && modalSlipBtnText) {
+                    if (isDishInSlip(currentModalDishData.id, currentModalDishData.name)) {
+                        modalAddToSlipBtn.classList.add('in-slip');
+                        modalSlipBtnText.textContent = '✓ In Table Slip (Tap to remove)';
+                    } else {
+                        modalAddToSlipBtn.classList.remove('in-slip');
+                        modalSlipBtnText.textContent = 'Add to Dine-In Slip';
+                    }
+                }
+
+                // 5. Update Modal Content if open
+                if (slipModal && slipModal.classList.contains('active')) {
+                    renderSlipModalContent();
+                }
+            }
+
+            function renderSlipModalContent() {
+                const items = getSlipItems();
+                const totalItemCount = items.reduce((sum, it) => sum + (it.qty || 1), 0);
+                const totalAmount = items.reduce((sum, it) => sum + ((it.priceNum || 0) * (it.qty || 1)), 0);
+
+                if (slipSummaryPill) {
+                    slipSummaryPill.textContent = `${totalItemCount} ${totalItemCount === 1 ? 'item' : 'items'}`;
+                }
+                if (slipFooterItemCount) {
+                    slipFooterItemCount.textContent = totalItemCount;
+                }
+                if (slipFooterSubtotal) {
+                    slipFooterSubtotal.textContent = `₹${totalAmount.toLocaleString('en-IN')}`;
+                }
+
+                if (items.length === 0) {
+                    if (slipEmptyState) slipEmptyState.style.display = 'block';
+                    if (slipItemsContainer) slipItemsContainer.style.display = 'none';
+                    if (slipModalFooter) slipModalFooter.style.display = 'none';
+                    return;
+                }
+
+                if (slipEmptyState) slipEmptyState.style.display = 'none';
+                if (slipItemsContainer) slipItemsContainer.style.display = 'flex';
+                if (slipModalFooter) slipModalFooter.style.display = 'block';
+
+                if (!slipItemsContainer) return;
+                slipItemsContainer.innerHTML = '';
+
+                items.forEach((item, index) => {
+                    const row = document.createElement('div');
+                    row.className = 'slip-item-row';
+                    row.setAttribute('data-dish-id', item.id);
+
+                    const lineSubtotal = (item.priceNum || 0) * (item.qty || 1);
+                    const dietLabel = item.veg ? '● VEG' : '● NON-VEG';
+                    const dietColor = item.veg ? '#2e7d32' : '#c62828';
+                    const imgUrl = item.img || 'assets/placeholder.jpg';
+
+                    row.innerHTML = `
+                        <div class="slip-item-main">
+                            <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(item.name)}" class="slip-item-thumb" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&q=70'">
+                            <div class="slip-item-info">
+                                <div class="slip-item-meta-top">
+                                    <span class="slip-item-diet" style="color: ${dietColor};">${dietLabel}</span>
+                                    ${item.cat ? `<span class="slip-item-cat">${escapeHtml(item.cat)}</span>` : ''}
+                                </div>
+                                <h4 class="slip-item-title">${escapeHtml(item.name)}</h4>
+                                <div class="slip-item-unit-price">${escapeHtml(item.price)} each</div>
+                            </div>
+                            <div class="slip-item-right-col">
+                                <div class="slip-item-subtotal">₹${lineSubtotal.toLocaleString('en-IN')}</div>
+                                <div class="slip-qty-stepper">
+                                    <button type="button" class="slip-qty-btn minus" data-id="${escapeHtml(item.id)}" aria-label="Decrease quantity">−</button>
+                                    <span class="slip-qty-val">${item.qty || 1}</span>
+                                    <button type="button" class="slip-qty-btn plus" data-id="${escapeHtml(item.id)}" aria-label="Increase quantity">+</button>
+                                </div>
+                                <button type="button" class="slip-remove-btn" data-id="${escapeHtml(item.id)}" aria-label="Remove item">×</button>
+                            </div>
+                        </div>
+                        <div class="slip-item-note-wrap">
+                            <input type="text" class="slip-item-note-input" data-id="${escapeHtml(item.id)}" placeholder="✎ Special instructions (e.g. Less spicy, dressing on side...)" value="${escapeHtml(item.note || '')}" maxlength="120">
+                        </div>
+                    `;
+
+                    slipItemsContainer.appendChild(row);
+                });
+            }
+
+            // Stepper and Note Events in Slip Modal
+            slipItemsContainer?.addEventListener('click', (e) => {
+                const minusBtn = e.target.closest('.slip-qty-btn.minus');
+                const plusBtn = e.target.closest('.slip-qty-btn.plus');
+                const removeBtn = e.target.closest('.slip-remove-btn');
+
+                if (minusBtn) {
+                    const id = minusBtn.getAttribute('data-id');
+                    updateDishQuantity(id, -1);
+                } else if (plusBtn) {
+                    const id = plusBtn.getAttribute('data-id');
+                    updateDishQuantity(id, 1);
+                } else if (removeBtn) {
+                    const id = removeBtn.getAttribute('data-id');
+                    removeDishFromSlip(id);
+                }
+            });
+
+            slipItemsContainer?.addEventListener('input', (e) => {
+                if (e.target.classList.contains('slip-item-note-input')) {
+                    const id = e.target.getAttribute('data-id');
+                    updateDishNote(id, e.target.value);
+                }
+            });
+
+            // Table Number Persistence
+            if (tableNumberInput) {
+                tableNumberInput.value = localStorage.getItem(TABLE_NUM_KEY) || '';
+                tableNumberInput.addEventListener('input', () => {
+                    localStorage.setItem(TABLE_NUM_KEY, tableNumberInput.value.trim());
+                });
+            }
+
+            // Waiter Mode (High-contrast, large text for servers at tables)
+            function initWaiterMode() {
+                const isWaiterMode = localStorage.getItem(WAITER_MODE_KEY) === '1';
+                if (isWaiterMode) {
+                    slipModal?.classList.add('waiter-mode');
+                    waiterModeBtn?.classList.add('active');
+                }
+            }
+
+            waiterModeBtn?.addEventListener('click', () => {
+                const isActive = slipModal?.classList.toggle('waiter-mode');
+                waiterModeBtn?.classList.toggle('active', !!isActive);
+                localStorage.setItem(WAITER_MODE_KEY, isActive ? '1' : '0');
+                showToast(isActive ? '👓 Waiter Mode: High-contrast large text active' : 'Waiter Mode deactivated');
+            });
+
+            // Clear All List
+            slipClearAllBtn?.addEventListener('click', clearAllSlipItems);
+
+            // WhatsApp Share Table Order
+            slipShareWhatsAppBtn?.addEventListener('click', () => {
+                const items = getSlipItems();
+                if (items.length === 0) {
+                    alert('Please add some dishes to your table slip before sharing.');
+                    return;
+                }
+
+                const tableNum = (tableNumberInput?.value || '').trim() || 'Not specified';
+                const totalItemCount = items.reduce((sum, it) => sum + (it.qty || 1), 0);
+                const totalAmount = items.reduce((sum, it) => sum + ((it.priceNum || 0) * (it.qty || 1)), 0);
+
+                let text = `*ORAH - DINE-IN TABLE ORDER SLIP*\n`;
+                text += `📍 *Table:* ${tableNum}\n`;
+                text += `📅 *Time:* ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}\n`;
+                text += `------------------------------------\n`;
+
+                items.forEach((it, idx) => {
+                    const diet = it.veg ? '(Veg)' : '(Non-Veg)';
+                    const lineTotal = (it.priceNum || 0) * (it.qty || 1);
+                    text += `${idx + 1}. *${it.qty}x* ${it.name} ${diet} - ₹${lineTotal.toLocaleString('en-IN')}\n`;
+                    if (it.note && it.note.trim()) {
+                        text += `    ✎ _Note: ${it.note.trim()}_\n`;
+                    }
+                });
+
+                text += `------------------------------------\n`;
+                text += `*Total Items:* ${totalItemCount}\n`;
+                text += `*Estimated Total:* ₹${totalAmount.toLocaleString('en-IN')}\n`;
+                text += `_(Taxes & charges as applicable)_\n`;
+
+                const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+                window.open(url, '_blank');
+            });
+
+            // Open & Close Slip Modal
+            function openSlipModal() {
+                if (!slipModal) return;
+                renderSlipModalContent();
+                slipModal.classList.add('active');
+                slipModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSlipModal() {
+                if (!slipModal) return;
+                slipModal.classList.remove('active');
+                slipModal.setAttribute('aria-hidden', 'true');
+                if (!modalBackdrop || !modalBackdrop.classList.contains('active')) {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            openFloatingSlipBtn?.addEventListener('click', openSlipModal);
+            overviewSlipBtn?.addEventListener('click', openSlipModal);
+            detailSlipTriggerBtn?.addEventListener('click', openSlipModal);
+            closeSlipModalBtn?.addEventListener('click', closeSlipModal);
+            modalViewSlipLink?.addEventListener('click', () => {
+                closeModal();
+                openSlipModal();
+            });
+
+            slipModal?.addEventListener('click', (e) => {
+                if (e.target === slipModal) closeSlipModal();
+            });
+
+            // Heart Buttons Click Listeners
             document.querySelectorAll('.split-fav-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    btn.classList.toggle('active');
+                    const dishData = {
+                        id: btn.getAttribute('data-dish-id'),
+                        name: btn.getAttribute('data-dish-name'),
+                        price: btn.getAttribute('data-dish-price'),
+                        img: btn.getAttribute('data-dish-img'),
+                        veg: btn.getAttribute('data-dish-veg'),
+                        cat: btn.getAttribute('data-dish-cat')
+                    };
+                    toggleDishInSlip(dishData, btn);
                 });
+            });
+
+            // Modal Slip Button Click Listener
+            modalAddToSlipBtn?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentModalDishData) {
+                    toggleDishInSlip(currentModalDishData, modalAddToSlipBtn);
+                }
             });
 
             // =========================================================================
@@ -2807,13 +4221,15 @@ if (!empty($urlSlug)) {
             // =========================================================================
             function openModal(data) {
                 if (!modalBackdrop) return;
+                currentModalDishData = data;
+
                 modalImg.src = data.img;
                 modalBadge.textContent = data.badge;
                 modalTitle.textContent = data.name;
                 modalPrice.textContent = data.price;
                 modalDesc.textContent = data.desc;
-                modalDiet.textContent = (data.veg === '1') ? '● VEGETARIAN' : '● NON-VEG';
-                modalDiet.style.color = (data.veg === '1') ? '#2e7d32' : '#c62828';
+                modalDiet.textContent = (data.veg === '1' || data.veg === 1 || data.veg === true) ? '● VEGETARIAN' : '● NON-VEG';
+                modalDiet.style.color = (data.veg === '1' || data.veg === 1 || data.veg === true) ? '#2e7d32' : '#c62828';
 
                 // Populate Dynamic Custom Extra Fields
                 if (modalCfContainer) {
@@ -2830,6 +4246,17 @@ if (!empty($urlSlug)) {
                     }
                 }
 
+                // Update Modal Slip button state
+                if (modalAddToSlipBtn && modalSlipBtnText) {
+                    if (isDishInSlip(data.id, data.name)) {
+                        modalAddToSlipBtn.classList.add('in-slip');
+                        modalSlipBtnText.textContent = '✓ In Table Slip (Tap to remove)';
+                    } else {
+                        modalAddToSlipBtn.classList.remove('in-slip');
+                        modalSlipBtnText.textContent = 'Add to Dine-In Slip';
+                    }
+                }
+
                 modalBackdrop.classList.add('active');
                 modalBackdrop.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden';
@@ -2837,9 +4264,12 @@ if (!empty($urlSlug)) {
 
             function closeModal() {
                 if (!modalBackdrop) return;
+                currentModalDishData = null;
                 modalBackdrop.classList.remove('active');
                 modalBackdrop.setAttribute('aria-hidden', 'true');
-                document.body.style.overflow = '';
+                if (!slipModal || !slipModal.classList.contains('active')) {
+                    document.body.style.overflow = '';
+                }
             }
 
             document.querySelectorAll('.split-view-btn').forEach(btn => {
@@ -2851,7 +4281,11 @@ if (!empty($urlSlug)) {
                         if (raw) custom = JSON.parse(raw);
                     } catch(err) {}
 
+                    const card = btn.closest('.split-dish-card');
+                    const favBtn = card?.querySelector('.split-fav-btn');
+
                     openModal({
+                        id: favBtn?.getAttribute('data-dish-id') || ('dish_' + Math.random().toString(36).substr(2, 9)),
                         name: btn.getAttribute('data-name'),
                         price: btn.getAttribute('data-price'),
                         desc: btn.getAttribute('data-desc'),
@@ -3152,6 +4586,10 @@ if (!empty($urlSlug)) {
                     openDetailView(hashMatch, true);
                 }
             });
+
+            // Initialize Dine-In Table Order Slip & Waiter Mode state
+            initWaiterMode();
+            syncSlipUI();
 
             updateDockLabels();
         });
