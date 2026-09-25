@@ -314,26 +314,15 @@ if (!empty($urlSlug)) {
         .masthead-brand-crest {
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
             color: var(--burgundy);
         }
 
         .masthead-swans-img {
-            height: 28px;
+            height: 30px;
             width: auto;
-        }
-
-        .masthead-brand-name {
-            font-family: var(--font-heading);
-            font-size: 1.15rem;
-            letter-spacing: 2px;
-            font-weight: 500;
-        }
-
-        @media (max-width: 520px) {
-            .masthead-brand-name {
-                display: none;
-            }
+            object-fit: contain;
+            display: block;
         }
 
         .utility-spacer {
@@ -709,17 +698,14 @@ if (!empty($urlSlug)) {
         .detail-brand-crest {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-family: 'Dream Avenue', 'Cormorant Garamond', Georgia, serif;
-            font-size: 0.95rem;
-            letter-spacing: 1.5px;
-            color: var(--burgundy);
-            font-weight: 600;
+            justify-content: center;
         }
 
         .detail-brand-crest img {
-            width: 20px;
-            height: auto;
+            height: 30px;
+            width: auto;
+            object-fit: contain;
+            display: block;
         }
 
         /* Carousel Deck for Swiping */
@@ -911,8 +897,9 @@ if (!empty($urlSlug)) {
            ===================================================================== */
         .chef-paperclip-container {
             position: absolute;
-            top: -14px;
-            right: 24px;
+            top: -12px;
+            left: 14px;
+            right: auto;
             z-index: 25;
             display: inline-flex;
             align-items: flex-start;
@@ -927,11 +914,21 @@ if (!empty($urlSlug)) {
         }
 
         .chef-parchment-note {
-            background: linear-gradient(135deg, #FFFDF8 0%, #FAF1DE 100%);
-            border: 1px solid rgba(184, 134, 11, 0.45);
-            border-radius: 4px;
-            padding: 5px 14px 5px 12px;
-            box-shadow: 0 4px 14px rgba(35, 12, 6, 0.16), inset 0 0 12px rgba(212, 175, 55, 0.1);
+            background-color: #FAF4E5;
+            background-image: 
+                radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.95) 0%, transparent 35%),
+                radial-gradient(circle at 82% 78%, rgba(212, 175, 55, 0.16) 0%, transparent 40%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperGrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.82  0 0 0 0 0.74  0 0 0 0 0.58  0 0 0 0.10 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperGrain)'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, #FFFDF8 0%, #FAF2DD 50%, #F3E3C0 100%);
+            border: 1px solid #D6BC85;
+            border-bottom: 1.5px solid #BC9852;
+            border-radius: 3px;
+            padding: 5px 12px 4px 10px;
+            box-shadow: 
+                0 4px 14px rgba(30, 10, 5, 0.22),
+                0 1px 3px rgba(30, 10, 5, 0.14),
+                inset 0 0 10px rgba(184, 134, 11, 0.10),
+                inset 1px 1px 0 rgba(255, 255, 255, 0.9);
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -946,9 +943,9 @@ if (!empty($urlSlug)) {
 
         .parchment-badge-text {
             font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             font-weight: 700;
-            letter-spacing: 1.4px;
+            letter-spacing: 1.2px;
             color: #581116;
             text-transform: uppercase;
             display: flex;
@@ -959,7 +956,7 @@ if (!empty($urlSlug)) {
 
         .parchment-badge-star {
             color: #b8860b;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             text-shadow: 0 1px 2px rgba(0,0,0,0.15);
         }
 
@@ -973,14 +970,19 @@ if (!empty($urlSlug)) {
         }
 
         .paperclip-realistic-svg {
-            width: 24px;
-            height: 52px;
+            width: 22px;
+            height: 48px;
             z-index: 28;
             position: relative;
-            margin-top: -6px;
+            margin-top: -5px;
             transform: rotate(4deg);
             flex-shrink: 0;
             filter: drop-shadow(1px 2px 3px rgba(30, 10, 5, 0.35));
+        }
+
+        .dish-split-card.has-chef-special .media-top-overlay,
+        .dish-split-card:has(.chef-paperclip-container) .media-top-overlay {
+            top: 42px;
         }
 
         /* =====================================================================
@@ -2021,7 +2023,6 @@ if (!empty($urlSlug)) {
 
                     <div class="masthead-brand-crest">
                         <img src="assets/images/swans_only.png" alt="Orah Emblem" class="masthead-swans-img">
-                        <span class="masthead-brand-name">ORAH HOUSE</span>
                     </div>
 
                     <button type="button" class="masthead-back-link masthead-search-toggle" id="toggleTopSearchBtn" aria-expanded="false" aria-label="Toggle Search">
@@ -2166,7 +2167,6 @@ if (!empty($urlSlug)) {
 
                     <div class="detail-brand-crest">
                         <img src="assets/images/swans_only.png" alt="Orah Emblem">
-                        <span>ORAH HOUSE</span>
                     </div>
 
                     <button type="button" class="detail-search-trigger-btn" id="detailSearchTriggerBtn" aria-label="Search Dishes & Recommendations">
@@ -2258,7 +2258,7 @@ if (!empty($urlSlug)) {
                                         if (!empty($cardBg)) $cardInlineStyle .= "background-color: {$cardBg} !important; ";
                                         if (!empty($cardBorder)) $cardInlineStyle .= "border-color: {$cardBorder} !important; ";
                                     ?>
-                                    <article class="dish-split-card <?= $cardAnimClass ?>" style="<?= $cardInlineStyle ?>" data-dish-id="<?= htmlspecialchars($dish['id'] ?? '') ?>">
+                                    <article class="dish-split-card <?= $cardAnimClass ?> <?= $isChefSpecial ? 'has-chef-special' : '' ?>" style="<?= $cardInlineStyle ?>" data-dish-id="<?= htmlspecialchars($dish['id'] ?? '') ?>">
                                         <?php if ($isChefSpecial): ?>
                                             <!-- Realistic 3D Brass Paper Clip holding Chef's Special Parchment Tag -->
                                             <div class="chef-paperclip-container" title="Chef's Special Selection" onclick="event.stopPropagation();">
