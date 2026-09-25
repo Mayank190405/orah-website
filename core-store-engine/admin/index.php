@@ -548,13 +548,130 @@ $allLive = $menuLive && $indexLive;
 
 $distinctBadges = array_values(array_unique(array_filter(array_column($catalog, 'badge'))));
 sort($distinctBadges);
+
+// =============================================================================
+// ADMIN ROUTING & WORKSPACE RESOLUTION
+// =============================================================================
+$requestUri = $_SERVER['REQUEST_URI'] ?? '';
+$pathInfo = $_SERVER['PATH_INFO'] ?? '';
+$cleanUri = parse_url($requestUri, PHP_URL_PATH) ?? '';
+
+$routeSlug = '';
+if (!empty($pathInfo)) {
+    $routeSlug = strtolower(trim($pathInfo, '/'));
+}
+if (empty($routeSlug)) {
+    if (preg_match('#/admin/(?:index\.php/)?([a-zA-Z0-9_\-]+)#i', $cleanUri, $m)) {
+        $candidate = strtolower(trim($m[1]));
+        if ($candidate !== 'index.php') {
+            $routeSlug = $candidate;
+        }
+    }
+}
+if (empty($routeSlug)) {
+    $routeSlug = strtolower(trim($_GET['tab'] ?? $_GET['workspace'] ?? $_GET['view'] ?? ''));
+}
+
+$slugToWorkspace = [
+    'dashboard'    => 'workspace-dashboard',
+    'overview'     => 'workspace-dashboard',
+    'dishes'       => 'workspace-dishes',
+    'dish'         => 'workspace-dishes',
+    'menu'         => 'workspace-dishes',
+    'catalog'      => 'workspace-dishes',
+    'categories'   => 'workspace-categories',
+    'category'     => 'workspace-categories',
+    'sections'     => 'workspace-categories',
+    'popups'       => 'workspace-popups',
+    'popup'        => 'workspace-popups',
+    'forms'        => 'workspace-popups',
+    'leads'        => 'workspace-leads',
+    'lead'         => 'workspace-leads',
+    'reservations' => 'workspace-leads',
+    'pages'        => 'workspace-pages',
+    'controller'   => 'workspace-pages',
+    'page'         => 'workspace-pages',
+];
+
+$activeWorkspace = $slugToWorkspace[$routeSlug] ?? 'workspace-dashboard';
+
+// In POST requests, maintain the user workspace where action occurred
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $postWs = trim($_POST['active_workspace'] ?? '');
+    if (!empty($postWs) && in_array($postWs, array_values($slugToWorkspace), true)) {
+        $activeWorkspace = $postWs;
+    } else {
+        $postAction = $_POST['action'] ?? '';
+        if (str_starts_with($postAction, 'dish_')) {
+            $activeWorkspace = 'workspace-dishes';
+        } elseif (str_starts_with($postAction, 'category_')) {
+            $activeWorkspace = 'workspace-categories';
+        } elseif (str_starts_with($postAction, 'popup_')) {
+            $activeWorkspace = 'workspace-popups';
+        } elseif (str_starts_with($postAction, 'lead_')) {
+            $activeWorkspace = 'workspace-leads';
+        } elseif (str_starts_with($postAction, 'page_')) {
+            $activeWorkspace = 'workspace-pages';
+        }
+    }
+}
+
+// Workspace meta configuration for server-rendered state
+$workspaceMeta = [
+    'workspace-dashboard' => [
+        'title' => 'Executive Dashboard',
+        'sub' => 'System Overview &bull; Orah House Nashik',
+        'btn' => 'Add Dish',
+        'btn_action' => 'openDishModal(false)',
+        'slug' => 'dashboard'
+    ],
+    'workspace-dishes' => [
+        'title' => 'Menu Dishes Management',
+        'sub' => 'Culinary catalog, pricing, taglines, and custom fields',
+        'btn' => 'Add Dish',
+        'btn_action' => 'openDishModal(false)',
+        'slug' => 'dishes'
+    ],
+    'workspace-categories' => [
+        'title' => 'Categories & Section Presentation',
+        'sub' => 'Architectural section titles, eyebrows, and cursive quotes',
+        'btn' => 'Create Category',
+        'btn_action' => 'openCategoryModal(false)',
+        'slug' => 'categories'
+    ],
+    'workspace-popups' => [
+        'title' => 'Pop-Up & Form Studio',
+        'sub' => 'Page-wise lead capture forms with 4 customizable layouts',
+        'btn' => 'Create Form',
+        'btn_action' => 'openPopupModal(false)',
+        'slug' => 'popups'
+    ],
+    'workspace-leads' => [
+        'title' => 'Leads & Table Reservations',
+        'sub' => 'Guest inquiries and booking requests',
+        'btn' => 'New Dish',
+        'btn_action' => 'openDishModal(false)',
+        'slug' => 'leads'
+    ],
+    'workspace-pages' => [
+        'title' => 'Live Page Controller',
+        'sub' => 'Manage live and maintenance down states per page',
+        'btn' => 'View Menu ↗',
+        'btn_action' => "window.open('/menu.php', '_blank')",
+        'slug' => 'pages'
+    ]
+];
+
+$currentMeta = $workspaceMeta[$activeWorkspace] ?? $workspaceMeta['workspace-dashboard'];
+$adminBase = '/admin/';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Studio &bull; Orah House Admin</title>
+    <base href="<?= htmlspecialchars($adminBase) ?>">
+    <title><?= htmlspecialchars($currentMeta['title']) ?> &bull; Orah House Admin</title>
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -569,8 +686,8 @@ sort($distinctBadges);
          ======================================================================= -->
     <aside class="dashboard-sidebar" id="dashboardSidebar">
         <div class="sidebar-header">
-            <a href="index.php" class="sidebar-brand">
-                <img src="../public/assets/images/swans_only.png" alt="Orah Swans" class="sidebar-logo">
+            <a href="dashboard" class="sidebar-brand" onclick="event.preventDefault(); switchWorkspace('workspace-dashboard');">
+                <img src="/assets/images/swans_only.png" alt="Orah Swans" class="sidebar-logo">
                 <span class="sidebar-brand-text">ORAH HOUSE</span>
             </a>
             <span class="sidebar-badge">Studio</span>
@@ -579,32 +696,32 @@ sort($distinctBadges);
         <nav class="sidebar-nav">
             <span class="nav-section-label">Core Console</span>
 
-            <button type="button" class="sidebar-link active" data-workspace="workspace-dashboard">
+            <a href="dashboard" class="sidebar-link <?= ($activeWorkspace === 'workspace-dashboard') ? 'active' : '' ?>" data-workspace="workspace-dashboard">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                 <span>Dashboard</span>
-            </button>
+            </a>
 
-            <button type="button" class="sidebar-link" data-workspace="workspace-dishes">
+            <a href="dishes" class="sidebar-link <?= ($activeWorkspace === 'workspace-dishes') ? 'active' : '' ?>" data-workspace="workspace-dishes">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
                 <span>Menu Dishes</span>
                 <span class="sidebar-link-badge"><?= $totalDishes ?></span>
-            </button>
+            </a>
 
-            <button type="button" class="sidebar-link" data-workspace="workspace-categories">
+            <a href="categories" class="sidebar-link <?= ($activeWorkspace === 'workspace-categories') ? 'active' : '' ?>" data-workspace="workspace-categories">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 <span>Categories & Sections</span>
                 <span class="sidebar-link-badge"><?= $totalCategories ?></span>
-            </button>
+            </a>
 
             <span class="nav-section-label">Engagement & Control</span>
 
-            <button type="button" class="sidebar-link" data-workspace="workspace-popups">
+            <a href="popups" class="sidebar-link <?= ($activeWorkspace === 'workspace-popups') ? 'active' : '' ?>" data-workspace="workspace-popups">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="14" y1="9" x2="19" y2="9"/><line x1="14" y1="14" x2="19" y2="14"/></svg>
                 <span>Pop-Up & Form Studio</span>
                 <span class="sidebar-link-badge"><?= $totalPopups ?></span>
-            </button>
+            </a>
 
-            <button type="button" class="sidebar-link" data-workspace="workspace-leads">
+            <a href="leads" class="sidebar-link <?= ($activeWorkspace === 'workspace-leads') ? 'active' : '' ?>" data-workspace="workspace-leads">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                 <span>Leads & Reservations</span>
                 <?php if ($pendingLeads > 0): ?>
@@ -612,23 +729,23 @@ sort($distinctBadges);
                 <?php else: ?>
                     <span class="sidebar-link-badge"><?= $totalLeads ?></span>
                 <?php endif; ?>
-            </button>
+            </a>
 
-            <button type="button" class="sidebar-link" data-workspace="workspace-pages">
+            <a href="pages" class="sidebar-link <?= ($activeWorkspace === 'workspace-pages') ? 'active' : '' ?>" data-workspace="workspace-pages">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                 <span>Page Controller</span>
                 <span class="sidebar-link-badge" style="background:<?= $allLive ? '#15803d' : '#b45309' ?>; color:#fff;">
                     <?= $allLive ? 'All Live' : 'Notice' ?>
                 </span>
-            </button>
+            </a>
         </nav>
 
         <div class="sidebar-footer">
-            <a href="../public/menu.php" target="_blank" class="sidebar-ext-link">
+            <a href="/menu.php" target="_blank" class="sidebar-ext-link">
                 <span>View Public Menu</span>
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
             </a>
-            <a href="../public/index.php" target="_blank" class="sidebar-ext-link">
+            <a href="/index.php" target="_blank" class="sidebar-ext-link">
                 <span>View Storefront</span>
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
             </a>
@@ -647,8 +764,8 @@ sort($distinctBadges);
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                 </button>
                 <div class="topbar-title-wrap">
-                    <h1 class="topbar-title" id="currentWorkspaceTitle">Executive Dashboard</h1>
-                    <span class="topbar-breadcrumb" id="currentWorkspaceSub">System Overview &bull; Orah House Nashik</span>
+                    <h1 class="topbar-title" id="currentWorkspaceTitle"><?= htmlspecialchars($currentMeta['title']) ?></h1>
+                    <span class="topbar-breadcrumb" id="currentWorkspaceSub"><?= $currentMeta['sub'] ?></span>
                 </div>
             </div>
 
@@ -658,9 +775,13 @@ sort($distinctBadges);
                     <span><?= $allLive ? 'All Pages Live' : 'Page Notice Active' ?></span>
                 </span>
 
-                <button type="button" class="btn-primary" id="topbarActionBtn" onclick="openDishModal(false)">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    <span>+ Add New Dish</span>
+                <button type="button" class="btn-primary" id="topbarActionBtn" onclick="<?= $currentMeta['btn_action'] ?>">
+                    <?php if (($currentMeta['slug'] ?? '') === 'pages'): ?>
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                    <?php else: ?>
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    <?php endif; ?>
+                    <span><?= htmlspecialchars($currentMeta['btn']) ?></span>
                 </button>
             </div>
         </header>
@@ -679,10 +800,10 @@ sort($distinctBadges);
             <!-- ===============================================================
                  WORKSPACE 1: DASHBOARD OVERVIEW
                  =============================================================== -->
-            <div class="workspace-panel active" id="workspace-dashboard">
+            <div class="workspace-panel <?= ($activeWorkspace === 'workspace-dashboard') ? 'active' : '' ?>" id="workspace-dashboard">
                 <!-- 4 KPI Metrics -->
                 <div class="metrics-grid">
-                    <div class="metric-card">
+                    <div class="metric-card" style="cursor:pointer;" onclick="switchWorkspace('workspace-dishes')" title="Open Menu Dishes Management">
                         <div>
                             <div class="metric-label">Menu Dishes</div>
                             <div class="metric-value"><?= $totalDishes ?></div>
@@ -693,7 +814,7 @@ sort($distinctBadges);
                         </div>
                     </div>
 
-                    <div class="metric-card">
+                    <div class="metric-card" style="cursor:pointer;" onclick="switchWorkspace('workspace-categories')" title="Open Categories & Section Presentation">
                         <div>
                             <div class="metric-label">Categories</div>
                             <div class="metric-value"><?= $totalCategories ?></div>
@@ -704,7 +825,7 @@ sort($distinctBadges);
                         </div>
                     </div>
 
-                    <div class="metric-card">
+                    <div class="metric-card" style="cursor:pointer;" onclick="switchWorkspace('workspace-leads')" title="Open Leads & Table Reservations">
                         <div>
                             <div class="metric-label">Table Reservations</div>
                             <div class="metric-value"><?= $totalLeads ?></div>
@@ -715,7 +836,7 @@ sort($distinctBadges);
                         </div>
                     </div>
 
-                    <div class="metric-card" style="cursor:pointer;" onclick="switchWorkspace('workspace-pages')" title="Click to open Page Controller">
+                    <div class="metric-card" style="cursor:pointer;" onclick="switchWorkspace('workspace-pages')" title="Open Live Page Controller">
                         <div>
                             <div class="metric-label">Page Status &bull; Manage</div>
                             <div class="metric-value" style="font-size:1.35rem; font-weight:800; color:<?= $allLive ? 'var(--success)' : 'var(--danger)' ?>;">
@@ -803,7 +924,7 @@ sort($distinctBadges);
             <!-- ===============================================================
                  WORKSPACE 2: MENU DISHES
                  =============================================================== -->
-            <div class="workspace-panel" id="workspace-dishes">
+            <div class="workspace-panel <?= ($activeWorkspace === 'workspace-dishes') ? 'active' : '' ?>" id="workspace-dishes">
                 <section class="control-bar">
                     <div class="search-box">
                         <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -863,7 +984,7 @@ sort($distinctBadges);
                             $catImg = $catMeta['image'] ?? '';
                             $resolvedCatImg = '';
                             if ($catImg) {
-                                $resolvedCatImg = str_starts_with($catImg, 'http') ? $catImg : '../public/' . ltrim($catImg, '/');
+                                $resolvedCatImg = str_starts_with($catImg, 'http') ? $catImg : '/' . ltrim($catImg, '/');
                             }
                             $catAnim = $catMeta['animation'] ?? 'none';
                             $safeCatId = 'cat_wrap_' . md5($catName);
@@ -944,7 +1065,7 @@ sort($distinctBadges);
                                                         $cardBorder = $cardStyle['border_color'] ?? '';
                                                         $orderNum = (int)($item['order'] ?? ($pos + 1));
                                                         $cFields = $item['custom_fields'] ?? [];
-                                                        $resolvedImg = str_starts_with($itemImg, 'http') ? $itemImg : '../public/' . ltrim($itemImg, '/');
+                                                        $resolvedImg = str_starts_with($itemImg, 'http') ? $itemImg : '/' . ltrim($itemImg, '/');
                                                     ?>
                                                     <tr class="dish-row" 
                                                         data-id="<?= htmlspecialchars($itemId) ?>"
@@ -1096,7 +1217,7 @@ sort($distinctBadges);
             <!-- ===============================================================
                  WORKSPACE 3: CATEGORIES & SECTIONS
                  =============================================================== -->
-            <div class="workspace-panel" id="workspace-categories">
+            <div class="workspace-panel <?= ($activeWorkspace === 'workspace-categories') ? 'active' : '' ?>" id="workspace-categories">
                 <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:18px 22px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
                     <div>
                         <h2 style="font-family:var(--font-heading); font-size:1.45rem; color:var(--primary-accent); margin:0 0 4px;">Menu Categories & Section Presentations</h2>
@@ -1106,7 +1227,7 @@ sort($distinctBadges);
                     </div>
                     <button type="button" class="btn-primary" onclick="openCategoryModal(false)">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        <span>+ Create Category</span>
+                        <span>Create Category</span>
                     </button>
                 </div>
 
@@ -1121,7 +1242,7 @@ sort($distinctBadges);
                             $cImg = $c['image'] ?? 'assets/placeholder.jpg';
                             $cOrder = $c['order'] ?? 99;
                             $cActive = $c['active'] ?? true;
-                            $resolvedCImg = str_starts_with($cImg, 'http') ? $cImg : '../public/' . ltrim($cImg, '/');
+                            $resolvedCImg = str_starts_with($cImg, 'http') ? $cImg : '/' . ltrim($cImg, '/');
                             $itemCount = count(array_filter($catalog, fn($i) => ($i['badge'] ?? '') === $cName));
                         ?>
                         <div class="category-admin-card" style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-subtle); display:flex; flex-direction:column;" data-raw='<?= htmlspecialchars(json_encode($c), ENT_QUOTES, 'UTF-8') ?>'>
@@ -1179,7 +1300,7 @@ sort($distinctBadges);
             <!-- ===============================================================
                  WORKSPACE 4: POP-UP & FORM STUDIO (4 LAYOUTS + ELEMENT TOGGLES)
                  =============================================================== -->
-            <div class="workspace-panel" id="workspace-popups">
+            <div class="workspace-panel <?= ($activeWorkspace === 'workspace-popups') ? 'active' : '' ?>" id="workspace-popups">
                 <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:18px 22px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
                     <div>
                         <h2 style="font-family:var(--font-heading); font-size:1.45rem; color:var(--primary-accent); margin:0 0 4px;">Pop-Up & Form Studio</h2>
@@ -1189,7 +1310,7 @@ sort($distinctBadges);
                     </div>
                     <button type="button" class="btn-primary" onclick="openPopupModal(false)">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        <span>+ Create Pop-Up Form</span>
+                        <span>Create Pop-Up Form</span>
                     </button>
                 </div>
 
@@ -1291,7 +1412,7 @@ sort($distinctBadges);
             <!-- ===============================================================
                  WORKSPACE 5: LEADS & RESERVATIONS INBOX
                  =============================================================== -->
-            <div class="workspace-panel" id="workspace-leads">
+            <div class="workspace-panel <?= ($activeWorkspace === 'workspace-leads') ? 'active' : '' ?>" id="workspace-leads">
                 <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:18px 22px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
                     <div>
                         <h2 style="font-family:var(--font-heading); font-size:1.45rem; color:var(--primary-accent); margin:0 0 4px;">Table Reservations & Guest Inquiries</h2>
@@ -1391,7 +1512,7 @@ sort($distinctBadges);
             <!-- ===============================================================
                  WORKSPACE 6: PAGE CONTROLLER (LIVE / DOWN STATUS)
                  =============================================================== -->
-            <div class="workspace-panel" id="workspace-pages">
+            <div class="workspace-panel <?= ($activeWorkspace === 'workspace-pages') ? 'active' : '' ?>" id="workspace-pages">
                 <form method="POST">
                     <input type="hidden" name="action" value="page_controller_save">
 
@@ -1436,7 +1557,7 @@ sort($distinctBadges);
                                 <button type="button" class="btn-quick-toggle <?= $mLive ? 'btn-set-down' : 'btn-set-live' ?>" onclick="quickTogglePage('menu.php', '<?= $mLive ? 'down' : 'live' ?>')">
                                     <?= $mLive ? '⚡ Put Menu DOWN (Maintenance)' : '✓ Put Menu LIVE' ?>
                                 </button>
-                                <a href="../public/menu.php" target="_blank" class="btn-preview-link" title="Open public/menu.php in new tab">
+                                <a href="/menu.php" target="_blank" class="btn-preview-link" title="Open menu.php in new tab">
                                     <span>👁 View Menu Page ↗</span>
                                 </a>
                             </div>
@@ -1469,7 +1590,7 @@ sort($distinctBadges);
                             <div class="page-ctrl-header">
                                 <div>
                                     <h3 class="page-ctrl-title">Storefront Home</h3>
-                                    <div class="page-ctrl-url">public/index.php</div>
+                                    <div class="page-ctrl-url">index.php</div>
                                 </div>
                                 <div class="switch-wrap">
                                     <span class="status-badge-text" id="statusBadge_index_php" style="font-size:0.75rem; font-weight:800; letter-spacing:0.5px; padding:4px 10px; border-radius:12px; background:<?= $iLive ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.15)' ?>; color:<?= $iLive ? '#15803d' : '#b91c1c' ?>;">
@@ -1487,7 +1608,7 @@ sort($distinctBadges);
                                 <button type="button" class="btn-quick-toggle <?= $iLive ? 'btn-set-down' : 'btn-set-live' ?>" onclick="quickTogglePage('index.php', '<?= $iLive ? 'down' : 'live' ?>')">
                                     <?= $iLive ? '⚡ Put Home DOWN (Maintenance)' : '✓ Put Home LIVE' ?>
                                 </button>
-                                <a href="../public/index.php" target="_blank" class="btn-preview-link" title="Open public/index.php in new tab">
+                                <a href="/index.php" target="_blank" class="btn-preview-link" title="Open index.php in new tab">
                                     <span>👁 View Storefront ↗</span>
                                 </a>
                             </div>
@@ -2016,15 +2137,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const topbarActionBtn = document.getElementById('topbarActionBtn');
 
     const workspaceMeta = {
-        'workspace-dashboard': { title: 'Executive Dashboard', sub: 'System Overview &bull; Orah House Nashik', btn: '+ Add Dish', action: () => openDishModal(false) },
-        'workspace-dishes': { title: 'Menu Dishes Management', sub: 'Culinary catalog, pricing, taglines, and custom fields', btn: '+ Add Dish', action: () => openDishModal(false) },
-        'workspace-categories': { title: 'Categories & Section Presentation', sub: 'Architectural section titles, eyebrows, and cursive quotes', btn: '+ Create Category', action: () => openCategoryModal(false) },
-        'workspace-popups': { title: 'Pop-Up & Form Studio', sub: 'Page-wise lead capture forms with 4 customizable layouts', btn: '+ Create Form', action: () => openPopupModal(false) },
-        'workspace-leads': { title: 'Leads & Table Reservations', sub: 'Guest inquiries and booking requests', btn: '+ New Dish', action: () => openDishModal(false) },
-        'workspace-pages': { title: 'Live Page Controller', sub: 'Manage live and maintenance down states per page', btn: 'View Menu ↗', action: () => window.open('../public/menu.php', '_blank') }
+        'workspace-dashboard': { title: 'Executive Dashboard', sub: 'System Overview &bull; Orah House Nashik', btn: 'Add Dish', action: () => openDishModal(false), slug: 'dashboard' },
+        'workspace-dishes': { title: 'Menu Dishes Management', sub: 'Culinary catalog, pricing, taglines, and custom fields', btn: 'Add Dish', action: () => openDishModal(false), slug: 'dishes' },
+        'workspace-categories': { title: 'Categories & Section Presentation', sub: 'Architectural section titles, eyebrows, and cursive quotes', btn: 'Create Category', action: () => openCategoryModal(false), slug: 'categories' },
+        'workspace-popups': { title: 'Pop-Up & Form Studio', sub: 'Page-wise lead capture forms with 4 customizable layouts', btn: 'Create Form', action: () => openPopupModal(false), slug: 'popups' },
+        'workspace-leads': { title: 'Leads & Table Reservations', sub: 'Guest inquiries and booking requests', btn: 'New Dish', action: () => openDishModal(false), slug: 'leads' },
+        'workspace-pages': { title: 'Live Page Controller', sub: 'Manage live and maintenance down states per page', btn: 'View Menu ↗', action: () => window.open('/menu.php', '_blank'), slug: 'pages' }
     };
 
-    window.switchWorkspace = function(workspaceId) {
+    const slugToWorkspace = {
+        'dashboard': 'workspace-dashboard',
+        'overview': 'workspace-dashboard',
+        'dishes': 'workspace-dishes',
+        'dish': 'workspace-dishes',
+        'menu': 'workspace-dishes',
+        'catalog': 'workspace-dishes',
+        'categories': 'workspace-categories',
+        'category': 'workspace-categories',
+        'sections': 'workspace-categories',
+        'popups': 'workspace-popups',
+        'popup': 'workspace-popups',
+        'forms': 'workspace-popups',
+        'leads': 'workspace-leads',
+        'lead': 'workspace-leads',
+        'reservations': 'workspace-leads',
+        'pages': 'workspace-pages',
+        'controller': 'workspace-pages',
+        'page': 'workspace-pages'
+    };
+
+    window.switchWorkspace = function(workspaceId, updateUrl = true) {
+        if (!workspaceMeta[workspaceId]) {
+            workspaceId = 'workspace-dashboard';
+        }
+
         sidebarLinks.forEach(link => {
             if (link.getAttribute('data-workspace') === workspaceId) {
                 link.classList.add('active');
@@ -2043,21 +2189,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const meta = workspaceMeta[workspaceId];
         if (meta) {
-            topbarTitle.innerHTML = meta.title;
-            topbarSub.innerHTML = meta.sub;
-            topbarActionBtn.innerHTML = `<span>${meta.btn}</span>`;
-            topbarActionBtn.onclick = meta.action;
+            if (topbarTitle) topbarTitle.innerHTML = meta.title;
+            if (topbarSub) topbarSub.innerHTML = meta.sub;
+            if (topbarActionBtn) {
+                const iconSvg = (meta.slug === 'pages')
+                    ? `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>`
+                    : `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+
+                topbarActionBtn.innerHTML = `
+                    ${iconSvg}
+                    <span>${meta.btn}</span>
+                `;
+                topbarActionBtn.onclick = meta.action;
+            }
+            document.title = meta.title + ' • Orah House Admin';
+
+            if (updateUrl && window.history && window.history.pushState) {
+                const targetSlug = meta.slug || 'dashboard';
+                const newPath = (targetSlug === 'dashboard') ? '/admin/' : `/admin/${targetSlug}`;
+                if (window.location.pathname !== newPath) {
+                    window.history.pushState({ workspace: workspaceId }, meta.title, newPath);
+                }
+            }
         }
 
+        // Keep all active_workspace hidden inputs synced with current view
+        document.querySelectorAll('input[name="active_workspace"]').forEach(inp => {
+            inp.value = workspaceId;
+        });
+
         // Close mobile sidebar if open
-        document.getElementById('dashboardSidebar').classList.remove('mobile-open');
+        document.getElementById('dashboardSidebar')?.classList.remove('mobile-open');
     };
 
     sidebarLinks.forEach(link => {
-        link.addEventListener('click', () => {
+        link.addEventListener('click', (e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+            e.preventDefault();
             const ws = link.getAttribute('data-workspace');
             if (ws) switchWorkspace(ws);
         });
+    });
+
+    // Handle browser Back / Forward history
+    window.addEventListener('popstate', (e) => {
+        if (e.state && e.state.workspace) {
+            switchWorkspace(e.state.workspace, false);
+        } else {
+            const pathParts = window.location.pathname.replace(/\/admin\/?/, '').split('/');
+            const pathSlug = pathParts[0]?.toLowerCase().trim();
+            const matchedWs = slugToWorkspace[pathSlug] || 'workspace-dashboard';
+            switchWorkspace(matchedWs, false);
+        }
+    });
+
+    // Hash or query parameter activation on load
+    const hash = window.location.hash.replace('#', '').toLowerCase();
+    if (hash) {
+        const hashWs = slugToWorkspace[hash] || (document.getElementById(hash) ? hash : null);
+        if (hashWs) {
+            switchWorkspace(hashWs, false);
+        }
+    }
+
+    // Auto-inject active_workspace into any POST forms that might be missing it
+    document.querySelectorAll('form[method="POST"]').forEach(form => {
+        if (!form.querySelector('input[name="active_workspace"]')) {
+            const hiddenInp = document.createElement('input');
+            hiddenInp.type = 'hidden';
+            hiddenInp.name = 'active_workspace';
+            hiddenInp.value = '<?= $activeWorkspace ?>';
+            form.appendChild(hiddenInp);
+        }
     });
 
     // Mobile Hamburger Toggle
