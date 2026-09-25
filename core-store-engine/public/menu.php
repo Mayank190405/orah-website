@@ -812,9 +812,51 @@ if (!empty($urlSlug)) {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 4px;
+            gap: 6px;
             flex-shrink: 0;
             min-width: 0;
+        }
+
+        .editorial-header-actions-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .editorial-slip-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #ffffff;
+            border: 1px solid rgba(104, 20, 24, 0.22);
+            color: #681418;
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 5px 13px;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            user-select: none;
+            text-decoration: none;
+        }
+
+        .editorial-slip-btn:hover {
+            background: #FAF5EB;
+            border-color: #681418;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(104, 20, 24, 0.12);
+        }
+
+        .editorial-slip-btn:active {
+            transform: translateY(0);
+        }
+
+        .editorial-slip-btn svg {
+            color: #681418;
+            flex-shrink: 0;
         }
 
         .editorial-counter-box {
@@ -2926,12 +2968,6 @@ if (!empty($urlSlug)) {
                     </div>
 
                     <div class="detail-nav-right-actions" style="display:flex; align-items:center; gap:8px;">
-                        <button type="button" class="detail-search-trigger-btn detail-slip-btn" id="detailSlipTriggerBtn" aria-label="View Dine-In List">
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h4"/></svg>
-                            <span>Dine-In</span>
-                            <span class="slip-badge-count" style="display:none;">0</span>
-                        </button>
-
                         <button type="button" class="detail-search-trigger-btn" id="detailSearchTriggerBtn" aria-label="Search Dishes & Recommendations">
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                             <span>Search</span>
@@ -2997,9 +3033,16 @@ if (!empty($urlSlug)) {
                                     <p class="editorial-desc"><?= htmlspecialchars($meta['subtitle']) ?></p>
                                 </div>
                                 <div class="editorial-header-right">
-                                    <div class="editorial-counter-box">
-                                        <span class="counter-number"><?= $count ?></span>
-                                        <span class="counter-label">ITEMS</span>
+                                    <div class="editorial-header-actions-row">
+                                        <button type="button" class="editorial-slip-btn open-slip-btn" aria-label="View Dine-In List">
+                                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h4"/></svg>
+                                            <span>Dine-In</span>
+                                            <span class="slip-badge-count" style="display:none;">0</span>
+                                        </button>
+                                        <div class="editorial-counter-box">
+                                            <span class="counter-number"><?= $count ?></span>
+                                            <span class="counter-label">ITEMS</span>
+                                        </div>
                                     </div>
                                     <div class="editorial-cursive-quote">
                                         <span><?= htmlspecialchars($meta['scriptQuote'] ?? 'Artisan Craft') ?></span>
@@ -4065,7 +4108,9 @@ if (!empty($urlSlug)) {
 
             openFloatingSlipBtn?.addEventListener('click', openSlipModal);
             overviewSlipBtn?.addEventListener('click', openSlipModal);
-            detailSlipTriggerBtn?.addEventListener('click', openSlipModal);
+            document.querySelectorAll('.editorial-slip-btn, .open-slip-btn').forEach(btn => {
+                btn.addEventListener('click', openSlipModal);
+            });
             closeSlipModalBtn?.addEventListener('click', closeSlipModal);
             slipDoneOrderingBtn?.addEventListener('click', closeSlipModal);
             modalViewSlipLink?.addEventListener('click', () => {
